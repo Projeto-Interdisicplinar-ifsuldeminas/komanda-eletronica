@@ -21,3 +21,6 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+ProjetoKomandaEletronica/target/classes/META-INF/maven/br.com.komanda.eletronica/ProjetoKomandaEletronica/pom.properties
+ProjetoKomandaEletronica/target/classes/META-INF/MANIFEST.MF
+ProjetoKomandaEletronica/.classpath
