@@ -6,9 +6,11 @@ public class Funcionario {
 	private int NumeroRegistro;
 	private boolean IsGerente;
 	private boolean IsExcluído ;
-	
 	Pessoa  pessoa;
-	
-	
 
+
+
+	
+	
+	
 }
