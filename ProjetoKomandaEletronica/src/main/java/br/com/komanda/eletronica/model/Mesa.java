@@ -4,5 +4,5 @@ public class Mesa {
 
 	private int IdMesa;
 	private String NomeMesa;
-	
+
 }

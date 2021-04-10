@@ -1,10 +1,14 @@
 package br.com.komanda.eletronica.model;
 
+import java.util.Date;
+
 public class Delivery {
-	
+
 	private int IdDelivery;
-	Pessoa Pessoa;
-	Pedido  Pedido;
 	private double ValorTotal;
-	Data Date;
+
+	Date date;
+	Pessoa pessoa;
+	Pedido pedido;
+
 }

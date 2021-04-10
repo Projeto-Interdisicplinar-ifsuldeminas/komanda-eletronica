@@ -1,10 +1,10 @@
 package br.com.komanda.eletronica.model;
 
 public class Estoque {
-	
-	private int IdEstoque; 
-	ProdutoEstoque ProdutoEstoque;
+
+	private int IdEstoque;
 	private double Quantidade;
 
+	ProdutoEstoque produtoEstoque;
 
 }

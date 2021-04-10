@@ -1,11 +1,15 @@
 package br.com.komanda.eletronica.model;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 public class MesaPedido {
-	
+
 	private int IdMesaPedido;
-	Mesa  Mesa;
 	private double ValorTotal;
-	/*Pedidos: Array<Pedido> */
-	Data Date;
+	ArrayList<Pedido> pedidos = new ArrayList<>();
+
+	Mesa mesa;
+	Date date;
 
 }
