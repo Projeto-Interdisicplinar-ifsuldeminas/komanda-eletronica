@@ -7,7 +7,7 @@ public class Funcionario extends Pessoa {
 	private int idFuncionario;
 	private int NumeroRegistro;
 	private boolean IsGerente;
-	private boolean IsExcluído;
+	private boolean IsExcluido;
 	private String funcao = TiposdeFuncao.Funcao1.getFuncao();
 
 	public Funcionario(int idPessoa, String nome, String cPF, String endereço, String telefone, String email,
@@ -17,7 +17,7 @@ public class Funcionario extends Pessoa {
 		this.idFuncionario = idFuncionario;
 		NumeroRegistro = numeroRegistro;
 		IsGerente = isGerente;
-		IsExcluído = isExcluído;
+		IsExcluido = isExcluído;
 		this.funcao = funcao;
 	}
 
@@ -45,12 +45,12 @@ public class Funcionario extends Pessoa {
 		IsGerente = isGerente;
 	}
 
-	public boolean isIsExcluído() {
-		return IsExcluído;
+	public boolean isIsExcluido() {
+		return IsExcluido;
 	}
 
-	public void setIsExcluído(boolean isExcluído) {
-		IsExcluído = isExcluído;
+	public void setIsExcluido(boolean isExcluido) {
+		IsExcluido = isExcluido;
 	}
 
 	public String getFuncao() {

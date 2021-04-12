@@ -4,7 +4,7 @@ public class LoginFuncionarios {
 
 	private int IdLoginFuncionario;
 	private String Senha;
-	private int NívelDeAcesso;
+	private int NivelDeAcesso;
 	private boolean IsBloqueado;
 
 	private Funcionario funcionario;
@@ -12,7 +12,7 @@ public class LoginFuncionarios {
 	public LoginFuncionarios(int idLoginFuncionario, String senha, int nívelDeAcesso, boolean isBloqueado, Funcionario funcionario) {
 		IdLoginFuncionario = idLoginFuncionario;
 		Senha = senha;
-		NívelDeAcesso = nívelDeAcesso;
+		NivelDeAcesso = nívelDeAcesso;
 		IsBloqueado = isBloqueado;
 		this.funcionario = funcionario;
 	}
@@ -33,12 +33,12 @@ public class LoginFuncionarios {
 		Senha = senha;
 	}
 
-	public int getNívelDeAcesso() {
-		return NívelDeAcesso;
+	public int getNivelDeAcesso() {
+		return NivelDeAcesso;
 	}
 
-	public void setNívelDeAcesso(int nívelDeAcesso) {
-		NívelDeAcesso = nívelDeAcesso;
+	public void setNivelDeAcesso(int nivelDeAcesso) {
+		NivelDeAcesso = nivelDeAcesso;
 	}
 
 	public boolean isIsBloqueado() {

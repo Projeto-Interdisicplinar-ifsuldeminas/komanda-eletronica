@@ -9,7 +9,7 @@ public class Pessoa {
 	private String Telefone;
 	private String Email;
 	private boolean IsFuncionario;
-	private boolean IsExcuído;
+	private boolean IsExcluido;
 
 	public Pessoa(int idPessoa, String nome, String cPF, String endereço, String telefone, String email,
 			boolean isFuncionario, boolean isExcuído) {
@@ -21,7 +21,7 @@ public class Pessoa {
 		Telefone = telefone;
 		Email = email;
 		IsFuncionario = isFuncionario;
-		IsExcuído = isExcuído;
+		IsExcluido = isExcuído;
 	}
 
 	public int getIdPessoa() {
@@ -80,12 +80,12 @@ public class Pessoa {
 		IsFuncionario = isFuncionario;
 	}
 
-	public boolean isIsExcuído() {
-		return IsExcuído;
+	public boolean isIsExcluído() {
+		return IsExcluido;
 	}
 
-	public void setIsExcuído(boolean isExcuído) {
-		IsExcuído = isExcuído;
+	public void setIsExcluido(boolean isExcluido) {
+		IsExcluido = isExcluido;
 	}
 
 }
