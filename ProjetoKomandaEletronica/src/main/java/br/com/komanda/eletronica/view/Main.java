@@ -1,4 +1,4 @@
-package br.com.komanda.eletronica.wiew;
+package br.com.komanda.eletronica.view;
 
 import java.awt.EventQueue;
 

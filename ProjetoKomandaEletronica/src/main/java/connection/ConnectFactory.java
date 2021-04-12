@@ -10,7 +10,7 @@ public class ConnectFactory {
 		String servidor = "localhost";
 		String porta = "3306";
 		//TODO nome do banco, Usuario e Senha
-		String nomeBanco = "";
+		String nomeBanco = "komandaeletronica";
 		String user = "root";
 		String password = "";
 		String url = String.format("jdbc:mysql://%s:%s/%s?useTimezone=true&serverTimezone=UTC", servidor, porta,
