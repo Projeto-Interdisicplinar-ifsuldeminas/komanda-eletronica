@@ -16,7 +16,9 @@ e gerenciamento de contas a pagar de clientes.**
 
 ● Semana 3 - Documento de Requisitos e Diagrama de Caso de uso
 
-● Semana 4 - Diagrama de classe  
+● Semana 4 - Diagrama de classe 
+
+● Semana 5 - Modelo Entidade Relacionamento (MER)   
 
 ****** 
 ## **Escopo do projeto:** <h3>
