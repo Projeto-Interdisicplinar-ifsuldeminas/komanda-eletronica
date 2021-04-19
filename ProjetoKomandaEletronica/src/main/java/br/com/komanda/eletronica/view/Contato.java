@@ -12,11 +12,15 @@ import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Window.Type;
+import javax.swing.border.EtchedBorder;
+import java.awt.Color;
 
 @SuppressWarnings({ "serial", "unused" })
 public class Contato extends JFrame {
 
 	private JPanel contentPane;
+	private static MainDashboard main = null;
 
 	/**
 	 * Launch the application.
@@ -37,14 +41,18 @@ public class Contato extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Contato() {
+	
+	public Contato(MainDashboard main) {
+		
+		main.GetFrame().setEnabled(false);
+		setUndecorated(true);
 		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Contato.class.getResource("/img/feed.png")));
 		setTitle("SISTEMA DE KOMANDA ELETR\u00D4NICA- Contato");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 468, 223);
 		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
@@ -57,6 +65,7 @@ public class Contato extends JFrame {
 		contentPane.add(lblNewLabel_2);
 		
 		JButton btnNewButton = new JButton("Clique e Assista ");
+		btnNewButton.setBackground(Color.YELLOW);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -69,7 +78,7 @@ public class Contato extends JFrame {
 			}
 		});
 		btnNewButton.setIcon(new ImageIcon(Contato.class.getResource("/img/bullet_error.png")));
-		btnNewButton.setBounds(165, 136, 187, 23);
+		btnNewButton.setBounds(55, 170, 187, 23);
 		contentPane.add(btnNewButton);
 		
 		JLabel lblDaniloLipariniMoraes = new JLabel(" \r\nDanilo Liparini Moraes RA:201924410096");
@@ -83,5 +92,26 @@ public class Contato extends JFrame {
 		JLabel lblDaniloLipariniMoraes_1_1 = new JLabel("Mateus Botelho Ribeiro RA:201924410271");
 		lblDaniloLipariniMoraes_1_1.setBounds(10, 103, 322, 21);
 		contentPane.add(lblDaniloLipariniMoraes_1_1);
+		
+		JButton btnFechar = new JButton("Fechar");
+		btnFechar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				main.GetFrame().setEnabled(false);
+				dispose();
+			}
+		});
+		btnFechar.setBackground(Color.RED);
+		btnFechar.setIcon(new ImageIcon(Contato.class.getResource("/img/cancel.png")));
+		btnFechar.setSelectedIcon(new ImageIcon(Contato.class.getResource("/img/cancel.png")));
+		btnFechar.setBounds(252, 170, 187, 23);
+		contentPane.add(btnFechar);
+	}
+	
+	public void SetMainDashboard(MainDashboard p) {
+		main = p;
+	}
+	
+	public MainDashboard GetMainDashboard() {
+		return main;
 	}
 }

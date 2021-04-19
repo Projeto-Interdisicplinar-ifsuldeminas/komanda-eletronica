@@ -77,23 +77,27 @@ public class Login extends JFrame {
 		panel.add(passwordField);
 		
 		JButton btnOk = new JButton("Login");
+		btnOk.setForeground(Color.WHITE);
+		btnOk.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnOk.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 					ValidaUsuario();			
 			}
 		});
 		btnOk.setBackground(new Color(0, 128, 0));
-		btnOk.setBounds(35, 222, 180, 23);
+		btnOk.setBounds(35, 196, 180, 68);
 		panel.add(btnOk);
 		
 		JButton btnCancel = new JButton("Cancelar");
+		btnCancel.setForeground(Color.WHITE);
+		btnCancel.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 			}
 		});
 		btnCancel.setBackground(new Color(255, 0, 0));
-		btnCancel.setBounds(225, 222, 180, 23);
+		btnCancel.setBounds(225, 196, 180, 68);
 		panel.add(btnCancel);
 		
 		
@@ -116,7 +120,7 @@ public class Login extends JFrame {
 			window = new MainDashboard(this);
 		}
 		window.GetFrame().setVisible(true);
-		window.GetFrame().setLocationRelativeTo(null);		
+		window.GetFrame().setLocationRelativeTo(null);
 	}
 	
 	public void FechaSplashScreen(SplashScreen splash) {

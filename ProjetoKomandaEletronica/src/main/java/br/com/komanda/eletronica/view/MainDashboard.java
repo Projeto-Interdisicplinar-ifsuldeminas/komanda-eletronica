@@ -1,6 +1,7 @@
 package br.com.komanda.eletronica.view;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Toolkit;
@@ -29,6 +30,11 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.FlowLayout;
 import javax.swing.JButton;
+import java.awt.Frame;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.border.SoftBevelBorder;
 
 @SuppressWarnings("unused")
 public class MainDashboard {
@@ -71,6 +77,8 @@ public class MainDashboard {
 	@SuppressWarnings("deprecation")
 	private void initialize() {
 		frmSistemaDeCadastro = new JFrame();
+		frmSistemaDeCadastro.setUndecorated(true);
+		frmSistemaDeCadastro.setResizable(false);
 		frmSistemaDeCadastro.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowOpened(WindowEvent e) {
@@ -183,7 +191,7 @@ public class MainDashboard {
 						JMenuItem MenuItemContato = new JMenuItem("Contato");
 						MenuItemContato.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
-								Contato contato = new Contato();
+								Contato contato = new Contato(main);
 								contato.setLocationRelativeTo(null);
 								contato.setVisible(true);
 							}
@@ -191,39 +199,27 @@ public class MainDashboard {
 						MenuItemContato.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F10, InputEvent.ALT_MASK));
 						MenuItemContato.setIcon(new ImageIcon(MainDashboard.class.getResource("/img/feed.png")));
 						mnInformacao.add(MenuItemContato);
-		frmSistemaDeCadastro.getContentPane().setLayout(null);
 
 		JPanel panel = new JPanel();
 		panel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		panel.setBounds(-13, 477, 1052, 57);
-		frmSistemaDeCadastro.getContentPane().add(panel);
-		panel.setLayout(null);
 
 		JLHora = new JLabel("");
 		JLHora.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		JLHora.setBounds(890, 11, 121, 21);
 		JLHora.setHorizontalAlignment(SwingConstants.CENTER);
 		JLHora.setForeground(Color.BLUE);
 		JLHora.setFont(new Font("Tahoma", Font.BOLD, 14));
-		panel.add(JLHora);
 
 		JLData = new JLabel("");
 		JLData.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		JLData.setHorizontalAlignment(SwingConstants.CENTER);
 		JLData.setForeground(Color.BLUE);
 		JLData.setFont(new Font("Tahoma", Font.BOLD, 14));
-		JLData.setBounds(760, 11, 121, 21);
-		panel.add(JLData);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		panel_1.setBounds(10, 11, 1004, 310);
-		frmSistemaDeCadastro.getContentPane().add(panel_1);
 		
 		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(10, 332, 256, 134);
-		frmSistemaDeCadastro.getContentPane().add(panel_2);
-		panel_2.setLayout(null);
+		panel_2.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		
 		JButton btnNewButton = new JButton("FECHAR");
 		btnNewButton.setSelectedIcon(new ImageIcon("C:\\Users\\Inform\u00E1tica\\Documents\\Projetos Eclipse\\Komanda Eletr\u00F4nica\\komanda-eletronica\\ProjetoKomandaEletronica\\src\\main\\java\\img\\cancel.png"));
@@ -235,8 +231,7 @@ public class MainDashboard {
 				frmSistemaDeCadastro.dispose();
 			}
 		});
-		btnNewButton.setBounds(10, 11, 230, 51);
-		panel_2.add(btnNewButton);
+		
 		
 		JButton btnNewButton_1 = new JButton("BLOQUEAR");
 		btnNewButton_1.addActionListener(new ActionListener() {
@@ -248,19 +243,117 @@ public class MainDashboard {
 		});
 		btnNewButton_1.setBackground(Color.YELLOW);
 		btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnNewButton_1.setBounds(10, 73, 230, 51);
-		panel_2.add(btnNewButton_1);
 				
 				JPanel panel_3 = new JPanel();
-				panel_3.setBounds(276, 332, 738, 134);
-				frmSistemaDeCadastro.getContentPane().add(panel_3);
-						panel_3.setLayout(null);
+				panel_3.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 				
 						JLabel lblNewLabellog = new JLabel("");
 						lblNewLabellog.setHorizontalAlignment(SwingConstants.CENTER);
-						lblNewLabellog.setBounds(10, 11, 718, 113);
-						panel_3.add(lblNewLabellog);
 						lblNewLabellog.setIcon(new ImageIcon(MainDashboard.class.getResource("/img/logo_if_resize.png")));
+						GroupLayout groupLayout = new GroupLayout(frmSistemaDeCadastro.getContentPane());
+						groupLayout.setHorizontalGroup(
+							groupLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+										.addGroup(groupLayout.createSequentialGroup()
+											.addGap(10)
+											.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+												.addGroup(groupLayout.createSequentialGroup()
+													.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 256, GroupLayout.PREFERRED_SIZE)
+													.addGap(10)
+													.addComponent(panel_3, GroupLayout.DEFAULT_SIZE, 738, Short.MAX_VALUE))
+												.addComponent(panel, GroupLayout.DEFAULT_SIZE, 1004, Short.MAX_VALUE))
+											.addGap(6))
+										.addGroup(groupLayout.createSequentialGroup()
+											.addContainerGap()
+											.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 1004, Short.MAX_VALUE)))
+									.addGap(20))
+						);
+						groupLayout.setVerticalGroup(
+							groupLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addContainerGap()
+									.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 316, Short.MAX_VALUE)
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+										.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE)
+										.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE))
+									.addGap(11)
+									.addComponent(panel, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
+									.addGap(15))
+						);
+						GroupLayout gl_panel = new GroupLayout(panel);
+						gl_panel.setHorizontalGroup(
+							gl_panel.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_panel.createSequentialGroup()
+									.addGap(744)
+									.addComponent(JLData, GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
+									.addGap(6)
+									.addComponent(JLHora, GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
+									.addGap(8))
+						);
+						gl_panel.setVerticalGroup(
+							gl_panel.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_panel.createSequentialGroup()
+									.addGap(9)
+									.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+										.addComponent(JLData, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
+										.addComponent(JLHora, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)))
+						);
+						panel.setLayout(gl_panel);
+						GroupLayout gl_panel_3 = new GroupLayout(panel_3);
+						gl_panel_3.setHorizontalGroup(
+							gl_panel_3.createParallelGroup(Alignment.LEADING)
+								.addGroup(Alignment.TRAILING, gl_panel_3.createSequentialGroup()
+									.addContainerGap(190, Short.MAX_VALUE)
+									.addComponent(lblNewLabellog, GroupLayout.PREFERRED_SIZE, 538, GroupLayout.PREFERRED_SIZE)
+									.addContainerGap())
+						);
+						gl_panel_3.setVerticalGroup(
+							gl_panel_3.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_panel_3.createSequentialGroup()
+									.addContainerGap()
+									.addComponent(lblNewLabellog, GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
+									.addContainerGap())
+						);
+						panel_3.setLayout(gl_panel_3);
+						GroupLayout gl_panel_2 = new GroupLayout(panel_2);
+						gl_panel_2.setHorizontalGroup(
+							gl_panel_2.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_panel_2.createSequentialGroup()
+									.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
+										.addGroup(Alignment.TRAILING, gl_panel_2.createSequentialGroup()
+											.addGap(10)
+											.addComponent(btnNewButton, GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE))
+										.addGroup(gl_panel_2.createSequentialGroup()
+											.addContainerGap()
+											.addComponent(btnNewButton_1, GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)))
+									.addGap(16))
+						);
+						gl_panel_2.setVerticalGroup(
+							gl_panel_2.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_panel_2.createSequentialGroup()
+									.addContainerGap()
+									.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
+									.addGap(11)
+									.addComponent(btnNewButton_1, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE)
+									.addContainerGap())
+						);
+						panel_2.setLayout(gl_panel_2);
+						GroupLayout gl_panel_1 = new GroupLayout(panel_1);
+						gl_panel_1.setHorizontalGroup(
+							gl_panel_1.createParallelGroup(Alignment.LEADING)
+								.addGap(0, 1000, Short.MAX_VALUE)
+						);
+						gl_panel_1.setVerticalGroup(
+							gl_panel_1.createParallelGroup(Alignment.LEADING)
+								.addGap(0, 312, Short.MAX_VALUE)
+						);
+						panel_1.setLayout(gl_panel_1);
+						frmSistemaDeCadastro.getContentPane().setLayout(groupLayout);
+						
+		frmSistemaDeCadastro.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		//frmSistemaDeCadastro.setPreferredSize(new Dimension(WIDTH, HEIGHT));
 	}
 
 	// classe hora
