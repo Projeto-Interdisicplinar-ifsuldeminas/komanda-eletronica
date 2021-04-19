@@ -23,6 +23,7 @@ public class Login extends JFrame {
 	private JPanel contentPane;
 	private JTextField textField;
 	private JPasswordField passwordField;
+	private static MainDashboard main = null;
 
 	/**
 	 * Launch the application.
@@ -98,11 +99,24 @@ public class Login extends JFrame {
 		
 	}
 	
+	public void SetMainDashboard(MainDashboard p) {
+		main = p;
+	}
+	
+	public MainDashboard GetMainDashboard() {
+		return main;
+	}
+	
 	public void ValidaUsuario() {
 		this.dispose();
-		MainDashboard window = new MainDashboard();
+		MainDashboard window = null;
+		if(main != null) {
+			window = main;
+		}else {
+			window = new MainDashboard(this);
+		}
 		window.GetFrame().setVisible(true);
-		window.GetFrame().setLocationRelativeTo(null);
+		window.GetFrame().setLocationRelativeTo(null);		
 	}
 	
 	public void FechaSplashScreen(SplashScreen splash) {

@@ -26,6 +26,9 @@ import javax.swing.SwingConstants;
 import javax.swing.Timer;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
+import java.awt.FlowLayout;
+import javax.swing.JButton;
 
 @SuppressWarnings("unused")
 public class MainDashboard {
@@ -33,6 +36,8 @@ public class MainDashboard {
 	private JFrame frmSistemaDeCadastro;
 	private JLabel JLHora;
 	private JLabel JLData;
+	private static Login login;
+	private static MainDashboard main = null;
 
 	/**
 	 * Launch the application.
@@ -54,8 +59,10 @@ public class MainDashboard {
 	/**
 	 * Create the application.
 	 */
-	public MainDashboard() {
+	public MainDashboard(Login log) {
 		initialize();
+		login = log;
+		main = this;
 	}
 
 	/**
@@ -186,11 +193,6 @@ public class MainDashboard {
 						mnInformacao.add(MenuItemContato);
 		frmSistemaDeCadastro.getContentPane().setLayout(null);
 
-		JLabel lblNewLabellog = new JLabel("");
-		lblNewLabellog.setIcon(new ImageIcon(MainDashboard.class.getResource("/img/logo_if_resize.png")));
-		lblNewLabellog.setBounds(673, 346, 341, 129);
-		frmSistemaDeCadastro.getContentPane().add(lblNewLabellog);
-
 		JPanel panel = new JPanel();
 		panel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		panel.setBounds(-13, 477, 1052, 57);
@@ -212,6 +214,53 @@ public class MainDashboard {
 		JLData.setFont(new Font("Tahoma", Font.BOLD, 14));
 		JLData.setBounds(760, 11, 121, 21);
 		panel.add(JLData);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		panel_1.setBounds(10, 11, 1004, 310);
+		frmSistemaDeCadastro.getContentPane().add(panel_1);
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBounds(10, 332, 256, 134);
+		frmSistemaDeCadastro.getContentPane().add(panel_2);
+		panel_2.setLayout(null);
+		
+		JButton btnNewButton = new JButton("FECHAR");
+		btnNewButton.setSelectedIcon(new ImageIcon("C:\\Users\\Inform\u00E1tica\\Documents\\Projetos Eclipse\\Komanda Eletr\u00F4nica\\komanda-eletronica\\ProjetoKomandaEletronica\\src\\main\\java\\img\\cancel.png"));
+		btnNewButton.setForeground(Color.WHITE);
+		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnNewButton.setBackground(Color.RED);
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frmSistemaDeCadastro.dispose();
+			}
+		});
+		btnNewButton.setBounds(10, 11, 230, 51);
+		panel_2.add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("BLOQUEAR");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				login.SetMainDashboard(main);
+				login.setVisible(true);
+				main.frmSistemaDeCadastro.dispose();
+			}
+		});
+		btnNewButton_1.setBackground(Color.YELLOW);
+		btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnNewButton_1.setBounds(10, 73, 230, 51);
+		panel_2.add(btnNewButton_1);
+				
+				JPanel panel_3 = new JPanel();
+				panel_3.setBounds(276, 332, 738, 134);
+				frmSistemaDeCadastro.getContentPane().add(panel_3);
+						panel_3.setLayout(null);
+				
+						JLabel lblNewLabellog = new JLabel("");
+						lblNewLabellog.setHorizontalAlignment(SwingConstants.CENTER);
+						lblNewLabellog.setBounds(10, 11, 718, 113);
+						panel_3.add(lblNewLabellog);
+						lblNewLabellog.setIcon(new ImageIcon(MainDashboard.class.getResource("/img/logo_if_resize.png")));
 	}
 
 	// classe hora
