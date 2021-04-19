@@ -96,7 +96,7 @@ public class Contato extends JFrame {
 		JButton btnFechar = new JButton("Fechar");
 		btnFechar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				main.GetFrame().setEnabled(false);
+				main.GetFrame().setEnabled(true);
 				dispose();
 			}
 		});
