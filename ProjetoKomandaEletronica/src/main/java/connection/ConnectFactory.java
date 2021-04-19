@@ -26,10 +26,10 @@ public class ConnectFactory {
 
 	}
 
-	public static void main(String[] args) throws SQLException {
+	/*public static void main(String[] args) throws SQLException {
 		Connection c = createConnection();
 		c.close();
 		System.out.println("Conectado!");
-	}
+	}*/
 
 }

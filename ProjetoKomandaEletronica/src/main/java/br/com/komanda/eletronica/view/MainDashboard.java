@@ -27,6 +27,7 @@ import javax.swing.Timer;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EtchedBorder;
 
+@SuppressWarnings("unused")
 public class MainDashboard {
 
 	private JFrame frmSistemaDeCadastro;
@@ -36,7 +37,7 @@ public class MainDashboard {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -48,7 +49,7 @@ public class MainDashboard {
 				}
 			}
 		});
-	}
+	}*/
 
 	/**
 	 * Create the application.
@@ -60,6 +61,7 @@ public class MainDashboard {
 	/**
 	 * Initialize the contents of the frame.
 	 */
+	@SuppressWarnings("deprecation")
 	private void initialize() {
 		frmSistemaDeCadastro = new JFrame();
 		frmSistemaDeCadastro.addWindowListener(new WindowAdapter() {
@@ -78,10 +80,10 @@ public class MainDashboard {
 		});
 		frmSistemaDeCadastro
 				.setIconImage(Toolkit.getDefaultToolkit().getImage(MainDashboard.class.getResource("/img/layout.png")));
-		frmSistemaDeCadastro.setResizable(false);
 		frmSistemaDeCadastro.setTitle("SISTEMA DE KOMANDA ELETR\u00D4NICA");
 		frmSistemaDeCadastro.setBounds(100, 100, 1040, 584);
 		frmSistemaDeCadastro.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 
 		JMenuBar menuBar = new JMenuBar();
 		frmSistemaDeCadastro.setJMenuBar(menuBar);
@@ -219,5 +221,9 @@ public class MainDashboard {
 			Calendar now = Calendar.getInstance();
 			JLHora.setText(String.format("%1$tH:%1$tM:%1$tS", now));
 		}
+	}
+	
+	public JFrame GetFrame() {
+		return frmSistemaDeCadastro;
 	}
 }// fim da classe principal
