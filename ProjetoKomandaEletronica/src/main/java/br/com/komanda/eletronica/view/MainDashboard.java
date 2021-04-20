@@ -388,7 +388,7 @@ public class MainDashboard {
 						
 						JLabel lblNewLabel = new JLabel("");
 						lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-						lblNewLabel.setIcon(new ImageIcon(MainDashboard.class.getResource("/img/Logo Komanda Eletronica.png")));
+						lblNewLabel.setIcon(new ImageIcon(MainDashboard.class.getResource("/img/Logo Principal.png")));
 						GroupLayout gl_panel_4 = new GroupLayout(panel_4);
 						gl_panel_4.setHorizontalGroup(
 							gl_panel_4.createParallelGroup(Alignment.LEADING)
