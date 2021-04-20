@@ -8,7 +8,7 @@ drop database komandaeletronica;
 
 /* Criação da base de dados
 ######################################## */
-create database komandaeletronica;
+create database IF NOT EXISTS komandaeletronica;
 
 /* Selecionando a database para criar as tabelas
 ######################################## */
