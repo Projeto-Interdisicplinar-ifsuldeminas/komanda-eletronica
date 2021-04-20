@@ -15,6 +15,7 @@ import java.sql.SQLException;
 
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
+import java.awt.Color;
 
 @SuppressWarnings("unused")
 public class SplashScreen extends JFrame {
@@ -44,8 +45,9 @@ public class SplashScreen extends JFrame {
 		setResizable(false);
 		setUndecorated(true);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);		
-		setBounds(100, 100, 577, 443);
+		setBounds(100, 100, 730, 606);
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(128, 128, 128));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
@@ -58,37 +60,38 @@ public class SplashScreen extends JFrame {
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\Inform\u00E1tica\\Documents\\Projetos Eclipse\\Komanda Eletr\u00F4nica\\komanda-eletronica\\ProjetoKomandaEletronica\\src\\main\\java\\img\\logo_if_resize.png"));
-		lblNewLabel.setBounds(10, 48, 547, 82);
+		lblNewLabel.setBounds(10, 48, 700, 82);
 		panel.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("PROJETO INTERDISCIPLINAR");
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_1.setBounds(10, 11, 547, 46);
+		lblNewLabel_1.setBounds(10, 11, 700, 46);
 		panel.add(lblNewLabel_1);
 		
-		JLabel lblNewLabel_2 = new JLabel("Komanda Eletr\u00F4nica");
+		JLabel lblNewLabel_2 = new JLabel("");
+		lblNewLabel_2.setIcon(new ImageIcon(SplashScreen.class.getResource("/img/Logo Komanda Eletronica.png")));
 		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 28));
-		lblNewLabel_2.setBounds(10, 158, 547, 91);
+		lblNewLabel_2.setBounds(10, 141, 700, 354);
 		panel.add(lblNewLabel_2);
 		
 		JLabel lblNewLabel_3 = new JLabel("Danilo Liparini Moraes - RA: 201924410096 ");
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_3.setBounds(0, 358, 567, 14);
+		lblNewLabel_3.setBounds(10, 506, 700, 14);
 		panel.add(lblNewLabel_3);
 		
 		JLabel lblNewLabel_3_1 = new JLabel("Luciano Luiz Romero - RA: 201924410106");
 		lblNewLabel_3_1.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblNewLabel_3_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_3_1.setBounds(0, 383, 567, 14);
+		lblNewLabel_3_1.setBounds(10, 531, 700, 14);
 		panel.add(lblNewLabel_3_1);
 		
 		JLabel lblNewLabel_3_2 = new JLabel("Mateus Botelho Ribeiro - RA: 201924410271");
 		lblNewLabel_3_2.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblNewLabel_3_2.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_3_2.setBounds(0, 408, 567, 14);
+		lblNewLabel_3_2.setBounds(10, 556, 700, 14);
 		panel.add(lblNewLabel_3_2);
 		
 	}

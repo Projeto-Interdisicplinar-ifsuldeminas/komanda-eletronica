@@ -11,6 +11,7 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -28,6 +29,9 @@ import javax.swing.Timer;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+
+import br.com.komanda.eletronica.view.enums.CadastroDeFuncoes;
+
 import java.awt.FlowLayout;
 import javax.swing.JButton;
 import java.awt.Frame;
@@ -104,6 +108,7 @@ public class MainDashboard {
 		frmSistemaDeCadastro.setJMenuBar(menuBar);
 
 		JMenu mnArquivo = new JMenu("Arquivo");
+		mnArquivo.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		menuBar.add(mnArquivo);
 
 		JMenuItem MenuItemSair = new JMenuItem("Sair");
@@ -117,40 +122,58 @@ public class MainDashboard {
 		mnArquivo.add(MenuItemSair);
 
 		JMenu mnCadastro = new JMenu("Cadastro ");
+		mnCadastro.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		menuBar.add(mnCadastro);
 
 		JMenu MenuPessoas = new JMenu("Funcionarios");
+		MenuPessoas.setIcon(new ImageIcon(MainDashboard.class.getResource("/img/User-Group-icon.png")));
 		mnCadastro.add(MenuPessoas);
-
-		JMenuItem MenuItemAdicionar = new JMenuItem("Adicionar");
-		MenuItemAdicionar.addActionListener(new ActionListener() {
+		
+				JMenuItem MenuItemAdicionar = new JMenuItem("Funcion\u00E1rios");
+				MenuItemAdicionar.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						try {
+							CadastroFuncionarios funcionarios = new CadastroFuncionarios();
+							funcionarios.setLocationRelativeTo(null);
+							funcionarios.SetMainDashboard(main);
+							//main.frmSistemaDeCadastro.set
+							main.frmSistemaDeCadastro.setEnabled(false);
+							funcionarios.setVisible(true);
+						} catch (ParseException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
+				});
+				MenuItemAdicionar.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F5, InputEvent.ALT_MASK));
+				MenuItemAdicionar.setIcon(new ImageIcon(MainDashboard.class.getResource("/img/user_add.png")));
+				MenuPessoas.add(MenuItemAdicionar);
+		
+		JMenuItem mntmNewMenuItem = new JMenuItem("Fun\u00E7\u00F5es");
+		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				CadastroDeFuncoes cadFuncoes = new CadastroDeFuncoes();
+				cadFuncoes.setLocationRelativeTo(null);
+				cadFuncoes.SetMainDashboard(main);
+				main.frmSistemaDeCadastro.setEnabled(false);
+				cadFuncoes.setVisible(true);
 			}
 		});
-		MenuItemAdicionar.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F5, InputEvent.ALT_MASK));
-		MenuItemAdicionar.setIcon(new ImageIcon(MainDashboard.class.getResource("/img/user_add.png")));
-		MenuPessoas.add(MenuItemAdicionar);
-
-		JMenuItem MenuItemAtualizar = new JMenuItem("Atualizar");
-		MenuItemAtualizar.addActionListener(new ActionListener() {
+		mntmNewMenuItem.setIcon(new ImageIcon(MainDashboard.class.getResource("/img/cog_add.png")));
+		MenuPessoas.add(mntmNewMenuItem);
+		
+		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Alterar Senha");
+		mntmNewMenuItem_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				AlteraSenha alterarSenha = new AlteraSenha();
+				alterarSenha.setLocationRelativeTo(null);
+				AlteraSenha.setMain(main);
+				main.frmSistemaDeCadastro.setEnabled(false);
+				alterarSenha.setVisible(true);;
 			}
 		});
-		MenuItemAtualizar.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F6, InputEvent.ALT_MASK));
-		MenuItemAtualizar.setIcon(new ImageIcon(MainDashboard.class.getResource("/img/user_edit.png")));
-		MenuPessoas.add(MenuItemAtualizar);
-
-		JMenuItem MenuItemDeletar = new JMenuItem("Deletar");
-		MenuItemDeletar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
-		MenuItemDeletar.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F7, InputEvent.ALT_MASK));
-		MenuItemDeletar.setIcon(new ImageIcon(MainDashboard.class.getResource("/img/user_delete.png")));
-		MenuPessoas.add(MenuItemDeletar);
+		mntmNewMenuItem_1.setIcon(new ImageIcon(MainDashboard.class.getResource("/img/Key.png")));
+		MenuPessoas.add(mntmNewMenuItem_1);
 		
 		JMenu MenuProdutos = new JMenu("Produtos");
 		mnCadastro.add(MenuProdutos);
@@ -162,6 +185,7 @@ public class MainDashboard {
 		mnCadastro.add(MenuCardapio);
 						
 						JMenu mnPedido = new JMenu("Pedido");
+						mnPedido.setFont(new Font("Segoe UI", Font.BOLD, 14));
 						menuBar.add(mnPedido);
 						
 						JMenu MenuMesa = new JMenu("Mesa");
@@ -171,6 +195,7 @@ public class MainDashboard {
 						mnPedido.add(MenuDelivery);
 				
 						JMenu mnRelatorio = new JMenu("Relatorio");
+						mnRelatorio.setFont(new Font("Segoe UI", Font.BOLD, 14));
 						mnRelatorio.setIcon(null);
 						menuBar.add(mnRelatorio);
 						
@@ -185,6 +210,7 @@ public class MainDashboard {
 								mnRelatorio.add(MenuItemRelatorio);
 		
 				JMenu mnInformacao = new JMenu("Informacao");
+				mnInformacao.setFont(new Font("Segoe UI", Font.BOLD, 14));
 				mnInformacao.setIcon(null);
 				menuBar.add(mnInformacao);
 				
@@ -216,6 +242,7 @@ public class MainDashboard {
 		JLData.setFont(new Font("Tahoma", Font.BOLD, 14));
 		
 		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(new Color(128, 128, 128));
 		panel_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		
 		JPanel panel_2 = new JPanel();
@@ -266,14 +293,14 @@ public class MainDashboard {
 											.addGap(6))
 										.addGroup(groupLayout.createSequentialGroup()
 											.addContainerGap()
-											.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 1004, Short.MAX_VALUE)))
+											.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 1010, Short.MAX_VALUE)))
 									.addGap(20))
 						);
 						groupLayout.setVerticalGroup(
 							groupLayout.createParallelGroup(Alignment.LEADING)
 								.addGroup(groupLayout.createSequentialGroup()
 									.addContainerGap()
-									.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 316, Short.MAX_VALUE)
+									.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 345, Short.MAX_VALUE)
 									.addPreferredGap(ComponentPlacement.UNRELATED)
 									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 										.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE)
@@ -340,15 +367,44 @@ public class MainDashboard {
 									.addContainerGap())
 						);
 						panel_2.setLayout(gl_panel_2);
+						
+						JPanel panel_4 = new JPanel();
+						panel_4.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 						GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 						gl_panel_1.setHorizontalGroup(
 							gl_panel_1.createParallelGroup(Alignment.LEADING)
-								.addGap(0, 1000, Short.MAX_VALUE)
+								.addGroup(gl_panel_1.createSequentialGroup()
+									.addContainerGap()
+									.addComponent(panel_4, GroupLayout.DEFAULT_SIZE, 986, Short.MAX_VALUE)
+									.addContainerGap())
 						);
 						gl_panel_1.setVerticalGroup(
 							gl_panel_1.createParallelGroup(Alignment.LEADING)
-								.addGap(0, 312, Short.MAX_VALUE)
+								.addGroup(gl_panel_1.createSequentialGroup()
+									.addContainerGap()
+									.addComponent(panel_4, GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE)
+									.addContainerGap())
 						);
+						
+						JLabel lblNewLabel = new JLabel("");
+						lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+						lblNewLabel.setIcon(new ImageIcon(MainDashboard.class.getResource("/img/Logo Komanda Eletronica.png")));
+						GroupLayout gl_panel_4 = new GroupLayout(panel_4);
+						gl_panel_4.setHorizontalGroup(
+							gl_panel_4.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_panel_4.createSequentialGroup()
+									.addContainerGap()
+									.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 962, Short.MAX_VALUE)
+									.addContainerGap())
+						);
+						gl_panel_4.setVerticalGroup(
+							gl_panel_4.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_panel_4.createSequentialGroup()
+									.addContainerGap()
+									.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 293, Short.MAX_VALUE)
+									.addContainerGap())
+						);
+						panel_4.setLayout(gl_panel_4);
 						panel_1.setLayout(gl_panel_1);
 						frmSistemaDeCadastro.getContentPane().setLayout(groupLayout);
 						
