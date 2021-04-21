@@ -224,7 +224,28 @@ public class MainDashboard {
 		menuBar.add(mnPedido);
 
 		JMenu MenuMesa = new JMenu("Mesa");
+		MenuMesa.setIcon(new ImageIcon(MainDashboard.class.getResource("/img/book_next.png")));
 		mnPedido.add(MenuMesa);
+
+		JMenuItem mmtmMesaPedido = new JMenuItem("Pedido na Mesa");
+		mmtmMesaPedido.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// TODO Evento para abrir nova tela
+				PedidoMesa pedidomesa;
+				try {
+					pedidomesa = new PedidoMesa();
+					pedidomesa.setLocationRelativeTo(null);
+					pedidomesa.SetMainDashboard(main);
+
+					main.frmSistemaDeCadastro.setEnabled(false);
+					pedidomesa.setVisible(true);
+				} catch (ParseException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		mmtmMesaPedido.setIcon(new ImageIcon(MainDashboard.class.getResource("/img/arrow_refresh.png")));
+		MenuMesa.add(mmtmMesaPedido);
 
 		JMenu MenuDelivery = new JMenu("Delivery");
 		mnPedido.add(MenuDelivery);
