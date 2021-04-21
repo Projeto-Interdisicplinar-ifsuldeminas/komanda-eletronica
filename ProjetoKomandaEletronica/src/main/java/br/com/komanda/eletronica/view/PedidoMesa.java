@@ -87,9 +87,7 @@ public class PedidoMesa extends JFrame {
 				"Nome Completo da Mesa", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 
 		JPanel panelID = new JPanel();
-		panelID.setBorder(new TitledBorder(
-				new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "ID",
-				TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panelID.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "ID DO PEDIDO", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		panelID.setToolTipText("");
 		GroupLayout gl_panel_central = new GroupLayout(panel_central);
 		gl_panel_central.setHorizontalGroup(gl_panel_central.createParallelGroup(Alignment.LEADING)
@@ -317,7 +315,7 @@ public class PedidoMesa extends JFrame {
 						.addComponent(btnNewButton, GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)).addContainerGap()));
 		panel_botoes_crud.setLayout(gl_panel_botoes_crud);
 
-		JLabel lblNewLabel = new JLabel("CADASTRO DE MESAS");
+		JLabel lblNewLabel = new JLabel("CADASTRO DE PEDIDOS POR MESA");
 		lblNewLabel.setForeground(new Color(34, 139, 34));
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 22));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
