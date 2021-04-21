@@ -141,7 +141,7 @@ public class CadastroCardapio extends JFrame {
 		lblNewLabel_2.setBounds(28, 84, 46, 14);
 		panel_5.add(lblNewLabel_2);
 		
-		JFormattedTextField FTFPeso = new JFormattedTextField(new MaskFormatter("###,##"));
+		JFormattedTextField FTFPeso = new JFormattedTextField(new MaskFormatter("###.##"));
 		FTFPeso.setBounds(28, 111, 117, 23);
 		panel_5.add(FTFPeso);
 		
@@ -154,7 +154,7 @@ public class CadastroCardapio extends JFrame {
 		lblNewLabel_3.setBounds(28, 145, 83, 14);
 		panel_5.add(lblNewLabel_3);
 		
-		JFormattedTextField formattedTextField_1 = new JFormattedTextField(new MaskFormatter("###.##"));
+		JFormattedTextField formattedTextField_1 = new JFormattedTextField(new MaskFormatter("####.##"));
 		formattedTextField_1.setBounds(28, 223, 163, 23);
 		panel_5.add(formattedTextField_1);
 		
