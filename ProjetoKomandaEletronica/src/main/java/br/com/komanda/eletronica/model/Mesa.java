@@ -10,6 +10,12 @@ public class Mesa {
 		IdMesa = idMesa;
 		NomeMesa = nomeMesa;
 	}
+	
+	public Mesa( String nomeMesa) {
+		NomeMesa = nomeMesa;
+	}
+	
+	
 
 
 	public int getIdMesa() {
