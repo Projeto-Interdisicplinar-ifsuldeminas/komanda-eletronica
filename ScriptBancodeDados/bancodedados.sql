@@ -74,11 +74,11 @@ Obeservação: Revisar os campos se todos são necessarios
 create table ProdutoCardapio (IdProdutoCardapio int NOT NULL AUTO_INCREMENT , 
 Nome varchar (20),
 IdTipoDeProduto int,
-Peso float,
+Peso decimal,
 Descricao varchar(30),
 
-Valor float, 
-InformacaoesNutricionais varchar(50),
+Valor decimal, 
+InformacaoesNutricionais varchar(200),
 QuantidadeDePessoasQueServe int(11),
 Quantidade int(11), 
 IsExcluido varchar(20),
@@ -104,7 +104,7 @@ foreign key (IdPedido) references Pedido(IdPedido));
 ######################################## */
 create table ProdutoEstoque (IdProdutoEstoque int NOT NULL AUTO_INCREMENT , 
 Nome varchar (20),
-Peso float,
+Peso decimal,
 Descricao varchar (20),
 InformacoesAdicionais varchar (50),
 IsExcluido varchar (20),
@@ -128,7 +128,7 @@ primary key (IdMesa));
 ######################################## */
 create table MesaPedido (IdMesaPedido int NOT NULL AUTO_INCREMENT , 
 IdMesa int,
-ValorTotal float,
+ValorTotal decimal,
 Data date,
 primary key (IdMesaPedido),
 foreign key (IdMesa) references Mesa(IdMesa));
@@ -157,7 +157,7 @@ foreign key (IdMesa) references Mesa(IdMesa));
 create table Delivery (IdDelivery int NOT NULL AUTO_INCREMENT , 
 IdPessoa int,
 IdCozinha int,
-ValorTotal float,
+ValorTotal decimal,
 Data date,
 primary key (IdDelivery),
 foreign key (IdPessoa) references pessoa (IdPessoa),
