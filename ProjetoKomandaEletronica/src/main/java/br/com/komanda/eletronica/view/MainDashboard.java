@@ -178,7 +178,7 @@ public class MainDashboard {
 		JMenuItem mntmNewMenuMesas = new JMenuItem("Controle de Mesas");
 		mntmNewMenuMesas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//TODO Evento para abrir nova tela 
+				// TODO Evento para abrir nova tela
 				CadastroMesas cadastromesas;
 				try {
 					cadastromesas = new CadastroMesas();
@@ -199,6 +199,25 @@ public class MainDashboard {
 		JMenu MenuCardapio = new JMenu("Cardapios");
 		MenuCardapio.setIcon(new ImageIcon(MainDashboard.class.getResource("/img/table_multiple.png")));
 		mnCadastro.add(MenuCardapio);
+
+		JMenuItem mntmNewMenuCardapio = new JMenuItem("Cadastro Cardapio");
+		mntmNewMenuCardapio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// TODO Evento para abrir nova tela
+				CadastroCardapio cadastrocardapio;
+				try {
+					cadastrocardapio = new CadastroCardapio();
+					cadastrocardapio.setLocationRelativeTo(null);
+					cadastrocardapio.SetMainDashboard(main);
+
+					main.frmSistemaDeCadastro.setEnabled(false);
+					cadastrocardapio.setVisible(true);
+				} catch (ParseException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		MenuCardapio.add(mntmNewMenuCardapio);
 
 		JMenu mnPedido = new JMenu("Pedido");
 		mnPedido.setFont(new Font("Segoe UI", Font.BOLD, 14));
