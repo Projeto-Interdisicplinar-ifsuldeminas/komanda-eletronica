@@ -1,24 +1,24 @@
 package br.com.komanda.eletronica.model;
 
-import br.com.komanda.eletronica.model.Enums.*;
-
 public class Funcionario extends Pessoa {
 	
 	private int idFuncionario;
 	private int NumeroRegistro;
+	private int idFuncao;
 	private boolean IsGerente;
 	private boolean IsExcluido;
-	private String funcao = TiposdeFuncao.Funcao1.getFuncao();
+
+	
 
 	public Funcionario(int idPessoa, String nome, String cPF, String endereço, String telefone, String email,
 			boolean isFuncionario, boolean isExcuído, int idFuncionario, int numeroRegistro, boolean isGerente,
-			boolean isExcluído, String funcao) {
-		super(idPessoa, nome, cPF, endereço, telefone, email, isFuncionario, isExcuído);
+			boolean isExcluído, int idFunc) {
+		super(idPessoa, nome, cPF, endereço, telefone, email, isExcuído);
 		this.idFuncionario = idFuncionario;
-		NumeroRegistro = numeroRegistro;
-		IsGerente = isGerente;
-		IsExcluido = isExcluído;
-		this.funcao = funcao;
+		this.NumeroRegistro = numeroRegistro;
+		this.IsGerente = isGerente;
+		this.IsExcluido = isExcluído;
+		this.idFuncao = idFunc;
 	}
 
 	public int getIdFuncionario() {
@@ -53,12 +53,12 @@ public class Funcionario extends Pessoa {
 		IsExcluido = isExcluido;
 	}
 
-	public String getFuncao() {
-		return funcao;
+	public int getIdFuncao() {
+		return idFuncao;
 	}
 
-	public void setFuncao(String funcao) {
-		this.funcao = funcao;
+	public void setIdFuncao(int idFuncao) {
+		this.idFuncao = idFuncao;
 	}
 
 	

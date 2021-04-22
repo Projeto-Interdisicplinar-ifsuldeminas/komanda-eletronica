@@ -24,6 +24,9 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.MaskFormatter;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.DefaultComboBoxModel;
 
 public class CadastroFuncionarios extends JFrame {
 
@@ -32,9 +35,9 @@ public class CadastroFuncionarios extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField txtNome;
+	private JTextField txtEndereco;
+	private JTextField txtEmail;
 	
 	private static MainDashboard main = null;
 
@@ -42,13 +45,14 @@ public class CadastroFuncionarios extends JFrame {
 	 * Create the frame.
 	 * @throws ParseException 
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public CadastroFuncionarios() throws ParseException {
 		
 		setUndecorated(true);
 		setTitle("CADASTRO DE FUNCION\u00C1RIOS");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(CadastroFuncionarios.class.getResource("/img/user_edit.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1035, 638);
+		setBounds(100, 100, 1035, 735);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		setContentPane(contentPane);
@@ -61,15 +65,19 @@ public class CadastroFuncionarios extends JFrame {
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		
+		JPanel panel_7 = new JPanel();
+		panel_7.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-						.addComponent(panel_1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 995, Short.MAX_VALUE)
-						.addComponent(panel_2, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 995, Short.MAX_VALUE)
-						.addComponent(panel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 995, Short.MAX_VALUE))
+						.addComponent(panel_2, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 1011, Short.MAX_VALUE)
+						.addComponent(panel_7, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 1011, Short.MAX_VALUE)
+						.addComponent(panel_1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 1011, Short.MAX_VALUE)
+						.addComponent(panel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 1011, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		gl_contentPane.setVerticalGroup(
@@ -78,11 +86,30 @@ public class CadastroFuncionarios extends JFrame {
 					.addContainerGap()
 					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 376, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addComponent(panel_2, GroupLayout.DEFAULT_SIZE, 409, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(panel_7, GroupLayout.PREFERRED_SIZE, 52, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 101, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap())
 		);
+		
+		JLabel lblNewLabel_2 = new JLabel("O USU\u00C1RIO PARA ACESSO SER\u00C1 O CPF CADASTRADO E A SENHA INICIAL SER\u00C1 \"12345678\" (ESTA SER\u00C1 SOLICITADA A ALTERA\u00C7\u00C3O NO PRIMEIRO ACESSO).");
+		lblNewLabel_2.setForeground(Color.RED);
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 13));
+		GroupLayout gl_panel_7 = new GroupLayout(panel_7);
+		gl_panel_7.setHorizontalGroup(
+			gl_panel_7.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_7.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(lblNewLabel_2, GroupLayout.DEFAULT_SIZE, 987, Short.MAX_VALUE)
+					.addContainerGap())
+		);
+		gl_panel_7.setVerticalGroup(
+			gl_panel_7.createParallelGroup(Alignment.LEADING)
+				.addComponent(lblNewLabel_2, GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
+		);
+		panel_7.setLayout(gl_panel_7);
 		
 		JPanel panel_3 = new JPanel();
 		panel_3.setBorder(new TitledBorder(null, "Matr\u00EDcula", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -107,186 +134,234 @@ public class CadastroFuncionarios extends JFrame {
 		
 		JPanel panel_5_2_1 = new JPanel();
 		panel_5_2_1.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Telefone", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		
+		JPanel panel_8 = new JPanel();
+		panel_8.setBorder(new TitledBorder(null, "N\u00EDvel de Acesso", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GroupLayout gl_panel_2 = new GroupLayout(panel_2);
 		gl_panel_2.setHorizontalGroup(
 			gl_panel_2.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_2.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_panel_2.createParallelGroup(Alignment.TRAILING)
-						.addComponent(panel_5_1_1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(panel_5, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 						.addGroup(gl_panel_2.createSequentialGroup()
-							.addComponent(panel_3, GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE)
+							.addComponent(panel_8, GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(panel_4, GroupLayout.DEFAULT_SIZE, 511, Short.MAX_VALUE)
+							.addComponent(panel_4, GroupLayout.DEFAULT_SIZE, 519, Short.MAX_VALUE))
+						.addGroup(gl_panel_2.createSequentialGroup()
+							.addComponent(panel_3, GroupLayout.DEFAULT_SIZE, 843, Short.MAX_VALUE)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(panel_6, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_panel_2.createSequentialGroup()
-							.addGap(2)
-							.addComponent(panel_5_1, GroupLayout.DEFAULT_SIZE, 969, Short.MAX_VALUE))
-						.addGroup(gl_panel_2.createSequentialGroup()
-							.addComponent(panel_5_2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(panel_5_2_1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+							.addComponent(panel_5_2, GroupLayout.DEFAULT_SIZE, 675, Short.MAX_VALUE)
+							.addGap(6)
+							.addComponent(panel_5_2_1, GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE))
+						.addComponent(panel_5_1_1, GroupLayout.DEFAULT_SIZE, 987, Short.MAX_VALUE)
+						.addComponent(panel_5_1, GroupLayout.DEFAULT_SIZE, 987, Short.MAX_VALUE)
+						.addComponent(panel_5, GroupLayout.DEFAULT_SIZE, 987, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		gl_panel_2.setVerticalGroup(
 			gl_panel_2.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_2.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(panel_6, 0, 0, Short.MAX_VALUE)
-						.addComponent(panel_4, 0, 0, Short.MAX_VALUE)
-						.addComponent(panel_3, GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(panel_5, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(panel_5_1, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
+					.addGroup(gl_panel_2.createParallelGroup(Alignment.BASELINE)
+						.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 57, GroupLayout.PREFERRED_SIZE)
+						.addComponent(panel_6, 0, 0, Short.MAX_VALUE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
-						.addComponent(panel_5_2, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
+						.addComponent(panel_8, GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
+						.addComponent(panel_4, 0, 0, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(panel_5, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(panel_5_1, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel_2.createSequentialGroup()
+							.addGap(11)
+							.addComponent(panel_5_2, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE))
 						.addComponent(panel_5_2_1, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(panel_5_1_1, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addContainerGap())
 		);
 		
-		textField_2 = new JTextField();
-		textField_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		textField_2.setColumns(10);
+		@SuppressWarnings("rawtypes")
+		JComboBox comboBox = new JComboBox();
+		comboBox.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"SELECIONE", "1 - Administrador", "2 - Gerente", "3 - Atendente"}));
+		GroupLayout gl_panel_8 = new GroupLayout(panel_8);
+		gl_panel_8.setHorizontalGroup(
+			gl_panel_8.createParallelGroup(Alignment.LEADING)
+				.addGroup(Alignment.TRAILING, gl_panel_8.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(comboBox, 0, 430, Short.MAX_VALUE)
+					.addContainerGap())
+		);
+		gl_panel_8.setVerticalGroup(
+			gl_panel_8.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_8.createSequentialGroup()
+					.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+		);
+		panel_8.setLayout(gl_panel_8);
+		
+		txtEmail = new JTextField();
+		txtEmail.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txtEmail.setColumns(10);
 		GroupLayout gl_panel_5_1_1 = new GroupLayout(panel_5_1_1);
 		gl_panel_5_1_1.setHorizontalGroup(
 			gl_panel_5_1_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_5_1_1.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(textField_2, GroupLayout.DEFAULT_SIZE, 939, Short.MAX_VALUE)
+					.addComponent(txtEmail, GroupLayout.DEFAULT_SIZE, 939, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		gl_panel_5_1_1.setVerticalGroup(
 			gl_panel_5_1_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_5_1_1.createSequentialGroup()
-					.addComponent(textField_2, GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+					.addComponent(txtEmail, GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		panel_5_1_1.setLayout(gl_panel_5_1_1);
 		
-		JFormattedTextField formattedTextField_1 = new JFormattedTextField(new MaskFormatter("(##) #####-####"));
-		formattedTextField_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		JFormattedTextField ftTelefone = new JFormattedTextField(new MaskFormatter("(##) #####-####"));
+		ftTelefone.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GroupLayout gl_panel_5_2_1 = new GroupLayout(panel_5_2_1);
 		gl_panel_5_2_1.setHorizontalGroup(
 			gl_panel_5_2_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_5_2_1.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(formattedTextField_1, GroupLayout.DEFAULT_SIZE, 606, Short.MAX_VALUE)
+					.addComponent(ftTelefone, GroupLayout.DEFAULT_SIZE, 606, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		gl_panel_5_2_1.setVerticalGroup(
 			gl_panel_5_2_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_5_2_1.createSequentialGroup()
-					.addComponent(formattedTextField_1, GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+					.addComponent(ftTelefone, GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		panel_5_2_1.setLayout(gl_panel_5_2_1);
 		
-		JFormattedTextField formattedTextField = new JFormattedTextField(new MaskFormatter("###.###.###-##"));
-		formattedTextField.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		JFormattedTextField ftCpf = new JFormattedTextField(new MaskFormatter("###.###.###-##"));
+		ftCpf.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GroupLayout gl_panel_5_2 = new GroupLayout(panel_5_2);
 		gl_panel_5_2.setHorizontalGroup(
 			gl_panel_5_2.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_5_2.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(formattedTextField, GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE)
+					.addComponent(ftCpf, GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		gl_panel_5_2.setVerticalGroup(
 			gl_panel_5_2.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_5_2.createSequentialGroup()
-					.addComponent(formattedTextField, GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+					.addComponent(ftCpf, GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		panel_5_2.setLayout(gl_panel_5_2);
 		
-		textField_1 = new JTextField();
-		textField_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		textField_1.setColumns(10);
+		txtEndereco = new JTextField();
+		txtEndereco.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txtEndereco.setColumns(10);
 		GroupLayout gl_panel_5_1 = new GroupLayout(panel_5_1);
 		gl_panel_5_1.setHorizontalGroup(
 			gl_panel_5_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_5_1.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(textField_1, GroupLayout.DEFAULT_SIZE, 937, Short.MAX_VALUE)
+					.addComponent(txtEndereco, GroupLayout.DEFAULT_SIZE, 937, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		gl_panel_5_1.setVerticalGroup(
 			gl_panel_5_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_5_1.createSequentialGroup()
-					.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)
+					.addComponent(txtEndereco, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		panel_5_1.setLayout(gl_panel_5_1);
 		
-		textField = new JTextField();
-		textField.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		textField.setColumns(10);
+		txtNome = new JTextField();
+		txtNome.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txtNome.setColumns(10);
 		GroupLayout gl_panel_5 = new GroupLayout(panel_5);
 		gl_panel_5.setHorizontalGroup(
 			gl_panel_5.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_5.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(textField, GroupLayout.DEFAULT_SIZE, 937, Short.MAX_VALUE)
-					.addGap(12))
+					.addComponent(txtNome, GroupLayout.DEFAULT_SIZE, 955, Short.MAX_VALUE)
+					.addContainerGap())
 		);
 		gl_panel_5.setVerticalGroup(
 			gl_panel_5.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_5.createSequentialGroup()
-					.addComponent(textField, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addComponent(txtNome, GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+					.addContainerGap())
 		);
 		panel_5.setLayout(gl_panel_5);
 		
 		@SuppressWarnings("rawtypes")
-		JComboBox comboBox = new JComboBox();
-		comboBox.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		JComboBox cbFuncao = new JComboBox();
+		cbFuncao.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		GroupLayout gl_panel_4 = new GroupLayout(panel_4);
 		gl_panel_4.setHorizontalGroup(
 			gl_panel_4.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_4.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(comboBox, 0, 479, Short.MAX_VALUE)
+					.addComponent(cbFuncao, 0, 479, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		gl_panel_4.setVerticalGroup(
 			gl_panel_4.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_4.createSequentialGroup()
-					.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addComponent(cbFuncao, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(13, Short.MAX_VALUE))
 		);
 		panel_4.setLayout(gl_panel_4);
 		
-		JLabel lblNewLabel_1 = new JLabel("");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblNewLabel_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		JLabel LbMatricula = new JLabel("");
+		LbMatricula.setFont(new Font("Tahoma", Font.BOLD, 12));
+		LbMatricula.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		GroupLayout gl_panel_3 = new GroupLayout(panel_3);
 		gl_panel_3.setHorizontalGroup(
 			gl_panel_3.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_panel_3.createSequentialGroup()
+				.addGroup(gl_panel_3.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(lblNewLabel_1, GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
+					.addComponent(LbMatricula, GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		gl_panel_3.setVerticalGroup(
 			gl_panel_3.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_3.createSequentialGroup()
-					.addComponent(lblNewLabel_1, GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
+					.addComponent(LbMatricula, GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		panel_3.setLayout(gl_panel_3);
 		
 		JRadioButton RBSim = new JRadioButton("SIM");
+		
 		RBSim.setFont(new Font("Tahoma", Font.BOLD, 12));
 		
 		JRadioButton RBNao = new JRadioButton("N\u00C3O");
 		RBNao.setFont(new Font("Tahoma", Font.BOLD, 12));
+		
+		RBSim.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(RBSim.isSelected()) {
+					RBNao.setSelected(false);
+					RBSim.setSelected(true);
+				}
+			}
+		});
+		RBNao.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(RBNao.isSelected()) {
+					RBSim.setSelected(false);
+					RBNao.setSelected(true);
+				}
+			}
+		});
 		GroupLayout gl_panel_6 = new GroupLayout(panel_6);
 		gl_panel_6.setHorizontalGroup(
 			gl_panel_6.createParallelGroup(Alignment.LEADING)
@@ -308,12 +383,12 @@ public class CadastroFuncionarios extends JFrame {
 		panel_6.setLayout(gl_panel_6);
 		panel_2.setLayout(gl_panel_2);
 		
-		JButton btnNewButton = new JButton("   FECHAR");
-		btnNewButton.setIcon(new ImageIcon(CadastroFuncionarios.class.getResource("/img/cancel.png")));
-		btnNewButton.setBackground(Color.RED);
-		btnNewButton.setForeground(Color.WHITE);
-		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btnFechar = new JButton("   FECHAR");
+		btnFechar.setIcon(new ImageIcon(CadastroFuncionarios.class.getResource("/img/cancel.png")));
+		btnFechar.setBackground(Color.RED);
+		btnFechar.setForeground(Color.WHITE);
+		btnFechar.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnFechar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				main.GetFrame().setEnabled(true);
 				dispose();
@@ -342,7 +417,7 @@ public class CadastroFuncionarios extends JFrame {
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_1.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 149, GroupLayout.PREFERRED_SIZE)
+					.addComponent(btnFechar, GroupLayout.PREFERRED_SIZE, 149, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED, 361, Short.MAX_VALUE)
 					.addComponent(btnEditar, GroupLayout.PREFERRED_SIZE, 149, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
@@ -359,7 +434,7 @@ public class CadastroFuncionarios extends JFrame {
 						.addComponent(btnEditar, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnApagar, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnSalvar, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnNewButton, GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE))
+						.addComponent(btnFechar, GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		panel_1.setLayout(gl_panel_1);

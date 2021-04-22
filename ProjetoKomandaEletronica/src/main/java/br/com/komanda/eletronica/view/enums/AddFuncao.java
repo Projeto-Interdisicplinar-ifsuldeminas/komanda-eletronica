@@ -9,6 +9,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -16,6 +17,9 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+
+import br.com.komanda.eletronica.dao.FuncaoDao;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -26,7 +30,7 @@ public class AddFuncao extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textField;
+	private JTextField txtNomeFuncao;
 	
 	private CadastroDeFuncoes cad = null;
 
@@ -87,6 +91,19 @@ public class AddFuncao extends JFrame {
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 14));
 		
 		JButton btnCadastrar = new JButton("CADASTRAR");
+		btnCadastrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String nomeFuncao = txtNomeFuncao.getText();
+				FuncaoDao add = new FuncaoDao();
+				Boolean retorno = add.adicionar(nomeFuncao);
+				if(retorno) {
+					JOptionPane.showMessageDialog(null, "Cadastro efetuado com sucesso!");
+					dispose();
+				}else {
+					JOptionPane.showMessageDialog(null, "Ocorreu algum problema");
+				}
+			}
+		});
 		btnCadastrar.setBackground(new Color(34, 139, 34));
 		btnCadastrar.setForeground(new Color(255, 255, 255));
 		btnCadastrar.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -130,21 +147,21 @@ public class AddFuncao extends JFrame {
 					.addContainerGap())
 		);
 		
-		textField = new JTextField();
-		textField.setColumns(10);
+		txtNomeFuncao = new JTextField();
+		txtNomeFuncao.setColumns(10);
 		GroupLayout gl_panel_3 = new GroupLayout(panel_3);
 		gl_panel_3.setHorizontalGroup(
 			gl_panel_3.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_3.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(textField, GroupLayout.DEFAULT_SIZE, 547, Short.MAX_VALUE)
+					.addComponent(txtNomeFuncao, GroupLayout.DEFAULT_SIZE, 547, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		gl_panel_3.setVerticalGroup(
 			gl_panel_3.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_3.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(textField, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
+					.addComponent(txtNomeFuncao, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(20, Short.MAX_VALUE))
 		);
 		panel_3.setLayout(gl_panel_3);

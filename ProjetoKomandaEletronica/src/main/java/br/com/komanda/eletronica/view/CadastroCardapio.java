@@ -25,8 +25,9 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.MaskFormatter;
 
+import br.com.komanda.eletronica.dao.MesaDao;
 import br.com.komanda.eletronica.model.Mesa;
-import dao.MesaDao;
+
 import java.awt.FlowLayout;
 import javax.swing.JFormattedTextField;
 import javax.swing.JTextPane;

@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.util.InputMismatchException;
 import java.util.List;
 
 import javax.swing.GroupLayout;
@@ -24,8 +23,8 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
+import br.com.komanda.eletronica.dao.MesaDao;
 import br.com.komanda.eletronica.model.Mesa;
-import dao.MesaDao;
 
 public class CadastroMesas extends JFrame {
 

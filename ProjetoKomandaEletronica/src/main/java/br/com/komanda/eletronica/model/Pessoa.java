@@ -8,21 +8,40 @@ public class Pessoa {
 	private String Endereço;
 	private String Telefone;
 	private String Email;
-	private boolean IsFuncionario;
 	private boolean IsExcluido;
 
-	public Pessoa(int idPessoa, String nome, String cPF, String endereço, String telefone, String email,
-			boolean isFuncionario, boolean isExcuído) {
-		super();
+	public Pessoa(int idPessoa, String nome, String cPF, String endereço, String telefone, String email, boolean isExcuído) {
 		IdPessoa = idPessoa;
 		Nome = nome;
 		CPF = cPF;
 		Endereço = endereço;
 		Telefone = telefone;
 		Email = email;
-		IsFuncionario = isFuncionario;
 		IsExcluido = isExcuído;
 	}
+
+	
+
+	public Pessoa(int idPessoa, String nome, String cPF, String endereço, String telefone, String email) {
+		IdPessoa = idPessoa;
+		Nome = nome;
+		CPF = cPF;
+		Endereço = endereço;
+		Telefone = telefone;
+		Email = email;
+	}
+
+
+
+	public Pessoa(String nome, String cPF, String endereço, String telefone, String email, boolean isExcuído) {
+		Nome = nome;
+		CPF = cPF;
+		Endereço = endereço;
+		Telefone = telefone;
+		Email = email;
+	}
+
+
 
 	public int getIdPessoa() {
 		return IdPessoa;
@@ -70,14 +89,6 @@ public class Pessoa {
 
 	public void setEmail(String email) {
 		Email = email;
-	}
-
-	public boolean isIsFuncionario() {
-		return IsFuncionario;
-	}
-
-	public void setIsFuncionario(boolean isFuncionario) {
-		IsFuncionario = isFuncionario;
 	}
 
 	public boolean isIsExcluído() {

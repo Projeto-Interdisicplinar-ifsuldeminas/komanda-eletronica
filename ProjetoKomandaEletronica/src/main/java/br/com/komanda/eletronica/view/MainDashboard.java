@@ -11,6 +11,7 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -142,19 +143,6 @@ public class MainDashboard {
 		MenuItemAdicionar.setIcon(new ImageIcon(MainDashboard.class.getResource("/img/user_add.png")));
 		MenuPessoas.add(MenuItemAdicionar);
 
-		JMenuItem mntmNewMenuItem = new JMenuItem("Fun\u00E7\u00F5es");
-		mntmNewMenuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				CadastroDeFuncoes cadFuncoes = new CadastroDeFuncoes();
-				cadFuncoes.setLocationRelativeTo(null);
-				cadFuncoes.SetMainDashboard(main);
-				main.frmSistemaDeCadastro.setEnabled(false);
-				cadFuncoes.setVisible(true);
-			}
-		});
-		mntmNewMenuItem.setIcon(new ImageIcon(MainDashboard.class.getResource("/img/cog_add.png")));
-		MenuPessoas.add(mntmNewMenuItem);
-
 		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Alterar Senha");
 		mntmNewMenuItem_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -165,11 +153,34 @@ public class MainDashboard {
 				alterarSenha.setVisible(true);
 			}
 		});
+		
+				JMenuItem mntmNewMenuItem = new JMenuItem("Fun\u00E7\u00F5es");
+				MenuPessoas.add(mntmNewMenuItem);
+				mntmNewMenuItem.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						CadastroDeFuncoes cadFuncoes;
+						try {
+							cadFuncoes = new CadastroDeFuncoes();
+							cadFuncoes.setLocationRelativeTo(null);
+							cadFuncoes.SetMainDashboard(main);
+							main.frmSistemaDeCadastro.setEnabled(false);
+							cadFuncoes.setVisible(true);
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						
+					}
+				});
+				mntmNewMenuItem.setIcon(new ImageIcon(MainDashboard.class.getResource("/img/cog_add.png")));
 		mntmNewMenuItem_1.setIcon(new ImageIcon(MainDashboard.class.getResource("/img/Key.png")));
 		MenuPessoas.add(mntmNewMenuItem_1);
 
 		JMenu MenuProdutos = new JMenu("Produtos");
 		mnCadastro.add(MenuProdutos);
+		
+		JMenuItem mntmNewMenuItem_3 = new JMenuItem("Tipos de Produtos");
+		MenuProdutos.add(mntmNewMenuItem_3);
 
 		JMenu MenuMesas = new JMenu("Mesas");
 		MenuMesas.setIcon(new ImageIcon(MainDashboard.class.getResource("/img/book_next.png")));

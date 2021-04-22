@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -19,7 +20,15 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 import javax.swing.table.DefaultTableModel;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import br.com.komanda.eletronica.dao.FuncaoDao;
+import br.com.komanda.eletronica.model.Mesa;
+import br.com.komanda.eletronica.model.TiposdeFuncao;
 import br.com.komanda.eletronica.view.MainDashboard;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class CadastroDeFuncoes extends JFrame {
 
@@ -35,9 +44,10 @@ public class CadastroDeFuncoes extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws SQLException 
 	 */
 	@SuppressWarnings("serial")
-	public CadastroDeFuncoes() {
+	public CadastroDeFuncoes() throws SQLException {
 		
 		setUndecorated(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -61,31 +71,40 @@ public class CadastroDeFuncoes extends JFrame {
 					.addContainerGap()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-								.addComponent(panel_1, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(panel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+							.addComponent(panel_2, GroupLayout.DEFAULT_SIZE, 521, Short.MAX_VALUE)
+							.addGap(8))
+						.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+							.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 							.addContainerGap())
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(panel_2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addGap(8))))
+							.addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGap(7)
 					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 62, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 411, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 399, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(47, Short.MAX_VALUE))
+					.addContainerGap(13, Short.MAX_VALUE))
 		);
 		panel_1.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 11, 495, 389);
+		
+		scrollPane.setBounds(10, 11, 495, 377);
 		panel_1.add(scrollPane);
 		
 		tableFuncao = new JTable();
+		tableFuncao.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				//btnAtualizar.setEnable(true);
+			}
+		});
 		tableFuncao.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
@@ -93,23 +112,27 @@ public class CadastroDeFuncoes extends JFrame {
 				"Cod Fun\u00E7\u00E3o", "Nome Fun\u00E7\u00E3o"
 			}
 		) {
-			@SuppressWarnings("rawtypes")
 			Class[] columnTypes = new Class[] {
 				String.class, Object.class
 			};
-			@SuppressWarnings({ "rawtypes", "unchecked" })
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
-			}
-			boolean[] columnEditables = new boolean[] {
-				true, false
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
 			}
 		});
 		tableFuncao.getColumnModel().getColumn(1).setPreferredWidth(326);
 		scrollPane.setViewportView(tableFuncao);
+		
+		ArrayList<TiposdeFuncao> listaDeFuncoes = new ArrayList<>();
+		listaDeFuncoes = this.GetAllFuncoes();
+		
+		DefaultTableModel model = (DefaultTableModel) tableFuncao.getModel();
+		
+		for(int i=0; i < listaDeFuncoes.size(); i++) {
+			int id = listaDeFuncoes.get(i).getIdFuncao();
+			String nome = listaDeFuncoes.get(i).getFuncao();
+			model.insertRow(0, new Object[] { id, nome });
+		}
+		
 		
 		JButton btnNewButton = new JButton("  FECHAR");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -139,6 +162,7 @@ public class CadastroDeFuncoes extends JFrame {
 		btnAdicionar.setBackground(new Color(34, 139, 34));
 		
 		JButton btnAtualizar = new JButton("  ATUALIZAR");
+		btnAtualizar.setEnabled(false);
 		btnAtualizar.setIcon(new ImageIcon(CadastroDeFuncoes.class.getResource("/img/arrow_refresh.png")));
 		btnAtualizar.setForeground(Color.WHITE);
 		btnAtualizar.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -181,10 +205,10 @@ public class CadastroDeFuncoes extends JFrame {
 					.addContainerGap())
 		);
 		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
+			gl_panel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panel.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+					.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		panel.setLayout(gl_panel);
@@ -199,5 +223,9 @@ public class CadastroDeFuncoes extends JFrame {
 	
 	public MainDashboard GetMainDashboard() {
 		return main;
+	}
+	
+	public ArrayList<TiposdeFuncao> GetAllFuncoes() throws SQLException {
+		return new FuncaoDao().getAll();
 	}
 }

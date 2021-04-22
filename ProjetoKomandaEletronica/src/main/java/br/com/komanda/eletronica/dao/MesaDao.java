@@ -1,4 +1,4 @@
-package dao;
+package br.com.komanda.eletronica.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,8 +8,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.komanda.eletronica.connection.ConnectFactory;
 import br.com.komanda.eletronica.model.Mesa;
-import connection.ConnectFactory;
 
 public class MesaDao {
 
