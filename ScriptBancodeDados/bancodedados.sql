@@ -17,7 +17,7 @@ use komandaeletronica;
 /* Criação da tabela Pessoa
 ######################################## */
 create table pessoa (IdPessoa int NOT NULL AUTO_INCREMENT , 
-cpf int(11) NOT NULL, 
+cpf varchar(11) NOT NULL, 
 nome varchar(100) NOT NULL,
 endereco varchar(100), 
 telefone varchar (20),
