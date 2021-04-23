@@ -2,7 +2,9 @@ package br.com.komanda.eletronica.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import br.com.komanda.eletronica.connection.ConnectFactory;
 import br.com.komanda.eletronica.model.Funcionario;
@@ -11,41 +13,54 @@ import br.com.komanda.eletronica.model.Pessoa;
 
 public class FuncionarioDao {
 
-	@SuppressWarnings("unused")
-	private int idRetornoFuncionario;
-
 	/******************** Adicionando *****************/
 	public boolean adicionar(Funcionario funcionario, LoginFuncionarios login) {
 		//cpf, nome, endereco, telefone, email, isExcluido
-		Pessoa pessoa = new Pessoa(funcionario.getCPF(), funcionario.getNome(), funcionario.getEndereço(),funcionario.getTelefone(), funcionario.getEmail(), funcionario.isIsExcluido());
+		Pessoa pessoa = new Pessoa(funcionario.getNome(), funcionario.getCPF(), funcionario.getEndereço(),funcionario.getTelefone(), funcionario.getEmail(), funcionario.isIsExcluido());
 		PessoaDao novaPessoa = new PessoaDao();
 		int idRetorno = novaPessoa.adicionarComRetorno(pessoa);
 		Connection connection = null;
-		boolean sucesso = true;
+		boolean sucesso = false;
 		try {
 			connection = ConnectFactory.createConnection();
 			/* SQL */
-			String query = "insert into funcionario (idPessoa, NumeroRegistro, IdFuncao, IsGerente, isExcluido) values(?????)";
+			String query = "insert into funcionario (idPessoa, NumeroRegistro, IdFuncao, IsGerente, isExcluido) values(?,?,?,?,?)";
 			/* Preparando a Query */
-			PreparedStatement prepare = connection.prepareStatement(query);
+			PreparedStatement prepare = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			prepare.setInt(1, idRetorno);
 			prepare.setInt(2, funcionario.getNumeroRegistro());
 			prepare.setInt(3, funcionario.getIdFuncao());
 			prepare.setBoolean(4, funcionario.isIsGerente());
 			prepare.setBoolean(5, funcionario.isIsExcluido());
-			prepare.setString(6, "0");// Valor Zero pois mostra que ele não está excluído logicamente. Se alterar para valor 1, ele estará excluído logicamente
-			idRetornoFuncionario = prepare.executeUpdate();
+			prepare.execute();
 			
-			String queryLogin = "insert into loginfuncionario (idFuncionario, senha, nivelDeAcesso, IsBloqueado) values(????)";
-			/* Preparando a Query */
-			int senhaInicial = 12345678;
-			PreparedStatement prepareLogin = connection.prepareStatement(queryLogin);
-			prepareLogin.setInt(1, idRetornoFuncionario);
-			prepareLogin.setInt(2, senhaInicial);
-			prepareLogin.setInt(3, login.getNivelDeAcesso());
-			prepareLogin.setInt(4, 0);
-			idRetornoFuncionario = prepare.executeUpdate();
+			String sql = "SELECT IdFuncionario from funcionario where IdFuncionario = (select max(IdFuncionario) from funcionario);";
+			PreparedStatement stmt = (PreparedStatement) connection.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery();
+			rs.next();
+			int lastId = rs.getInt("IdFuncionario");
 
+			rs.close();
+			stmt.close();
+					
+			
+			/*ResultSet rs = prepare.getGeneratedKeys();
+			
+			if(rs.next()){
+				idRetornoFuncionario = rs.getInt(1);
+			}*/
+			
+			
+			String queryLogin = "insert into loginfuncionario (idFuncionario, senha, nivelDeAcesso, IsBloqueado) values(?,?,?,?)";
+			/* Preparando a Query */
+			String senhaInicial = "12345678";
+			PreparedStatement prepareLogin = connection.prepareStatement(queryLogin);
+			prepareLogin.setInt(1, lastId);
+			prepareLogin.setString(2, senhaInicial);
+			prepareLogin.setInt(3, login.getNivelDeAcesso());
+			prepareLogin.setBoolean(4, false);
+			prepareLogin.execute();
+			sucesso = true;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			sucesso = false;

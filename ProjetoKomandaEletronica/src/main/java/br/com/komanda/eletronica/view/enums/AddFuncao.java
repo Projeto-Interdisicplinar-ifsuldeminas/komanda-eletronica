@@ -98,6 +98,8 @@ public class AddFuncao extends JFrame {
 				Boolean retorno = add.adicionar(nomeFuncao);
 				if(retorno) {
 					JOptionPane.showMessageDialog(null, "Cadastro efetuado com sucesso!");
+					cad = getCad();
+					cad.setEnabled(true);
 					dispose();
 				}else {
 					JOptionPane.showMessageDialog(null, "Ocorreu algum problema");

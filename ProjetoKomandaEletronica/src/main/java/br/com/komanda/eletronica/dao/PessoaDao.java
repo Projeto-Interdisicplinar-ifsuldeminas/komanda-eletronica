@@ -53,20 +53,40 @@ public class PessoaDao {
 	public int adicionarComRetorno(Pessoa pessoa) {
 		Connection connection = null;
 		//boolean sucesso = true;
-		int res = 0;
+		int lastId = 0;
 		try {
 			connection = ConnectFactory.createConnection();
 			/* SQL */
-			String query = "insert into pessoa (cpf, nome, endereco, telefone, email, isExcluido) values(??????)";
+			String query = "insert into pessoa (cpf, nome, endereco, telefone, email, isExcluido) values(?,?,?,?,?,?)";
 			/* Preparando a Query */
-			PreparedStatement prepare = connection.prepareStatement(query);
-			prepare.setString(1, pessoa.getCPF());
+			PreparedStatement prepare = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+			
+			String cpf = pessoa.getCPF().replaceAll("\\p{Punct}", "");
+			cpf = cpf.replace( " " , ""); //tira espaço em branco
+			cpf = cpf.replace( "." , ""); //tira ponto
+			cpf = cpf.replace( "-" , ""); //tira hífen
+			
+			prepare.setString(1, cpf);
 			prepare.setString(2, pessoa.getNome());
 			prepare.setString(3, pessoa.getEndereço());
 			prepare.setString(4, pessoa.getTelefone());
 			prepare.setString(5, pessoa.getEmail());
-			prepare.setString(6, "0");// Valor Zero pois mostra que ele não está excluído logicamente. Se alterar para valor 1, ele estará excluído logicamente
-			res = prepare.executeUpdate();
+			prepare.setBoolean(6, false);
+			prepare.execute();
+			String sql = "SELECT IdPessoa from pessoa where IdPessoa = (select max(IdPessoa) from pessoa);";
+			PreparedStatement stmt = (PreparedStatement) connection.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery();
+			rs.next();
+			lastId = rs.getInt("IdPessoa");
+
+			rs.close();
+			stmt.close();
+			
+			/*ResultSet rs = prepare.getGeneratedKeys();
+			
+			if(rs.next()){
+				res = rs.getInt(1);
+			}*/
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -81,7 +101,7 @@ public class PessoaDao {
 			}
 		}
 
-		return res;
+		return lastId;
 	}
 	
 	/******************** Consulta por id *****************/

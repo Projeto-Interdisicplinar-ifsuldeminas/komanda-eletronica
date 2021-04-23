@@ -6,6 +6,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 
 import javax.swing.GroupLayout;
@@ -16,6 +17,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
@@ -24,8 +26,17 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.MaskFormatter;
+
+import br.com.komanda.eletronica.dao.FuncionarioDao;
+import br.com.komanda.eletronica.model.Funcionario;
+import br.com.komanda.eletronica.model.LoginFuncionarios;
+import br.com.komanda.eletronica.model.TiposdeFuncao;
+import br.com.komanda.eletronica.view.enums.CadastroDeFuncoes;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
+
 import javax.swing.DefaultComboBoxModel;
 
 public class CadastroFuncionarios extends JFrame {
@@ -40,6 +51,7 @@ public class CadastroFuncionarios extends JFrame {
 	private JTextField txtEmail;
 	
 	private static MainDashboard main = null;
+	private JTextField txtMatricula;
 
 	/**
 	 * Create the frame.
@@ -86,8 +98,8 @@ public class CadastroFuncionarios extends JFrame {
 					.addContainerGap()
 					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(panel_2, GroupLayout.DEFAULT_SIZE, 409, Short.MAX_VALUE)
-					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
 					.addComponent(panel_7, GroupLayout.PREFERRED_SIZE, 52, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 101, GroupLayout.PREFERRED_SIZE)
@@ -142,22 +154,22 @@ public class CadastroFuncionarios extends JFrame {
 			gl_panel_2.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_2.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_panel_2.createParallelGroup(Alignment.TRAILING)
-						.addGroup(gl_panel_2.createSequentialGroup()
+					.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
+						.addGroup(Alignment.TRAILING, gl_panel_2.createSequentialGroup()
 							.addComponent(panel_8, GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(panel_4, GroupLayout.DEFAULT_SIZE, 519, Short.MAX_VALUE))
-						.addGroup(gl_panel_2.createSequentialGroup()
+						.addGroup(Alignment.TRAILING, gl_panel_2.createSequentialGroup()
 							.addComponent(panel_3, GroupLayout.DEFAULT_SIZE, 843, Short.MAX_VALUE)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(panel_6, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_panel_2.createSequentialGroup()
+						.addGroup(Alignment.TRAILING, gl_panel_2.createSequentialGroup()
 							.addComponent(panel_5_2, GroupLayout.DEFAULT_SIZE, 675, Short.MAX_VALUE)
-							.addGap(6)
+							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(panel_5_2_1, GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE))
-						.addComponent(panel_5_1_1, GroupLayout.DEFAULT_SIZE, 987, Short.MAX_VALUE)
-						.addComponent(panel_5_1, GroupLayout.DEFAULT_SIZE, 987, Short.MAX_VALUE)
-						.addComponent(panel_5, GroupLayout.DEFAULT_SIZE, 987, Short.MAX_VALUE))
+						.addComponent(panel_5_1, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 987, Short.MAX_VALUE)
+						.addComponent(panel_5, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 987, Short.MAX_VALUE)
+						.addComponent(panel_5_1_1, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 987, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		gl_panel_2.setVerticalGroup(
@@ -169,27 +181,24 @@ public class CadastroFuncionarios extends JFrame {
 						.addComponent(panel_6, 0, 0, Short.MAX_VALUE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
-						.addComponent(panel_8, GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
+						.addComponent(panel_8, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 						.addComponent(panel_4, 0, 0, Short.MAX_VALUE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(panel_5, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(panel_5_1, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel_2.createSequentialGroup()
-							.addGap(11)
-							.addComponent(panel_5_2, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE))
-						.addComponent(panel_5_2_1, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_panel_2.createParallelGroup(Alignment.TRAILING)
+						.addComponent(panel_5_2_1, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
+						.addComponent(panel_5_2, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(panel_5_1_1, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
+					.addGap(16))
 		);
 		
-		@SuppressWarnings("rawtypes")
 		JComboBox comboBox = new JComboBox();
 		comboBox.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"SELECIONE", "1 - Administrador", "2 - Gerente", "3 - Atendente"}));
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"SELECIONE", "Administrador", "Gerente", "Atendente"}));
 		GroupLayout gl_panel_8 = new GroupLayout(panel_8);
 		gl_panel_8.setHorizontalGroup(
 			gl_panel_8.createParallelGroup(Alignment.LEADING)
@@ -299,9 +308,25 @@ public class CadastroFuncionarios extends JFrame {
 		);
 		panel_5.setLayout(gl_panel_5);
 		
-		@SuppressWarnings("rawtypes")
-		JComboBox cbFuncao = new JComboBox();
+		JComboBox<String> cbFuncao = new JComboBox();
+		cbFuncao.setModel(new DefaultComboBoxModel(new String[] {"SELECIONE"}));
 		cbFuncao.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		
+		try {
+			CadastroDeFuncoes cadFuncao = new CadastroDeFuncoes();
+			ArrayList<TiposdeFuncao> funcoes = cadFuncao.GetAllFuncoes();
+			for(TiposdeFuncao tipo : funcoes) {
+				cbFuncao.addItem(tipo.getFuncao().toString());
+			}
+			/*for(int i=0; i < funcoes.size(); i++) {
+				String texto = funcoes.get(i).getIdFuncao() + " - " + funcoes.get(i).getFuncao().toString();
+				cbFuncao.add
+			}*/
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}	
+		
 		GroupLayout gl_panel_4 = new GroupLayout(panel_4);
 		gl_panel_4.setHorizontalGroup(
 			gl_panel_4.createParallelGroup(Alignment.LEADING)
@@ -318,21 +343,21 @@ public class CadastroFuncionarios extends JFrame {
 		);
 		panel_4.setLayout(gl_panel_4);
 		
-		JLabel LbMatricula = new JLabel("");
-		LbMatricula.setFont(new Font("Tahoma", Font.BOLD, 12));
-		LbMatricula.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		txtMatricula = new JTextField();
+		txtMatricula.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txtMatricula.setColumns(10);
 		GroupLayout gl_panel_3 = new GroupLayout(panel_3);
 		gl_panel_3.setHorizontalGroup(
 			gl_panel_3.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_3.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(LbMatricula, GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
+					.addComponent(txtMatricula, GroupLayout.DEFAULT_SIZE, 811, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		gl_panel_3.setVerticalGroup(
 			gl_panel_3.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_3.createSequentialGroup()
-					.addComponent(LbMatricula, GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
+					.addComponent(txtMatricula, GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		panel_3.setLayout(gl_panel_3);
@@ -396,6 +421,7 @@ public class CadastroFuncionarios extends JFrame {
 		});
 		
 		JButton btnSalvar = new JButton("   SALVAR");
+		
 		btnSalvar.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnSalvar.setForeground(Color.WHITE);
 		btnSalvar.setBackground(new Color(0, 128, 0));
@@ -407,7 +433,7 @@ public class CadastroFuncionarios extends JFrame {
 		btnApagar.setForeground(Color.WHITE);
 		btnApagar.setIcon(new ImageIcon(CadastroFuncionarios.class.getResource("/img/user_delete.png")));
 		
-		JButton btnEditar = new JButton("   EDITAR");
+		JButton btnEditar = new JButton("   BUSCAR");
 		btnEditar.setIcon(new ImageIcon(CadastroFuncionarios.class.getResource("/img/user_edit.png")));
 		btnEditar.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnEditar.setForeground(Color.WHITE);
@@ -458,6 +484,45 @@ public class CadastroFuncionarios extends JFrame {
 					.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE)
 					.addContainerGap())
 		);
+		
+		btnSalvar.addActionListener(new ActionListener() {
+			@SuppressWarnings("unused")
+			public void actionPerformed(ActionEvent e) {
+				
+				boolean isGerente = false;
+				int control = 0;
+				
+				comboBox.getSelectedIndex();
+				cbFuncao.getSelectedIndex();
+				if(RBSim.isSelected()) {
+					isGerente = true;
+					control = 1;
+				}else if(RBNao.isSelected()) {
+					isGerente = false;
+					control = 1;
+				}
+				
+				if(control == 1) {
+					int index = cbFuncao.getSelectedIndex();
+					Funcionario funcionario = new Funcionario(txtNome.getText(), ftCpf.getText(),txtEndereco.getText(), 
+							ftTelefone.getText(), txtEmail.getText(), true, false, 
+							Integer.parseInt(txtMatricula.getText()),isGerente, false, index);
+					LoginFuncionarios login = new LoginFuncionarios("12345678", comboBox.getSelectedIndex(), false, funcionario);
+					FuncionarioDao conection = new FuncionarioDao();
+					boolean resultado = conection.adicionar(funcionario, login);
+					if(resultado == true) {
+						JOptionPane.showMessageDialog(null, "FUNCIONÁRIO CADASTRADO COM SUCESSO!");
+					}else {
+						JOptionPane.showMessageDialog(null, "ERRO AO CADASTRAR NOVO USUÁRIO");
+					}
+				}else {
+					JOptionPane.showMessageDialog(null, "POR FAVOR VERIFIQUE OS CAMPOS E TENTE NOVAMENTE!");
+				}
+				
+				
+			}
+		});
+		
 		panel.setLayout(gl_panel);
 		contentPane.setLayout(gl_contentPane);
 	}
@@ -469,6 +534,7 @@ public class CadastroFuncionarios extends JFrame {
 	public MainDashboard GetMainDashboard() {
 		return main;
 	}
+	
 	
 	public boolean ValidaCPF(String CPF) {
 		// considera-se erro CPF's formados por uma sequencia de numeros iguais

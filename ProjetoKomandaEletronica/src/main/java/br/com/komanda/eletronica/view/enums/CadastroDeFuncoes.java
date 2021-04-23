@@ -4,7 +4,10 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -12,6 +15,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -20,15 +24,9 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 import javax.swing.table.DefaultTableModel;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import br.com.komanda.eletronica.dao.FuncaoDao;
-import br.com.komanda.eletronica.model.Mesa;
 import br.com.komanda.eletronica.model.TiposdeFuncao;
 import br.com.komanda.eletronica.view.MainDashboard;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class CadastroDeFuncoes extends JFrame {
 
@@ -99,12 +97,7 @@ public class CadastroDeFuncoes extends JFrame {
 		panel_1.add(scrollPane);
 		
 		tableFuncao = new JTable();
-		tableFuncao.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				//btnAtualizar.setEnable(true);
-			}
-		});
+		
 		tableFuncao.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
@@ -112,27 +105,20 @@ public class CadastroDeFuncoes extends JFrame {
 				"Cod Fun\u00E7\u00E3o", "Nome Fun\u00E7\u00E3o"
 			}
 		) {
+			@SuppressWarnings("rawtypes")
 			Class[] columnTypes = new Class[] {
 				String.class, Object.class
 			};
+			@SuppressWarnings({ "rawtypes", "unchecked" })
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
 		});
+		
 		tableFuncao.getColumnModel().getColumn(1).setPreferredWidth(326);
 		scrollPane.setViewportView(tableFuncao);
 		
-		ArrayList<TiposdeFuncao> listaDeFuncoes = new ArrayList<>();
-		listaDeFuncoes = this.GetAllFuncoes();
-		
-		DefaultTableModel model = (DefaultTableModel) tableFuncao.getModel();
-		
-		for(int i=0; i < listaDeFuncoes.size(); i++) {
-			int id = listaDeFuncoes.get(i).getIdFuncao();
-			String nome = listaDeFuncoes.get(i).getFuncao();
-			model.insertRow(0, new Object[] { id, nome });
-		}
-		
+		PreencheTabela();
 		
 		JButton btnNewButton = new JButton("  FECHAR");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -162,12 +148,32 @@ public class CadastroDeFuncoes extends JFrame {
 		btnAdicionar.setBackground(new Color(34, 139, 34));
 		
 		JButton btnAtualizar = new JButton("  ATUALIZAR");
-		btnAtualizar.setEnabled(false);
+		btnAtualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					PreencheTabela();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		//btnAtualizar.setEnabled(false);
 		btnAtualizar.setIcon(new ImageIcon(CadastroDeFuncoes.class.getResource("/img/arrow_refresh.png")));
 		btnAtualizar.setForeground(Color.WHITE);
 		btnAtualizar.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnAtualizar.setBackground(new Color(255, 140, 0));
 		GroupLayout gl_panel_2 = new GroupLayout(panel_2);
+		
+		tableFuncao.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				//btnAtualizar.setEnabled(true);
+				int index = tableFuncao.getSelectedRow();
+				JOptionPane.showMessageDialog(null, index);
+			}
+		});
+		
 		gl_panel_2.setHorizontalGroup(
 			gl_panel_2.createParallelGroup(Alignment.LEADING)
 				.addGroup(Alignment.TRAILING, gl_panel_2.createSequentialGroup()
@@ -215,6 +221,20 @@ public class CadastroDeFuncoes extends JFrame {
 		contentPane.setLayout(gl_contentPane);
 		
 		cadastro = this;
+	}
+	
+	public void PreencheTabela() throws SQLException {		
+		ArrayList<TiposdeFuncao> listaDeFuncoes = new ArrayList<>();
+		listaDeFuncoes = this.GetAllFuncoes();
+		
+		DefaultTableModel model = (DefaultTableModel) tableFuncao.getModel();
+		model.setNumRows(0);
+		
+		for(int i=0; i < listaDeFuncoes.size(); i++) {
+			int id = listaDeFuncoes.get(i).getIdFuncao();
+			String nome = listaDeFuncoes.get(i).getFuncao();
+			model.insertRow(0, new Object[] { id, nome });
+		}
 	}
 	
 	public void SetMainDashboard(MainDashboard p) {

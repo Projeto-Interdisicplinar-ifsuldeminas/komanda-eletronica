@@ -8,8 +8,6 @@ public class Funcionario extends Pessoa {
 	private boolean IsGerente;
 	private boolean IsExcluido;
 
-	
-
 	public Funcionario(int idPessoa, String nome, String cPF, String endereço, String telefone, String email,
 			boolean isFuncionario, boolean isExcuído, int idFuncionario, int numeroRegistro, boolean isGerente,
 			boolean isExcluído, int idFunc) {
@@ -20,6 +18,17 @@ public class Funcionario extends Pessoa {
 		this.IsExcluido = isExcluído;
 		this.idFuncao = idFunc;
 	}
+	
+	public Funcionario(String nome, String CPF, String endereço, String telefone, String email,
+			boolean isFuncionario, boolean isExcuído, int matricula, boolean isGerente,
+			boolean isExcluído, int idFunc) {
+		super(nome, CPF, endereço, telefone, email, isExcuído);
+		this.NumeroRegistro = matricula;
+		this.IsGerente = isGerente;
+		this.IsExcluido = isExcluído;
+		this.idFuncao = idFunc;
+	}
+
 
 	public int getIdFuncionario() {
 		return idFuncionario;
@@ -59,10 +68,6 @@ public class Funcionario extends Pessoa {
 
 	public void setIdFuncao(int idFuncao) {
 		this.idFuncao = idFuncao;
-	}
-
-	
-	
-	
+	}	
 
 }

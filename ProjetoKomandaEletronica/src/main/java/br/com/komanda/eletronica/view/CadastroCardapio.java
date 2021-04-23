@@ -7,18 +7,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.util.InputMismatchException;
 import java.util.List;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
@@ -27,10 +28,6 @@ import javax.swing.text.MaskFormatter;
 
 import br.com.komanda.eletronica.dao.MesaDao;
 import br.com.komanda.eletronica.model.Mesa;
-
-import java.awt.FlowLayout;
-import javax.swing.JFormattedTextField;
-import javax.swing.JTextPane;
 
 public class CadastroCardapio extends JFrame {
 

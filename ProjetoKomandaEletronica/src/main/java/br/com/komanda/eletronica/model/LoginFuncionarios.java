@@ -16,6 +16,17 @@ public class LoginFuncionarios {
 		IsBloqueado = isBloqueado;
 		this.funcionario = funcionario;
 	}
+	
+	
+
+	public LoginFuncionarios(String senha, int nivelDeAcesso, boolean isBloqueado, Funcionario funcionario) {
+		Senha = senha;
+		NivelDeAcesso = nivelDeAcesso;
+		IsBloqueado = isBloqueado;
+		this.funcionario = funcionario;
+	}
+
+
 
 	public int getIdLoginFuncionario() {
 		return IdLoginFuncionario;

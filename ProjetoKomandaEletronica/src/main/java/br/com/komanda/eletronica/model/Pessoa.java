@@ -10,14 +10,14 @@ public class Pessoa {
 	private String Email;
 	private boolean IsExcluido;
 
-	public Pessoa(int idPessoa, String nome, String cPF, String endereço, String telefone, String email, boolean isExcuído) {
+	public Pessoa(int idPessoa, String nome, String cPF, String endereço, String telefone, String email, boolean isExcluído) {
 		IdPessoa = idPessoa;
 		Nome = nome;
 		CPF = cPF;
 		Endereço = endereço;
 		Telefone = telefone;
 		Email = email;
-		IsExcluido = isExcuído;
+		IsExcluido = isExcluído;
 	}
 
 	
@@ -33,7 +33,7 @@ public class Pessoa {
 
 
 
-	public Pessoa(String nome, String cPF, String endereço, String telefone, String email, boolean isExcuído) {
+	public Pessoa(String nome, String cPF, String endereço, String telefone, String email, boolean isExcluído) {
 		Nome = nome;
 		CPF = cPF;
 		Endereço = endereço;
