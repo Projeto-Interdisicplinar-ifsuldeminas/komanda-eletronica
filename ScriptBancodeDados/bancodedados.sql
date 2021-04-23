@@ -17,12 +17,12 @@ use komandaeletronica;
 /* Criação da tabela Pessoa
 ######################################## */
 create table pessoa (IdPessoa int NOT NULL AUTO_INCREMENT , 
-cpf int(9) NOT NULL, 
-nome varchar(50) NOT NULL,
+cpf int(11) NOT NULL, 
+nome varchar(100) NOT NULL,
 endereco varchar(100), 
 telefone varchar (20),
-email varchar (20), 
-IsExcluido varchar (20), 
+email varchar (50), 
+IsExcluido bool, 
 primary key (IdPessoa));
 
 /* Criação da tabela LoginUsuario
@@ -30,14 +30,14 @@ primary key (IdPessoa));
 create table LoginUsuario (IdLoginUsuario int NOT NULL AUTO_INCREMENT , 
 IdPessoa int, 
 senha varchar (20),
-isBloqueado varchar (20),
+isBloqueado bool,
 primary key (IdLoginUsuario),
 foreign key (IdPessoa) references pessoa (IdPessoa));
 
 /* Criação da tabela Tipo de Funcao
 ######################################## */
 create table TiposDeFuncao (IdFuncao int NOT NULL AUTO_INCREMENT , 
-NomeFuncao varchar (20),
+NomeFuncao varchar (100),
 primary key (IdFuncao));
 
 /* Criação da tabela Funcionario
@@ -46,8 +46,8 @@ create table Funcionario (IdFuncionario int NOT NULL AUTO_INCREMENT ,
 IdPessoa int, 
 NumeroRegistro int (11) NOT NULL,
 IdFuncao int, 
-IsGerente varchar (11),
-IsExcluido varchar (11),
+IsGerente bool,
+IsExcluido bool,
 primary key (IdFuncionario),
 foreign key (IdPessoa) references pessoa (IdPessoa),
 foreign key (IdFuncao) references TiposDeFuncao (IdFuncao));
@@ -57,8 +57,8 @@ foreign key (IdFuncao) references TiposDeFuncao (IdFuncao));
 create table LoginFuncionario (IdLoginFuncionario int NOT NULL AUTO_INCREMENT , 
 IdFuncionario int,
 senha varchar(20),
-NivelDeAcesso varchar(20),
-IsBloqueado varchar (20),
+NivelDeAcesso int(2),
+IsBloqueado bool,
 primary key (IdLoginFuncionario),
 foreign key (IdFuncionario) references Funcionario (IdFuncionario));
 
@@ -75,13 +75,13 @@ create table ProdutoCardapio (IdProdutoCardapio int NOT NULL AUTO_INCREMENT ,
 Nome varchar (20),
 IdTipoDeProduto int,
 Peso decimal,
-Descricao varchar(30),
+Descricao varchar(200),
 
 Valor decimal, 
 InformacaoesNutricionais varchar(200),
 QuantidadeDePessoasQueServe int(11),
 Quantidade int(11), 
-IsExcluido varchar(20),
+IsExcluido bool,
 
 primary key (IdProdutoCardapio),
 foreign key (IdTipoDeProduto) references TipoDeProduto (Id));
@@ -107,7 +107,7 @@ Nome varchar (20),
 Peso decimal,
 Descricao varchar (20),
 InformacoesAdicionais varchar (50),
-IsExcluido varchar (20),
+IsExcluido bool,
 primary key (IdProdutoEstoque));
 
 /* Criação da tabela Estoque
