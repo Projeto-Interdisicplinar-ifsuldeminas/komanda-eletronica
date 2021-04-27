@@ -8,26 +8,32 @@ public class ProdutoCardapio {
 	private double Peso;
 	private String Descricao;
 	private double Valor;
-	private String informaçõesNutricionais;
+	private String informacoesNutricionais;
 	private int QuantidadeDePessoasQueServe;
-	private int Quantidade;
 	private boolean IsExcluido;
 
-	private String produto = TipoDeProduto.Produto1.getProduto();
-
 	public ProdutoCardapio(String idProdutoCardapio, String nome, double peso, String descricao, double valor,
-			String informaçõesNutricionais, int quantidadeDePessoasQueServe, int quantidade, boolean isExcluido,
-			String produto) {
+			String informacoesNutricionais, int quantidadeDePessoasQueServe, boolean isExcluido) {
+
 		IdProdutoCardapio = idProdutoCardapio;
 		Nome = nome;
 		Peso = peso;
 		Descricao = descricao;
 		Valor = valor;
-		this.informaçõesNutricionais = informaçõesNutricionais;
+		this.informacoesNutricionais = informacoesNutricionais;
 		QuantidadeDePessoasQueServe = quantidadeDePessoasQueServe;
-		Quantidade = quantidade;
 		IsExcluido = isExcluido;
-		this.produto = produto;
+	}
+
+	public ProdutoCardapio(String nome, double peso, String descricao, double valor, String informacoesNutricionais,
+			int quantidadeDePessoasQueServe, boolean isExcluido) {
+		Nome = nome;
+		Peso = peso;
+		Descricao = descricao;
+		Valor = valor;
+		this.informacoesNutricionais = informacoesNutricionais;
+		QuantidadeDePessoasQueServe = quantidadeDePessoasQueServe;
+		IsExcluido = isExcluido;
 	}
 
 	public String getIdProdutoCardapio() {
@@ -70,12 +76,12 @@ public class ProdutoCardapio {
 		Valor = valor;
 	}
 
-	public String getInformaçõesNutricionais() {
-		return informaçõesNutricionais;
+	public String getInformacoesNutricionais() {
+		return informacoesNutricionais;
 	}
 
-	public void setInformaçõesNutricionais(String informaçõesNutricionais) {
-		this.informaçõesNutricionais = informaçõesNutricionais;
+	public void setInformacoesNutricionais(String informacoesNutricionais) {
+		this.informacoesNutricionais = informacoesNutricionais;
 	}
 
 	public int getQuantidadeDePessoasQueServe() {
@@ -86,14 +92,6 @@ public class ProdutoCardapio {
 		QuantidadeDePessoasQueServe = quantidadeDePessoasQueServe;
 	}
 
-	public int getQuantidade() {
-		return Quantidade;
-	}
-
-	public void setQuantidade(int quantidade) {
-		Quantidade = quantidade;
-	}
-
 	public boolean isIsExcluido() {
 		return IsExcluido;
 	}
@@ -101,15 +99,5 @@ public class ProdutoCardapio {
 	public void setIsExcluido(boolean isExcluido) {
 		IsExcluido = isExcluido;
 	}
-
-	public String getProduto() {
-		return produto;
-	}
-
-	public void setProduto(String produto) {
-		this.produto = produto;
-	}
-	
-	
 
 }

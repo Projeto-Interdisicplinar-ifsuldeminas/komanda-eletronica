@@ -170,9 +170,11 @@ public class Login extends JFrame {
 	}
 	
 	public void ValidaUsuario(String usuario, String senha) {
-		LoginDao loginDao = new LoginDao();
+//		LoginDao loginDao = new LoginDao();
+//		
+//		boolean retorno = loginDao.ValidaLoginFuncionarios(usuario, senha);
 		
-		boolean retorno = loginDao.ValidaLoginFuncionarios(usuario, senha);
+		boolean retorno = true;
 		
 		if(retorno) {
 			this.dispose();
