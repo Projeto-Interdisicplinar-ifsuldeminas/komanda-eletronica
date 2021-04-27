@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 import java.sql.SQLException;
+import java.text.ParseException;
 
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
@@ -96,7 +97,7 @@ public class SplashScreen extends JFrame {
 		
 	}
 	
-	public void ShowLogin(SplashScreen splash) {
+	public void ShowLogin(SplashScreen splash) throws ParseException {
 		Login login = new Login();
 		login.setLocationRelativeTo(null);
 		//splash.dispose();
@@ -111,7 +112,7 @@ public class SplashScreen extends JFrame {
 								
 	}
 	
-	public void ShowSplash() {
+	public void ShowSplash() throws ParseException {
 		try {
 			Thread.sleep(5000);
 			//login.FechaSplashScreen(splash);
@@ -128,8 +129,9 @@ public class SplashScreen extends JFrame {
 	
 	/**
 	 * Launch the application.
+	 * @throws ParseException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ParseException {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
