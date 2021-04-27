@@ -12,7 +12,7 @@ public class ConnectFactory {
 		//TODO nome do banco, Usuario e Senha
 		String nomeBanco = "komandaeletronica";
 		String user = "root";
-		String password = "";
+		String password = "root";
 		String url = String.format("jdbc:mysql://%s:%s/%s?useTimezone=true&serverTimezone=UTC", servidor, porta,
 				nomeBanco);
 
