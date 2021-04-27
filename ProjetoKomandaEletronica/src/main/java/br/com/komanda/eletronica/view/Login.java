@@ -27,6 +27,7 @@ import br.com.komanda.eletronica.dao.LoginDao;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JFormattedTextField;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 @SuppressWarnings({ "serial", "unused" })
 public class Login extends JFrame {
@@ -34,6 +35,7 @@ public class Login extends JFrame {
 	private JPanel contentPane;
 	private JPasswordField pfSenha;
 	private static MainDashboard main = null;
+	private LoginDao loginDao;
 
 	/**
 	 * Launch the application.
@@ -125,15 +127,25 @@ public class Login extends JFrame {
 			}
 		});
 		btnCancel.setBackground(new Color(255, 0, 0));
+		
+		JLabel lblNewLabel_1 = new JLabel("Para teste utilize o cpf 12345678900 e a senha 'master'");
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_1.setForeground(Color.RED);
 		GroupLayout gl_panel_2 = new GroupLayout(panel_2);
 		gl_panel_2.setHorizontalGroup(
 			gl_panel_2.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_2.createSequentialGroup()
-					.addGap(23)
-					.addComponent(btnOk, GroupLayout.PREFERRED_SIZE, 180, GroupLayout.PREFERRED_SIZE)
-					.addGap(27)
-					.addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, 180, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel_2.createSequentialGroup()
+							.addGap(23)
+							.addComponent(btnOk, GroupLayout.PREFERRED_SIZE, 180, GroupLayout.PREFERRED_SIZE)
+							.addGap(27)
+							.addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, 180, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panel_2.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(lblNewLabel_1, GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)))
+					.addContainerGap())
 		);
 		gl_panel_2.setVerticalGroup(
 			gl_panel_2.createParallelGroup(Alignment.LEADING)
@@ -142,7 +154,9 @@ public class Login extends JFrame {
 					.addGroup(gl_panel_2.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, 68, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnOk, GroupLayout.PREFERRED_SIZE, 68, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(24, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addComponent(lblNewLabel_1)
+					.addContainerGap())
 		);
 		panel_2.setLayout(gl_panel_2);
 		
@@ -170,11 +184,15 @@ public class Login extends JFrame {
 	}
 	
 	public void ValidaUsuario(String usuario, String senha) {
-//		LoginDao loginDao = new LoginDao();
-//		
-//		boolean retorno = loginDao.ValidaLoginFuncionarios(usuario, senha);
-		
-		boolean retorno = true;
+		boolean retorno = false;
+		loginDao = new LoginDao();
+		if(usuario.equals("123.456.789-00") && senha.equals("master")) {
+			retorno = true;
+		}else {
+						
+			retorno = loginDao.ValidaLoginFuncionarios(usuario, senha);
+		}		
+		//boolean retorno = true;
 		
 		if(retorno) {
 			this.dispose();
@@ -184,6 +202,7 @@ public class Login extends JFrame {
 			}else {
 				window = new MainDashboard(this);
 			}
+			window.setIdFuncionario(loginDao.getIdFuncionario());
 			window.GetFrame().setVisible(true);
 			window.GetFrame().setLocationRelativeTo(null);
 		}else {

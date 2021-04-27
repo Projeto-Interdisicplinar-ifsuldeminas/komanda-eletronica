@@ -58,7 +58,7 @@ public class FuncionarioDao {
 			
 			PreparedStatement prepareLogin = connection.prepareStatement(queryLogin);
 			prepareLogin.setInt(1, lastId);
-			prepareLogin.setString(2, login.Cripto(login.getSenha()));
+			prepareLogin.setString(2, login.criptografiaBase64Encoder(login.getSenha()));
 			prepareLogin.setInt(3, login.getNivelDeAcesso());
 			prepareLogin.setBoolean(4, false);
 			prepareLogin.execute();
@@ -77,6 +77,23 @@ public class FuncionarioDao {
 		}
 
 		return sucesso;
+	}
+	
+	/******************** Consulta por id *****************/
+	public Funcionario consultaid(int identificacao) throws SQLException {
+		Connection connection = ConnectFactory.createConnection();
+		String query = "SELECT a.IdFuncionario, b.IdPessoa, b. cpf, a.NumeroRegistro, a.IdFuncao, a.IsGerente, b.nome, a.IsExcluido FROM komandaeletronica.funcionario as a INNER JOIN\r\n"
+				+ "pessoa as b WHERE a.IdFuncionario = " + identificacao;
+
+		PreparedStatement stmt = (PreparedStatement) connection.prepareStatement(query);
+		ResultSet rs = stmt.executeQuery();
+		rs.next();
+		Funcionario func = new Funcionario(rs.getInt("IdFuncionario"), rs.getInt("IdPessoa"), rs.getString("nome"), 
+				rs.getString("cpf"), rs.getBoolean("IsExcluido"), rs.getInt("NumeroRegistro"), rs.getBoolean("IsGerente"), 
+				rs.getInt("IdFuncao"));
+		
+		return func;
+
 	}
 
 }

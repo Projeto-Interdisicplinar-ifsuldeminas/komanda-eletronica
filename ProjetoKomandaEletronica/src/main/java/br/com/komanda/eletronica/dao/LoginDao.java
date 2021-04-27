@@ -5,20 +5,35 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import javax.swing.JOptionPane;
-
 import br.com.komanda.eletronica.connection.ConnectFactory;
 import br.com.komanda.eletronica.model.LoginFuncionarios;
 
 public class LoginDao {
 	
+	private int IdFuncionario;
+	
 	public LoginDao() {
 		
 	}
 	
+	
+	
+	public int getIdFuncionario() {
+		return IdFuncionario;
+	}
+
+
+
+	public void setIdFuncionario(int idFuncionario) {
+		IdFuncionario = idFuncionario;
+	}
+
+
+
 	public boolean ValidaLoginFuncionarios(String usuario, String senha) {
 		
 		Connection connection = null;
+		@SuppressWarnings("unused")
 		boolean successo = false;
 		try {
 			connection = ConnectFactory.createConnection();
@@ -33,17 +48,18 @@ public class LoginDao {
 			PreparedStatement stmt = (PreparedStatement) connection.prepareStatement(sql);
 			ResultSet rs = stmt.executeQuery();
 			rs.next();
-			int IdFuncionario = rs.getInt("IdLoginFuncionario");
+			
+			this.setIdFuncionario(rs.getInt("IdLoginFuncionario"));
 			String senhaFuncionario = rs.getString("senha");
 			String CpfFuncionario = rs.getString("cpf");
 					
 			//loginFunc.setSenha();
-			String senhaLogin = loginFunc.Decripto(senhaFuncionario); 
+			String senhaLogin = loginFunc.descriptografiaBase64Decode(senhaFuncionario); 
 			if(cpf.equals(CpfFuncionario) && senha.equals(senhaLogin)) {
-				JOptionPane.showMessageDialog(null, "PAssou");
+				//JOptionPane.showMessageDialog(null, "PAssou");
 				return true;
 			}else {
-				JOptionPane.showMessageDialog(null, "Não Passou");
+				//JOptionPane.showMessageDialog(null, "Não Passou");
 				return false;
 			}
 			
@@ -55,7 +71,7 @@ public class LoginDao {
 		return false;
 	}
 	
-	public void AlteraSenhaFuncionarios() {
+	public void AlteraSenhaFuncionarios(String usuario, String senha, String senha2) {
 		
 	}
 

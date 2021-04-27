@@ -1,5 +1,7 @@
 package br.com.komanda.eletronica.model;
 
+import java.util.Base64;
+
 public class LoginFuncionarios {
 
 	private int IdLoginFuncionario;
@@ -70,42 +72,14 @@ public class LoginFuncionarios {
 		this.funcionario = funcionario;
 	}
 	
-	public String Cripto(String senha)
-	{
-		//Criptografa a String passada por parâmetro
-		int contador, tamanho,codigoASCII;
-		String senhaCriptografada = "";
-		tamanho = senha.length();
-		senha = senha.toUpperCase();
-		contador = 0;
-		
-		while(contador <tamanho)
-		{
-			codigoASCII = senha.charAt(contador)+130;
-			senhaCriptografada = senhaCriptografada +(char) codigoASCII;
-			contador++;
-		}
-		
-		return senhaCriptografada;
+	/** Criptografando */
+	public String criptografiaBase64Encoder(String pValor) {
+	    return new String(Base64.getEncoder().encode(pValor.getBytes()));
 	}
 	
-	public String Decripto(String senha)
-	{
-		//Descriptografa a String passada por parâmetro
-		int contador, tamanho,codigoASCII;
-		String senhaCriptografada = "";
-		tamanho = senha.length();
-		senha = senha.toUpperCase();
-		contador = 0;
-		
-		while(contador <tamanho)
-		{
-			codigoASCII = senha.charAt(contador)-130;
-			senhaCriptografada = senhaCriptografada +(char) codigoASCII;
-			contador++;
-		}
-		
-		return senhaCriptografada;
+	/** Realizando o inverso */
+	public String descriptografiaBase64Decode(String pValor) {
+	    return new String(Base64.getDecoder().decode(pValor.getBytes()));
 	}
 	
 

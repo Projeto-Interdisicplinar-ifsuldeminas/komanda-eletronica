@@ -31,6 +31,8 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
+import br.com.komanda.eletronica.dao.FuncionarioDao;
+import br.com.komanda.eletronica.model.Funcionario;
 import br.com.komanda.eletronica.view.enums.CadastroDeFuncoes;
 
 import java.awt.FlowLayout;
@@ -49,6 +51,9 @@ public class MainDashboard {
 	private JLabel JLData;
 	private static Login login;
 	private static MainDashboard main = null;
+	
+	private int IdFuncionario;
+	private Funcionario func;
 
 	/**
 	 * Launch the application.
@@ -69,6 +74,20 @@ public class MainDashboard {
 		login = log;
 		main = this;
 	}
+	
+	
+
+	public int getIdFuncionario() {
+		return IdFuncionario;
+	}
+
+
+
+	public void setIdFuncionario(int idFuncionario) {
+		IdFuncionario = idFuncionario;
+	}
+
+
 
 	/**
 	 * Initialize the contents of the frame.
@@ -434,6 +453,10 @@ public class MainDashboard {
 
 		frmSistemaDeCadastro.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		// frmSistemaDeCadastro.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+		
+		this.BuscaFuncionario(this.getIdFuncionario());
+		
+		
 	}
 
 	// classe hora
@@ -443,6 +466,17 @@ public class MainDashboard {
 			Calendar now = Calendar.getInstance();
 			JLHora.setText(String.format("%1$tH:%1$tM:%1$tS", now));
 		}
+	}
+	
+	public void BuscaFuncionario(int id) {
+		FuncionarioDao funcDao = new FuncionarioDao();
+		try {
+			func = funcDao.consultaid(id);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//return func;
 	}
 
 	public JFrame GetFrame() {

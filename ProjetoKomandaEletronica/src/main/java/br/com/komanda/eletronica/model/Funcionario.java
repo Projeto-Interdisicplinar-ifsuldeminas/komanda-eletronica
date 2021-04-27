@@ -29,6 +29,15 @@ public class Funcionario extends Pessoa {
 		this.idFuncao = idFunc;
 	}
 
+	public Funcionario(int idFuncionario, int idPessoa, String nome, String CPF, boolean isExcluído, int matricula, boolean isGerente, int idFunc) {
+		// TODO Auto-generated constructor stub
+		super(idPessoa, nome, CPF);
+		this.idFuncionario = idFuncionario;
+		this.NumeroRegistro = matricula;
+		this.IsGerente = isGerente;
+		this.IsExcluido = isExcluído;
+		this.idFuncao = idFunc;
+	}
 
 	public int getIdFuncionario() {
 		return idFuncionario;

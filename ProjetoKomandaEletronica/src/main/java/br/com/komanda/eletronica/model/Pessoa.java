@@ -43,6 +43,15 @@ public class Pessoa {
 
 
 
+	public Pessoa(int idPessoa, String nome, String cPF) {
+		// TODO Auto-generated constructor stub
+		IdPessoa = idPessoa;
+		Nome = nome;
+		CPF = cPF;
+	}
+
+
+
 	public int getIdPessoa() {
 		return IdPessoa;
 	}
