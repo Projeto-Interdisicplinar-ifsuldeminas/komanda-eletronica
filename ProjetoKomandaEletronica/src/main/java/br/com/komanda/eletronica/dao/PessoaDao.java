@@ -25,7 +25,12 @@ public class PessoaDao {
 			String query = "insert into pessoa (cpf, nome, endereco, telefone, email, isExcluido) values(?)";
 			/* Preparando a Query */
 			PreparedStatement prepare = connection.prepareStatement(query);
-			prepare.setString(1, p.getCPF());
+			String cpf = p.getCPF();
+			cpf = cpf.replace( " " , ""); //tira espaço em branco
+			cpf = cpf.replace( "." , ""); //tira ponto
+			cpf = cpf.replace( "/" , ""); //tira barra
+			cpf = cpf.replace( "-" , ""); //tira hífen
+			prepare.setString(1, cpf);
 			prepare.setString(2, p.getNome());
 			prepare.setString(3, p.getEndereço());
 			prepare.setString(4, p.getTelefone());

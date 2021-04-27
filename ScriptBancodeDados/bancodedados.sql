@@ -69,22 +69,17 @@ Nome varchar (20),
 primary key (Id));
 
 /* Criação da tabela Produtos do Cardapio
-Obeservação: Revisar os campos se todos são necessarios
+Tabela Cardapio para pratos 
 ######################################## */
 create table ProdutoCardapio (IdProdutoCardapio int NOT NULL AUTO_INCREMENT , 
-Nome varchar (20),
-IdTipoDeProduto int,
+Nome varchar (20) NOT NULL,
 Peso decimal,
 Descricao varchar(200),
-
 Valor decimal, 
 InformacaoesNutricionais varchar(200),
-QuantidadeDePessoasQueServe int(11),
-Quantidade int(11), 
+QuantidadeDePessoasQueServe int(11), 
 IsExcluido bool,
-
-primary key (IdProdutoCardapio),
-foreign key (IdTipoDeProduto) references TipoDeProduto (Id));
+primary key (IdProdutoCardapio));
 
 /* Criação da tabela Pedito
 ######################################## */
@@ -102,7 +97,7 @@ foreign key (IdPedido) references Pedido(IdPedido));
 
 /* Criação da tabela Tipo de Produto Estoque
 ######################################## */
-create table ProdutoEstoque (IdProdutoEstoque int NOT NULL AUTO_INCREMENT , 
+create table ProdutoEstoque (IdProdutoEstoque int NOT NULL AUTO_INCREMENT, 
 Nome varchar (20),
 Peso decimal,
 Descricao varchar (20),
