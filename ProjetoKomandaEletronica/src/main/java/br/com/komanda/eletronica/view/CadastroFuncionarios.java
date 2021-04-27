@@ -35,7 +35,6 @@ import br.com.komanda.eletronica.view.enums.CadastroDeFuncoes;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
 import javax.swing.DefaultComboBoxModel;
@@ -510,13 +509,7 @@ public class CadastroFuncionarios extends JFrame {
 							Integer.parseInt(txtMatricula.getText()),isGerente, false, index);
 					LoginFuncionarios login = new LoginFuncionarios("12345678", comboBox.getSelectedIndex(), false, funcionario);
 					FuncionarioDao conection = new FuncionarioDao();
-					boolean resultado = false;
-					try {
-						resultado = conection.adicionar(funcionario, login);
-					} catch (NoSuchAlgorithmException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+					boolean resultado = conection.adicionar(funcionario, login);
 					if(resultado == true) {
 						JOptionPane.showMessageDialog(null, "FUNCIONÁRIO CADASTRADO COM SUCESSO!");
 					}else {

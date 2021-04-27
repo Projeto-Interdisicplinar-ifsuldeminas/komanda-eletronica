@@ -26,9 +26,7 @@ public class LoginFuncionarios {
 		this.funcionario = funcionario;
 	}
 
-	public LoginFuncionarios() {
-		
-	}
+
 
 	public int getIdLoginFuncionario() {
 		return IdLoginFuncionario;
@@ -70,43 +68,6 @@ public class LoginFuncionarios {
 		this.funcionario = funcionario;
 	}
 	
-	public String Cripto(String senha)
-	{
-		//Criptografa a String passada por parâmetro
-		int contador, tamanho,codigoASCII;
-		String senhaCriptografada = "";
-		tamanho = senha.length();
-		senha = senha.toUpperCase();
-		contador = 0;
-		
-		while(contador <tamanho)
-		{
-			codigoASCII = senha.charAt(contador)+130;
-			senhaCriptografada = senhaCriptografada +(char) codigoASCII;
-			contador++;
-		}
-		
-		return senhaCriptografada;
-	}
-	
-	public String Decripto(String senha)
-	{
-		//Descriptografa a String passada por parâmetro
-		int contador, tamanho,codigoASCII;
-		String senhaCriptografada = "";
-		tamanho = senha.length();
-		senha = senha.toUpperCase();
-		contador = 0;
-		
-		while(contador <tamanho)
-		{
-			codigoASCII = senha.charAt(contador)-130;
-			senhaCriptografada = senhaCriptografada +(char) codigoASCII;
-			contador++;
-		}
-		
-		return senhaCriptografada;
-	}
 	
 
 }

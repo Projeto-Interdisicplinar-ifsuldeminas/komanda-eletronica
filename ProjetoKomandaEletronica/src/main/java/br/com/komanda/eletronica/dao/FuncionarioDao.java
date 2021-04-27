@@ -1,6 +1,5 @@
 package br.com.komanda.eletronica.dao;
 
-import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,9 +13,8 @@ import br.com.komanda.eletronica.model.Pessoa;
 
 public class FuncionarioDao {
 
-	/******************** Adicionando 
-	 * @throws NoSuchAlgorithmException *****************/
-	public boolean adicionar(Funcionario funcionario, LoginFuncionarios login) throws NoSuchAlgorithmException {
+	/******************** Adicionando *****************/
+	public boolean adicionar(Funcionario funcionario, LoginFuncionarios login) {
 		//cpf, nome, endereco, telefone, email, isExcluido
 		Pessoa pessoa = new Pessoa(funcionario.getNome(), funcionario.getCPF(), funcionario.getEndereço(),funcionario.getTelefone(), funcionario.getEmail(), funcionario.isIsExcluido());
 		PessoaDao novaPessoa = new PessoaDao();
@@ -55,10 +53,10 @@ public class FuncionarioDao {
 			
 			String queryLogin = "insert into loginfuncionario (idFuncionario, senha, nivelDeAcesso, IsBloqueado) values(?,?,?,?)";
 			/* Preparando a Query */
-			
+			String senhaInicial = "12345678";
 			PreparedStatement prepareLogin = connection.prepareStatement(queryLogin);
 			prepareLogin.setInt(1, lastId);
-			prepareLogin.setString(2, login.Cripto(login.getSenha()));
+			prepareLogin.setString(2, senhaInicial);
 			prepareLogin.setInt(3, login.getNivelDeAcesso());
 			prepareLogin.setBoolean(4, false);
 			prepareLogin.execute();

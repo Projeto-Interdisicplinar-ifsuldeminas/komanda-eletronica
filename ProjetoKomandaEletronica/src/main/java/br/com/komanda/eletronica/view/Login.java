@@ -8,7 +8,6 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Dimension;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.JTextField;
@@ -16,23 +15,18 @@ import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.event.ActionListener;
-import java.text.ParseException;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import javax.swing.border.EtchedBorder;
-import javax.swing.text.MaskFormatter;
-
-import br.com.komanda.eletronica.dao.LoginDao;
-
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JFormattedTextField;
 
 @SuppressWarnings({ "serial", "unused" })
 public class Login extends JFrame {
 
 	private JPanel contentPane;
-	private JPasswordField pfSenha;
+	private JTextField textField;
+	private JPasswordField passwordField;
 	private static MainDashboard main = null;
 
 	/**
@@ -53,9 +47,8 @@ public class Login extends JFrame {
 
 	/**
 	 * Create the frame.
-	 * @throws ParseException 
 	 */
-	public Login() throws ParseException {
+	public Login() {
 		setResizable(false);
 		
 		setSize(new Dimension(450, 251));
@@ -74,9 +67,14 @@ public class Login extends JFrame {
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 		
-		pfSenha = new JPasswordField();
-		pfSenha.setBounds(10, 123, 420, 33);
-		panel.add(pfSenha);
+		textField = new JTextField();
+		textField.setBounds(10, 79, 420, 33);
+		panel.add(textField);
+		textField.setColumns(10);
+		
+		passwordField = new JPasswordField();
+		passwordField.setBounds(10, 123, 420, 33);
+		panel.add(passwordField);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -112,7 +110,11 @@ public class Login extends JFrame {
 		btnOk.setIcon(new ImageIcon(Login.class.getResource("/img/Key.png")));
 		btnOk.setForeground(Color.WHITE);
 		btnOk.setFont(new Font("Tahoma", Font.BOLD, 14));
-		
+		btnOk.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+					ValidaUsuario();			
+			}
+		});
 		btnOk.setBackground(new Color(0, 128, 0));
 		
 		JButton btnCancel = new JButton("   Cancelar");
@@ -146,18 +148,6 @@ public class Login extends JFrame {
 		);
 		panel_2.setLayout(gl_panel_2);
 		
-		//JFormattedTextField ftUsuario = new JFormattedTextField();
-		JFormattedTextField ftUsuario = new JFormattedTextField(new MaskFormatter("###.###.###-##"));
-		ftUsuario.setBounds(10, 79, 420, 33);
-		panel.add(ftUsuario);
-		
-		btnOk.addActionListener(new ActionListener() {
-			@SuppressWarnings("deprecation")
-			public void actionPerformed(ActionEvent e) {
-					ValidaUsuario(ftUsuario.getText(), pfSenha.getText());			
-			}
-		});
-		
 		
 	}
 	
@@ -169,28 +159,16 @@ public class Login extends JFrame {
 		return main;
 	}
 	
-	public void ValidaUsuario(String usuario, String senha) {
-//		LoginDao loginDao = new LoginDao();
-//		
-//		boolean retorno = loginDao.ValidaLoginFuncionarios(usuario, senha);
-		
-		boolean retorno = true;
-		
-		if(retorno) {
-			this.dispose();
-			MainDashboard window = null;
-			if(main != null) {
-				window = main;
-			}else {
-				window = new MainDashboard(this);
-			}
-			window.GetFrame().setVisible(true);
-			window.GetFrame().setLocationRelativeTo(null);
+	public void ValidaUsuario() {
+		this.dispose();
+		MainDashboard window = null;
+		if(main != null) {
+			window = main;
 		}else {
-			JOptionPane.showMessageDialog(null, "Usuario Invalido e/ou senha inválida!");
+			window = new MainDashboard(this);
 		}
-		
-		
+		window.GetFrame().setVisible(true);
+		window.GetFrame().setLocationRelativeTo(null);
 	}
 	
 	public void FechaSplashScreen(SplashScreen splash) {

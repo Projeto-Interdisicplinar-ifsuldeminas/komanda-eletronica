@@ -26,10 +26,8 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.MaskFormatter;
 
-import br.com.komanda.eletronica.dao.CadastroCardapioDao;
 import br.com.komanda.eletronica.dao.MesaDao;
 import br.com.komanda.eletronica.model.Mesa;
-import br.com.komanda.eletronica.model.ProdutoCardapio;
 
 public class CadastroCardapio extends JFrame {
 
@@ -38,15 +36,11 @@ public class CadastroCardapio extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private static MainDashboard main = null;
-
 	private JTextField TFNome;
+
+	private static MainDashboard main = null;
 	private JTextField TFid;
-	private JFormattedTextField FTFPeso;
-	private JTextField TFDescricao;
-	private JFormattedTextField TFValor;
-	private JTextPane TPInformacaonutricionais;
-	private JFormattedTextField TFquantidadeproduto;
+	private JTextField textField;
 
 	/**
 	 * Create the frame.
@@ -73,26 +67,30 @@ public class CadastroCardapio extends JFrame {
 		JPanel panel_central = new JPanel();
 		panel_central.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
-		gl_contentPane.setHorizontalGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING).addGroup(gl_contentPane
-				.createSequentialGroup().addContainerGap()
-				.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+		gl_contentPane.setHorizontalGroup(
+			gl_contentPane.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 						.addComponent(panel_central, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 989, Short.MAX_VALUE)
-						.addComponent(panel_botoes_crud, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 989,
-								Short.MAX_VALUE)
+						.addComponent(panel_botoes_crud, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 989, Short.MAX_VALUE)
 						.addComponent(panel_header, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 989, Short.MAX_VALUE))
-				.addContainerGap()));
-		gl_contentPane.setVerticalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup().addContainerGap()
-						.addComponent(panel_header, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(panel_central, GroupLayout.DEFAULT_SIZE, 375, Short.MAX_VALUE).addGap(18)
-						.addComponent(panel_botoes_crud, GroupLayout.PREFERRED_SIZE, 101, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap()));
+					.addContainerGap())
+		);
+		gl_contentPane.setVerticalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(panel_header, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(panel_central, GroupLayout.DEFAULT_SIZE, 375, Short.MAX_VALUE)
+					.addGap(18)
+					.addComponent(panel_botoes_crud, GroupLayout.PREFERRED_SIZE, 101, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap())
+		);
 
 		JPanel panel_5 = new JPanel();
-		panel_5.setBorder(new TitledBorder(
-				new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)),
-				"Cadastro Cardapio", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel_5.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Cadastro Cardapio", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 
 		JPanel panelID = new JPanel();
 		panelID.setBorder(new TitledBorder(
@@ -100,16 +98,23 @@ public class CadastroCardapio extends JFrame {
 				TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		panelID.setToolTipText("");
 		GroupLayout gl_panel_central = new GroupLayout(panel_central);
-		gl_panel_central.setHorizontalGroup(gl_panel_central.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_central.createSequentialGroup().addContainerGap()
-						.addGroup(gl_panel_central.createParallelGroup(Alignment.LEADING)
-								.addComponent(panel_5, GroupLayout.DEFAULT_SIZE, 965, Short.MAX_VALUE)
-								.addComponent(panelID, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE))
-						.addContainerGap()));
-		gl_panel_central.setVerticalGroup(gl_panel_central.createParallelGroup(Alignment.LEADING)
+		gl_panel_central.setHorizontalGroup(
+			gl_panel_central.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_central.createSequentialGroup()
-						.addComponent(panelID, GroupLayout.PREFERRED_SIZE, 62, GroupLayout.PREFERRED_SIZE).addGap(18)
-						.addComponent(panel_5, GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE).addContainerGap()));
+					.addContainerGap()
+					.addGroup(gl_panel_central.createParallelGroup(Alignment.LEADING)
+						.addComponent(panel_5, GroupLayout.DEFAULT_SIZE, 965, Short.MAX_VALUE)
+						.addComponent(panelID, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap())
+		);
+		gl_panel_central.setVerticalGroup(
+			gl_panel_central.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_central.createSequentialGroup()
+					.addComponent(panelID, GroupLayout.PREFERRED_SIZE, 62, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(panel_5, GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
+					.addContainerGap())
+		);
 		panelID.setLayout(null);
 
 		TFid = new JTextField();
@@ -125,57 +130,57 @@ public class CadastroCardapio extends JFrame {
 		TFNome.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		TFNome.setColumns(10);
 		panel_5.add(TFNome);
-
+		
 		JLabel lblNewLabel_1 = new JLabel("Nome do Cardapio:");
 		lblNewLabel_1.setBounds(28, 25, 117, 14);
 		panel_5.add(lblNewLabel_1);
-
+		
 		JLabel lblNewLabel_2 = new JLabel("Peso:");
 		lblNewLabel_2.setBounds(28, 84, 46, 14);
 		panel_5.add(lblNewLabel_2);
-
-		FTFPeso = new JFormattedTextField(new MaskFormatter("###.##"));
+		
+		JFormattedTextField FTFPeso = new JFormattedTextField(new MaskFormatter("###.##"));
 		FTFPeso.setBounds(28, 111, 117, 23);
 		panel_5.add(FTFPeso);
-
-		TFDescricao = new JTextField();
-		TFDescricao.setBounds(28, 169, 183, 23);
-		panel_5.add(TFDescricao);
-		TFDescricao.setColumns(10);
-
+		
+		textField = new JTextField();
+		textField.setBounds(28, 169, 183, 23);
+		panel_5.add(textField);
+		textField.setColumns(10);
+		
 		JLabel lblNewLabel_3 = new JLabel("Descri\u00E7\u00E3o:");
 		lblNewLabel_3.setBounds(28, 145, 83, 14);
 		panel_5.add(lblNewLabel_3);
-
-		TFValor = new JFormattedTextField(new MaskFormatter("####.##"));
-		TFValor.setBounds(28, 223, 163, 23);
-		panel_5.add(TFValor);
-
+		
+		JFormattedTextField formattedTextField_1 = new JFormattedTextField(new MaskFormatter("####.##"));
+		formattedTextField_1.setBounds(28, 223, 163, 23);
+		panel_5.add(formattedTextField_1);
+		
 		JLabel lblNewLabel_4 = new JLabel("Valor:");
 		lblNewLabel_4.setBounds(28, 203, 46, 14);
 		panel_5.add(lblNewLabel_4);
-
+		
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "Extras", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panel.setBounds(350, 25, 450, 228);
 		panel_5.add(panel);
 		panel.setLayout(null);
-
+		
 		JLabel lblNewLabel_5 = new JLabel("Informa\u00E7\u00F5es Nutricionais:");
 		lblNewLabel_5.setBounds(21, 34, 192, 14);
 		panel.add(lblNewLabel_5);
-
-		TPInformacaonutricionais = new JTextPane();
-		TPInformacaonutricionais.setBounds(21, 59, 192, 71);
-		panel.add(TPInformacaonutricionais);
-
+		
+		JTextPane textPane = new JTextPane();
+		textPane.setBounds(21, 59, 192, 71);
+		panel.add(textPane);
+		
 		JLabel lblNewLabel_6 = new JLabel("Quantidade de Pessoas que serve:");
 		lblNewLabel_6.setBounds(21, 141, 224, 14);
 		panel.add(lblNewLabel_6);
-
-		TFquantidadeproduto = new JFormattedTextField();
-		TFquantidadeproduto.setBounds(21, 164, 136, 20);
-		panel.add(TFquantidadeproduto);
+		
+		JFormattedTextField formattedTextField_2 = new JFormattedTextField();
+		formattedTextField_2.setBounds(21, 164, 136, 20);
+		panel.add(formattedTextField_2);
 		panel_central.setLayout(gl_panel_central);
 
 		JButton btnNewButton = new JButton("   FECHAR");
@@ -194,24 +199,11 @@ public class CadastroCardapio extends JFrame {
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Botão Salvar
-
 				String nome = TFNome.getText();
-				String peso = FTFPeso.getText();
-				String descricao = TFDescricao.getText();
-				String valor = TFValor.getText();
-				String informacaonutricionais = TPInformacaonutricionais.getText();
-				String quantidade = TFquantidadeproduto.getText();
-				boolean IsExcluido = true;
+				Mesa mesa = new Mesa(nome);
 
-				Double Peso = Double.parseDouble(peso);
-				Double Valor = Double.parseDouble(valor);
-				int quantidadeDePessoasQueServe = Integer.parseInt(quantidade);
-
-				ProdutoCardapio produtocardapio = new ProdutoCardapio(nome, Peso, descricao, Valor,
-						informacaonutricionais, quantidadeDePessoasQueServe, IsExcluido);
-
-				CadastroCardapioDao conexaoadicionar = new CadastroCardapioDao();
-				boolean resposta = conexaoadicionar.adicionar(produtocardapio);
+				MesaDao conexaoadicionar = new MesaDao();
+				boolean resposta = conexaoadicionar.adicionar(mesa);
 
 				if (resposta == true) {
 					JOptionPane.showMessageDialog(null, "\nincluido com sucesso !", "Sucesso",
@@ -221,7 +213,6 @@ public class CadastroCardapio extends JFrame {
 				}
 
 			}
-
 		});
 		btnSalvar.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnSalvar.setForeground(Color.WHITE);
