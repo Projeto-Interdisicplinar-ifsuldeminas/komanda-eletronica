@@ -12,13 +12,12 @@ e gerenciamento de contas a pagar de clientes.**
 ******
 <h2 align="center"> Projeto Interdisciplinar - IF</h2> 
 
-## **Artefatos Entregue:** <h3>
-
-● Semana 3 - Documento de Requisitos e Diagrama de Caso de uso
-
-● Semana 4 - Diagrama de classe 
-
-● Semana 5 - Modelo Entidade Relacionamento (MER)   
+## **Artefatos :** <h3>
+ 
+● [Documento de Requisitos](https://github.com/Projeto-Interdisicplinar-ifsuldeminas/komanda-eletronica/blob/develop/Artefatos/Documento_de_Requisitos_-_Komanda_Eletr%C3%B4nica_Final.pdf)
+● [Diagrama de Caso de uso](https://github.com/Projeto-Interdisicplinar-ifsuldeminas/komanda-eletronica/blob/develop/Artefatos/Diagrama_de_Casos_de_Uso_Final.pdf)
+● [Diagrama de classe](https://github.com/Projeto-Interdisicplinar-ifsuldeminas/komanda-eletronica/blob/develop/Artefatos/Diagrama%20de%20Classes_Final.pdf)
+● [Modelo Entidade Relacionamento](https://github.com/Projeto-Interdisicplinar-ifsuldeminas/komanda-eletronica/blob/develop/Artefatos/MER_Final.pdf)
 
 ****** 
 ## **Escopo do projeto:** <h3>
