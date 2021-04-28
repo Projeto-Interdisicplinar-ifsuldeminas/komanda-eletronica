@@ -6,7 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import br.com.komanda.eletronica.connection.ConnectFactory;
+import br.com.komanda.eletronica.model.Funcionario;
 import br.com.komanda.eletronica.model.LoginFuncionarios;
+import br.com.komanda.eletronica.model.Mesa;
 
 public class LoginDao {
 	
@@ -71,8 +73,26 @@ public class LoginDao {
 		return false;
 	}
 	
-	public void AlteraSenhaFuncionarios(String usuario, String senha, String senha2) {
-		
+	/******************** Metodo UPDATE *****************/
+
+	@SuppressWarnings("null")
+	public boolean AlteraSenhaFuncionarios(Funcionario usuario, String senha, String senha2) throws SQLException {
+		Connection connection = ConnectFactory.createConnection();
+		String update = "UPDATE loginFuncionario SET senha = ? WHERE loginFuncionario.IdFuncionario = ?";
+		LoginFuncionarios login = null;
+		PreparedStatement stmt = connection.prepareStatement(update);
+		try {
+			stmt = connection.prepareStatement(update);
+			stmt.setString(1, login.criptografiaBase64Encoder(senha));
+			stmt.setInt(2, usuario.getIdFuncionario());
+			stmt.executeUpdate();
+			stmt.close();
+			connection.close();
+			return true;
+		} catch (SQLException e) {
+			return false;
+		}
+
 	}
 
 }
