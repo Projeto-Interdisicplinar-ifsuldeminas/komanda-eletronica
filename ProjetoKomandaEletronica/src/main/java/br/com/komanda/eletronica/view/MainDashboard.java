@@ -32,6 +32,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 import br.com.komanda.eletronica.dao.FuncionarioDao;
+import br.com.komanda.eletronica.dao.LoginDao;
 import br.com.komanda.eletronica.model.Funcionario;
 import br.com.komanda.eletronica.view.enums.CadastroDeFuncoes;
 
@@ -51,6 +52,7 @@ public class MainDashboard {
 	private JLabel JLData;
 	private static Login login;
 	private static MainDashboard main = null;
+	private static LoginDao loginDao;
 	
 	private int IdFuncionario;
 	private Funcionario func;
@@ -69,10 +71,13 @@ public class MainDashboard {
 	/**
 	 * Create the application.
 	 */
-	public MainDashboard(Login log) {
-		initialize();
+	public MainDashboard(Login log, LoginDao logDao) {
+		
 		login = log;
 		main = this;
+		loginDao = logDao;
+		this.BuscaFuncionario(loginDao.getIdFuncionario());
+		initialize();
 	}
 	
 	
@@ -165,7 +170,7 @@ public class MainDashboard {
 		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Alterar Senha");
 		mntmNewMenuItem_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				AlteraSenha alterarSenha = new AlteraSenha();
+				AlteraSenha alterarSenha = new AlteraSenha(func);
 				alterarSenha.setLocationRelativeTo(null);
 				AlteraSenha.setMain(main);
 				main.frmSistemaDeCadastro.setEnabled(false);
@@ -328,7 +333,7 @@ public class MainDashboard {
 		JLData.setFont(new Font("Tahoma", Font.BOLD, 14));
 
 		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(new Color(128, 128, 128));
+		panel_1.setBackground(new Color(0, 0, 255));
 		panel_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 
 		JPanel panel_2 = new JPanel();
@@ -350,6 +355,8 @@ public class MainDashboard {
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				login.SetMainDashboard(main);
+				((Login) login).setFunc(func);
+				login.MostraLabel();
 				login.setVisible(true);
 				main.frmSistemaDeCadastro.dispose();
 			}
@@ -388,16 +395,35 @@ public class MainDashboard {
 								.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE))
 						.addGap(11).addComponent(panel, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
 						.addGap(15)));
+		
+		JLabel lbLogin = new JLabel("");
+		lbLogin.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lbLogin.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		lbLogin.setForeground(new Color(0, 0, 205));
+		lbLogin.setText("Usuário Logado: " + func.getNome());
 		GroupLayout gl_panel = new GroupLayout(panel);
-		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup().addGap(744)
-						.addComponent(JLData, GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE).addGap(6)
-						.addComponent(JLHora, GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE).addGap(8)));
-		gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup().addGap(9)
-						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-								.addComponent(JLData, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
-								.addComponent(JLHora, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE))));
+		gl_panel.setHorizontalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(lbLogin, GroupLayout.PREFERRED_SIZE, 716, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(JLData, GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
+					.addGap(6)
+					.addComponent(JLHora, GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
+					.addGap(8))
+		);
+		gl_panel.setVerticalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGap(9)
+					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+						.addComponent(lbLogin, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addGroup(Alignment.LEADING, gl_panel.createParallelGroup(Alignment.LEADING, false)
+							.addComponent(JLData, GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
+							.addComponent(JLHora, GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)))
+					.addGap(7))
+		);
 		panel.setLayout(gl_panel);
 		GroupLayout gl_panel_3 = new GroupLayout(panel_3);
 		gl_panel_3.setHorizontalGroup(gl_panel_3.createParallelGroup(Alignment.LEADING).addGroup(Alignment.TRAILING,
@@ -454,7 +480,7 @@ public class MainDashboard {
 		frmSistemaDeCadastro.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		// frmSistemaDeCadastro.setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		
-		this.BuscaFuncionario(this.getIdFuncionario());
+		//this.BuscaFuncionario(this.getIdFuncionario());
 		
 		
 	}

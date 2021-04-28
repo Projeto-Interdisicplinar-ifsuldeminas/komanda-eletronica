@@ -23,6 +23,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.text.MaskFormatter;
 
 import br.com.komanda.eletronica.dao.LoginDao;
+import br.com.komanda.eletronica.model.Funcionario;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -36,6 +37,8 @@ public class Login extends JFrame {
 	private JPasswordField pfSenha;
 	private static MainDashboard main = null;
 	private LoginDao loginDao;
+	private JLabel lbLog;
+	private Funcionario func;
 
 	/**
 	 * Launch the application.
@@ -58,10 +61,11 @@ public class Login extends JFrame {
 	 * @throws ParseException 
 	 */
 	public Login() throws ParseException {
+		
+		setUndecorated(true);
 		setResizable(false);
 		
-		setSize(new Dimension(450, 251));
-		setUndecorated(true);
+		setSize(new Dimension(530, 398));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -77,12 +81,13 @@ public class Login extends JFrame {
 		panel.setLayout(null);
 		
 		pfSenha = new JPasswordField();
-		pfSenha.setBounds(10, 123, 420, 33);
+		pfSenha.setBounds(10, 109, 420, 33);
+		pfSenha.setText("");
 		panel.add(pfSenha);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		panel_1.setBounds(10, 11, 420, 57);
+		panel_1.setBounds(10, 11, 420, 43);
 		panel.add(panel_1);
 		
 		JLabel lblNewLabel = new JLabel("  Login");
@@ -107,6 +112,7 @@ public class Login extends JFrame {
 		panel_1.setLayout(gl_panel_1);
 		
 		JPanel panel_2 = new JPanel();
+		panel_2.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		panel_2.setBounds(10, 167, 420, 112);
 		panel.add(panel_2);
 		
@@ -136,15 +142,13 @@ public class Login extends JFrame {
 		gl_panel_2.setHorizontalGroup(
 			gl_panel_2.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_2.createSequentialGroup()
+					.addContainerGap()
 					.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panel_2.createSequentialGroup()
-							.addGap(23)
 							.addComponent(btnOk, GroupLayout.PREFERRED_SIZE, 180, GroupLayout.PREFERRED_SIZE)
-							.addGap(27)
+							.addPreferredGap(ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
 							.addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, 180, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_panel_2.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(lblNewLabel_1, GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)))
+						.addComponent(lblNewLabel_1, GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		gl_panel_2.setVerticalGroup(
@@ -152,8 +156,8 @@ public class Login extends JFrame {
 				.addGroup(gl_panel_2.createSequentialGroup()
 					.addGap(20)
 					.addGroup(gl_panel_2.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, 68, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnOk, GroupLayout.PREFERRED_SIZE, 68, GroupLayout.PREFERRED_SIZE))
+						.addComponent(btnOk, GroupLayout.PREFERRED_SIZE, 68, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, 68, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addComponent(lblNewLabel_1)
 					.addContainerGap())
@@ -162,8 +166,17 @@ public class Login extends JFrame {
 		
 		//JFormattedTextField ftUsuario = new JFormattedTextField();
 		JFormattedTextField ftUsuario = new JFormattedTextField(new MaskFormatter("###.###.###-##"));
-		ftUsuario.setBounds(10, 79, 420, 33);
+		ftUsuario.setBounds(10, 65, 420, 33);
+		ftUsuario.setText("");
 		panel.add(ftUsuario);
+		
+		lbLog = new JLabel("");
+		lbLog.setForeground(new Color(0, 0, 205));
+		lbLog.setHorizontalAlignment(SwingConstants.CENTER);
+		lbLog.setVisible(false);
+		lbLog.setBounds(10, 153, 420, 14);
+		panel.add(lbLog);
+		
 		
 		btnOk.addActionListener(new ActionListener() {
 			@SuppressWarnings("deprecation")
@@ -173,6 +186,11 @@ public class Login extends JFrame {
 		});
 		
 		
+	}
+	
+	public void MostraLabel() {
+		lbLog.setText("Usuário Logado: " + func.getNome());
+		lbLog.setVisible(true);
 	}
 	
 	public void SetMainDashboard(MainDashboard p) {
@@ -200,7 +218,7 @@ public class Login extends JFrame {
 			if(main != null) {
 				window = main;
 			}else {
-				window = new MainDashboard(this);
+				window = new MainDashboard(this, loginDao);
 			}
 			window.setIdFuncionario(loginDao.getIdFuncionario());
 			window.GetFrame().setVisible(true);
@@ -215,4 +233,13 @@ public class Login extends JFrame {
 	public void FechaSplashScreen(SplashScreen splash) {
 		splash.dispose();
 	}
+
+	public Funcionario getFunc() {
+		return func;
+	}
+
+	public void setFunc(Funcionario funcionario) {
+		func = funcionario;
+	}	
+	
 }

@@ -16,6 +16,11 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
+import br.com.komanda.eletronica.dao.LoginDao;
+import br.com.komanda.eletronica.model.Funcionario;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
 public class AlteraSenha extends JFrame {
 
 	/**
@@ -28,12 +33,14 @@ public class AlteraSenha extends JFrame {
 	private JPasswordField passwordField;
 	private JPasswordField passwordField_1;
 	private JPasswordField passwordField_2;
+	private static Funcionario funcionario;
 
 	
 	/**
 	 * Create the frame.
 	 */
-	public AlteraSenha() {
+	public AlteraSenha(Funcionario func) {
+		funcionario = func;
 		setUndecorated(true);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(AlteraSenha.class.getResource("/img/Key.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -185,6 +192,12 @@ public class AlteraSenha extends JFrame {
 		panel_2.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		
 		JButton btnAtualizar = new JButton("   ATUALIZAR");
+		btnAtualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				LoginDao loginDao = new LoginDao();
+				//loginDao.AlteraSenhaFuncionarios(funcionario, getWarningString(), getName())
+			}
+		});
 		btnAtualizar.setForeground(Color.WHITE);
 		btnAtualizar.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnAtualizar.setBackground(Color.BLUE);
