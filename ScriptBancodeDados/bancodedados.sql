@@ -157,3 +157,8 @@ Data date,
 primary key (IdDelivery),
 foreign key (IdPessoa) references pessoa (IdPessoa),
 foreign key (IdCozinha) references Cozinha(IdPedidoCozinha));
+
+/* Criação da tabela Delivery
+######################################## */
+ALTER TABLE `komandaeletronica`.`loginfuncionario` 
+ADD COLUMN `primeiroAcesso` TINYINT(1) NULL AFTER `IsBloqueado`;
