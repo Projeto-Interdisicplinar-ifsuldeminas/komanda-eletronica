@@ -5,6 +5,7 @@
 e gerenciamento de contas a pagar de clientes.**
  
 *****
+
  **Integrantes** :trophy:
 * Danilo Liparini Moraes RA:201924410096 :rocket:
 * Luciano Luiz Romero RA:201924410106 :rocket:
@@ -27,6 +28,31 @@ e gerenciamento de contas a pagar de clientes.**
 
 ● O sistema tem como objetivo auxiliar na gestão e controle de bares, restaurantes e
 lanchonetes..
+
+****** 
+## Tech: 
+● [Script Criação banco de dados](https://github.com/Projeto-Interdisicplinar-ifsuldeminas/komanda-eletronica/blob/develop/ScriptBancodeDados/bancodedados.sql)
+
+### Construído com 
+
+* [Mavem](https://maven.apache.org/)
+
+<h3> Rodar, buildar e/ou testar o projeto:</h3>
+
+```
+Necessario ter o Java versão 11, instalado. 
+Necessario ter o MySQL instalado. 
+Rodar o script SQL para criação do banco de dados do sistema.
+Realizar a configuração na classe ConnectFactory, informando o nome de usuario e senha do seu banco de dados. 
+Executar a aplicação via IDE ou jar.  
+```
+## Dependência necessárias para o projeto:
+
+* [org.apache.commons]
+* [mysql]
+
+
+
 
 ****** 
 ## **Requisitos Funcionais** <h3>
