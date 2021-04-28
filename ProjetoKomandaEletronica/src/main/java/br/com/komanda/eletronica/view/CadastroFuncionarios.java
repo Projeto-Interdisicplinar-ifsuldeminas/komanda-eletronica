@@ -116,11 +116,13 @@ public class CadastroFuncionarios extends JFrame {
 				.addGroup(gl_panel_7.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(lblNewLabel_2, GroupLayout.DEFAULT_SIZE, 987, Short.MAX_VALUE)
-					.addContainerGap())
+					.addGap(115))
 		);
 		gl_panel_7.setVerticalGroup(
 			gl_panel_7.createParallelGroup(Alignment.LEADING)
-				.addComponent(lblNewLabel_2, GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
+				.addGroup(Alignment.TRAILING, gl_panel_7.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(lblNewLabel_2, GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE))
 		);
 		panel_7.setLayout(gl_panel_7);
 		

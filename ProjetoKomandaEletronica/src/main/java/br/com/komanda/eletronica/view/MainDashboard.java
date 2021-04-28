@@ -253,6 +253,33 @@ public class MainDashboard {
 			}
 		});
 		MenuCardapio.add(mntmNewMenuCardapio);
+		
+		JMenu MenuEstoque = new JMenu("Estoque");
+		MenuEstoque.setIcon(new ImageIcon(MainDashboard.class.getResource("/img/estoque.png")));
+		mnCadastro.add(MenuEstoque);
+		
+		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Cadastro  Produtos");
+		mntmNewMenuItem_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+					
+				// TODO Evento para abrir nova tela
+				CadastroProdutoEstoque cadastroprodutoestoque;
+				try {
+					cadastroprodutoestoque = new CadastroProdutoEstoque();
+					cadastroprodutoestoque.setLocationRelativeTo(null);
+					cadastroprodutoestoque.SetMainDashboard(main);
+
+					main.frmSistemaDeCadastro.setEnabled(false);
+					cadastroprodutoestoque.setVisible(true);
+				} catch (ParseException e1) {
+					e1.printStackTrace();
+				}
+			
+				
+				
+			}
+		});
+		MenuEstoque.add(mntmNewMenuItem_2);
 
 		JMenu mnPedido = new JMenu("Pedido");
 		mnPedido.setFont(new Font("Segoe UI", Font.BOLD, 14));
