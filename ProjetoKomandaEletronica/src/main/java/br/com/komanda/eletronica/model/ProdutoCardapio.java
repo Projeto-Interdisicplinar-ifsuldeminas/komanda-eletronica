@@ -3,7 +3,7 @@ package br.com.komanda.eletronica.model;
 import br.com.komanda.eletronica.model.Enums.*;
 
 public class ProdutoCardapio {
-	private String IdProdutoCardapio;
+	private int IdProdutoCardapio;
 	private String Nome;
 	private double Peso;
 	private String Descricao;
@@ -12,7 +12,7 @@ public class ProdutoCardapio {
 	private int QuantidadeDePessoasQueServe;
 	private boolean IsExcluido;
 
-	public ProdutoCardapio(String idProdutoCardapio, String nome, double peso, String descricao, double valor,
+	public ProdutoCardapio(int idProdutoCardapio, String nome, double peso, String descricao, double valor,
 			String informacoesNutricionais, int quantidadeDePessoasQueServe, boolean isExcluido) {
 
 		IdProdutoCardapio = idProdutoCardapio;
@@ -36,11 +36,11 @@ public class ProdutoCardapio {
 		IsExcluido = isExcluido;
 	}
 
-	public String getIdProdutoCardapio() {
+	public int getIdProdutoCardapio() {
 		return IdProdutoCardapio;
 	}
 
-	public void setIdProdutoCardapio(String idProdutoCardapio) {
+	public void setIdProdutoCardapio(int idProdutoCardapio) {
 		IdProdutoCardapio = idProdutoCardapio;
 	}
 

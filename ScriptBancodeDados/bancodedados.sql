@@ -72,7 +72,7 @@ primary key (Id));
 Tabela Cardapio para pratos 
 ######################################## */
 create table ProdutoCardapio (IdProdutoCardapio int NOT NULL AUTO_INCREMENT , 
-Nome varchar (20) NOT NULL,
+Nome varchar (50) NOT NULL,
 Peso decimal,
 Descricao varchar(200),
 Valor decimal, 

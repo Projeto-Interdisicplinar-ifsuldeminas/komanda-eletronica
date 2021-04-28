@@ -2,9 +2,14 @@ package br.com.komanda.eletronica.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import br.com.komanda.eletronica.connection.ConnectFactory;
+import br.com.komanda.eletronica.model.Mesa;
 import br.com.komanda.eletronica.model.ProdutoCardapio;
 
 public class CadastroCardapioDao {
@@ -45,11 +50,77 @@ public class CadastroCardapioDao {
 	}
 
 	/******************** Metodo Deletar *****************/
+	public boolean deletar(int identificacao) throws SQLException {
+		Connection connection = ConnectFactory.createConnection();
+		String query = " DELETE FROM produtocardapio WHERE IdProdutoCardapio = ?";
+		PreparedStatement stmt = connection.prepareStatement(query);
+		stmt.setInt(1, identificacao);
+		// retorna true se foi afetado algum registro
+		if (stmt.executeUpdate() > 0) {
+			return true;
+		}
+
+		stmt.close();
+		connection.close();
+		return false;
+
+	}
 
 
 	/******************** Consulta por id *****************/
+	public List<ProdutoCardapio> consultaid(int identificacao) throws SQLException {
+		Connection connection = ConnectFactory.createConnection();
+		String query = "SELECT `IdProdutoCardapio`, `Nome`, `Peso`, `Descricao`, `Valor`, `InformacaoesNutricionais`, `QuantidadeDePessoasQueServe`, `IsExcluido` FROM `produtocardapio` WHERE `IdProdutoCardapio` = " + identificacao;
+
+		Statement stmt = (Statement) connection.createStatement();
+		ResultSet resultado = stmt.executeQuery(query);
+		
+		List<ProdutoCardapio> produtocardapio = new ArrayList<>();
+		
+		while (resultado.next()) {
+						
+			int IdProdutoCardapio = resultado.getInt("IdProdutoCardapio");
+			String Nome = resultado.getString("Nome");
+			double Peso = resultado.getDouble("Peso");
+			String Descricao = resultado.getString("Descricao");
+			double Valor = resultado.getDouble("Valor");
+			String informacoesNutricionais = resultado.getString("InformacaoesNutricionais");
+			int QuantidadeDePessoasQueServe = resultado.getInt("QuantidadeDePessoasQueServe");
+			boolean IsExcluido = resultado.getBoolean("IsExcluido");
+			produtocardapio.add(new ProdutoCardapio(IdProdutoCardapio,Nome,Peso,Descricao,Valor,informacoesNutricionais,QuantidadeDePessoasQueServe,IsExcluido));
+		}
+		stmt.close();
+		connection.close();
+		
+		return produtocardapio;
+
+	}
 
 	/******************** Metodo UPDATE *****************/
+	public boolean atualizar(ProdutoCardapio produtocardapio, int id) throws SQLException {
+		Connection connection = ConnectFactory.createConnection();
+		String update = "UPDATE produtocardapio SET Nome = ?, Peso = ?, Descricao = ?, Valor = ?, InformacaoesNutricionais = ?, QuantidadeDePessoasQueServe = ?, IsExcluido = ? WHERE produtocardapio.IdProdutoCardapio = ?";
+
+		PreparedStatement stmt = connection.prepareStatement(update);
+		try {
+			stmt = connection.prepareStatement(update);
+			stmt.setString(1, produtocardapio.getNome());
+			stmt.setDouble(2, produtocardapio.getPeso());
+			stmt.setString(3, produtocardapio.getDescricao());
+			stmt.setDouble(4, produtocardapio.getValor());
+			stmt.setString(5, produtocardapio.getInformacoesNutricionais());
+			stmt.setInt(6, produtocardapio.getQuantidadeDePessoasQueServe());
+			stmt.setBoolean(7, produtocardapio.isIsExcluido());
+			stmt.setInt(8, id);
+			stmt.executeUpdate();
+			stmt.close();
+			connection.close();
+			return true;
+		} catch (SQLException e) {
+			return false;
+		}
+
+	}
 
 	
 

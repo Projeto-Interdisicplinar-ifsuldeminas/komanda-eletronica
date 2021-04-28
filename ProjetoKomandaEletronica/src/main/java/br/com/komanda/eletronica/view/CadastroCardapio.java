@@ -24,11 +24,8 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.text.MaskFormatter;
 
 import br.com.komanda.eletronica.dao.CadastroCardapioDao;
-import br.com.komanda.eletronica.dao.MesaDao;
-import br.com.komanda.eletronica.model.Mesa;
 import br.com.komanda.eletronica.model.ProdutoCardapio;
 
 public class CadastroCardapio extends JFrame {
@@ -134,7 +131,7 @@ public class CadastroCardapio extends JFrame {
 		lblNewLabel_2.setBounds(28, 84, 46, 14);
 		panel_5.add(lblNewLabel_2);
 
-		FTFPeso = new JFormattedTextField(new MaskFormatter("###.##"));
+		FTFPeso = new JFormattedTextField();
 		FTFPeso.setBounds(28, 111, 117, 23);
 		panel_5.add(FTFPeso);
 
@@ -147,7 +144,7 @@ public class CadastroCardapio extends JFrame {
 		lblNewLabel_3.setBounds(28, 145, 83, 14);
 		panel_5.add(lblNewLabel_3);
 
-		TFValor = new JFormattedTextField(new MaskFormatter("####.##"));
+		TFValor = new JFormattedTextField();
 		TFValor.setBounds(28, 223, 163, 23);
 		panel_5.add(TFValor);
 
@@ -193,31 +190,43 @@ public class CadastroCardapio extends JFrame {
 		JButton btnSalvar = new JButton("   SALVAR");
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO Botão Salvar
+				// Botão Salvar
 
 				String nome = TFNome.getText();
-				String peso = FTFPeso.getText();
 				String descricao = TFDescricao.getText();
-				String valor = TFValor.getText();
 				String informacaonutricionais = TPInformacaonutricionais.getText();
-				String quantidade = TFquantidadeproduto.getText();
 				boolean IsExcluido = true;
 
-				Double Peso = Double.parseDouble(peso);
-				Double Valor = Double.parseDouble(valor);
-				int quantidadeDePessoasQueServe = Integer.parseInt(quantidade);
+				try {
 
-				ProdutoCardapio produtocardapio = new ProdutoCardapio(nome, Peso, descricao, Valor,
-						informacaonutricionais, quantidadeDePessoasQueServe, IsExcluido);
+					Double Peso = Double.parseDouble(FTFPeso.getText());
+					Double Valor = Double.parseDouble(TFValor.getText());
+					int quantidadeDePessoasQueServe = Integer.parseInt(TFquantidadeproduto.getText());
 
-				CadastroCardapioDao conexaoadicionar = new CadastroCardapioDao();
-				boolean resposta = conexaoadicionar.adicionar(produtocardapio);
+					ProdutoCardapio produtocardapio = new ProdutoCardapio(nome, Peso, descricao, Valor,
+							informacaonutricionais, quantidadeDePessoasQueServe, IsExcluido);
 
-				if (resposta == true) {
-					JOptionPane.showMessageDialog(null, "\nincluido com sucesso !", "Sucesso",
-							JOptionPane.INFORMATION_MESSAGE);
-				} else {
-					JOptionPane.showMessageDialog(null, "\nOcorreu um erro !", "Erro", JOptionPane.ERROR_MESSAGE);
+					CadastroCardapioDao conexaoadicionar = new CadastroCardapioDao();
+					boolean resposta = conexaoadicionar.adicionar(produtocardapio);
+
+					if (resposta == true) {
+						JOptionPane.showMessageDialog(null, "\nincluido com sucesso !", "Sucesso",
+								JOptionPane.INFORMATION_MESSAGE);
+					} else {
+						JOptionPane.showMessageDialog(null, "\nOcorreu um erro !", "Erro", JOptionPane.ERROR_MESSAGE);
+					}
+
+					TFid.setText("0");
+					TFNome.setText("");
+					FTFPeso.setText("");
+					TFDescricao.setText("");
+					TFValor.setText("");
+					TPInformacaonutricionais.setText("");
+					TFquantidadeproduto.setText("");
+
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, "\nOcorreu um erro valor verificar os campos !", "Erro",
+							JOptionPane.ERROR_MESSAGE);
 				}
 
 			}
@@ -232,12 +241,11 @@ public class CadastroCardapio extends JFrame {
 		btnApagar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Botao apagar
-				String rcid = TFid.getText();
-				int idenvio = 0;
-				idenvio = Integer.parseInt(rcid);
-				MesaDao deletarpessoa = new MesaDao();
+				int id = Integer.parseInt(TFid.getText());
+
+				CadastroCardapioDao deletarpessoa = new CadastroCardapioDao();
 				try {
-					boolean retorno = deletarpessoa.deletar(idenvio);
+					boolean retorno = deletarpessoa.deletar(id);
 					if (retorno == true) {
 						JOptionPane.showMessageDialog(null, "\nDeletado com sucesso !", "Sucesso",
 								JOptionPane.INFORMATION_MESSAGE);
@@ -250,6 +258,11 @@ public class CadastroCardapio extends JFrame {
 				// Limpando os campos
 				TFid.setText("0");
 				TFNome.setText("");
+				FTFPeso.setText("");
+				TFDescricao.setText("");
+				TFValor.setText("");
+				TPInformacaonutricionais.setText("");
+				TFquantidadeproduto.setText("");
 			}
 		});
 		btnApagar.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -261,23 +274,55 @@ public class CadastroCardapio extends JFrame {
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Botao atualizar
-				String idtexto = TFid.getText();
+				int id = Integer.parseInt(TFid.getText());
 				String nome = TFNome.getText();
-				int id = Integer.parseInt(idtexto);
-				Mesa mesa = new Mesa(id, nome);
+				String descricao = TFDescricao.getText();
+				String informacaonutricionais = TPInformacaonutricionais.getText();
+				boolean IsExcluido = true;
 
-				MesaDao conexaoupdate = new MesaDao();
-				boolean resposta = false;
 				try {
-					resposta = conexaoupdate.atualizar(mesa, id);
-				} catch (SQLException e1) {
-					System.out.println("Erro na conexao update");
-				}
-				if (resposta == true) {
-					JOptionPane.showMessageDialog(null, "\nRegistro atualizado com sucesso !", "Sucesso",
-							JOptionPane.INFORMATION_MESSAGE);
-				} else {
-					JOptionPane.showMessageDialog(null, "\nOcorreu um erro !", "Erro", JOptionPane.ERROR_MESSAGE);
+					Double Peso = Double.parseDouble(FTFPeso.getText());
+					Double Valor = Double.parseDouble(TFValor.getText());
+					int quantidadeDePessoasQueServe = Integer.parseInt(TFquantidadeproduto.getText());
+
+					ProdutoCardapio produtocardapio = new ProdutoCardapio(id, nome, Peso, descricao, Valor,
+							informacaonutricionais, quantidadeDePessoasQueServe, IsExcluido);
+
+					CadastroCardapioDao conexaoupdate = new CadastroCardapioDao();
+					boolean resposta = false;
+					try {
+						resposta = conexaoupdate.atualizar(produtocardapio, id);
+					} catch (SQLException e1) {
+						System.out.println("Erro na conexao update");
+					}
+					if (resposta == true) {
+						JOptionPane.showMessageDialog(null, "\nRegistro atualizado com sucesso !", "Sucesso",
+								JOptionPane.INFORMATION_MESSAGE);
+					} else {
+						JOptionPane.showMessageDialog(null, "\nOcorreu um erro !", "Erro", JOptionPane.ERROR_MESSAGE);
+					}
+
+					TFid.setText("0");
+					TFNome.setText("");
+					FTFPeso.setText("");
+					TFDescricao.setText("");
+					TFValor.setText("");
+					TPInformacaonutricionais.setText("");
+					TFquantidadeproduto.setText("");
+
+				} catch (Exception e1) {
+
+					JOptionPane.showMessageDialog(null, "\nOcorreu um erro valor verificar os campos !", "Erro",
+							JOptionPane.ERROR_MESSAGE);
+
+					TFid.setText("0");
+					TFNome.setText("");
+					FTFPeso.setText("");
+					TFDescricao.setText("");
+					TFValor.setText("");
+					TPInformacaonutricionais.setText("");
+					TFquantidadeproduto.setText("");
+
 				}
 
 			}
@@ -290,24 +335,36 @@ public class CadastroCardapio extends JFrame {
 		JButton btnFrente = new JButton("");
 		btnFrente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
 				// TODO botao navegar para frente
 				String idatual = TFid.getText();
 				int soma = Integer.parseInt(idatual);
 				soma = soma + 1;
 				int id = 0;
 				id = id + soma;
-				MesaDao consultaid = new MesaDao();
+				CadastroCardapioDao consultaid = new CadastroCardapioDao();
 				try {
-					List<Mesa> mesa = consultaid.consultaid(id);
-					if (mesa.isEmpty()) {
+					List<ProdutoCardapio> produtocardapio = consultaid.consultaid(id);
+					if (produtocardapio.isEmpty()) {
 						String idex = Integer.toString(id);
 						TFid.setText(idex);
 						TFNome.setText("");
+						FTFPeso.setText("");
+						TFDescricao.setText("");
+						TFValor.setText("");
+						TPInformacaonutricionais.setText("");
+						TFquantidadeproduto.setText("");
+
 					} else {
-						for (Mesa m : mesa) {
-							String retornoid = Integer.toString(m.getIdMesa());
-							TFid.setText(retornoid);
-							TFNome.setText(m.getNomeMesa());
+						for (ProdutoCardapio p : produtocardapio) {
+							TFid.setText(Integer.toString(p.getIdProdutoCardapio()));
+							TFNome.setText(p.getNome());
+							FTFPeso.setText(Double.toString(p.getPeso()));
+							TFDescricao.setText(p.getDescricao());
+							TFValor.setText(Double.toString(p.getValor()));
+							TPInformacaonutricionais.setText(p.getInformacoesNutricionais());
+							TFquantidadeproduto.setText(Integer.toString(p.getQuantidadeDePessoasQueServe()));
+
 						}
 					}
 
@@ -333,23 +390,34 @@ public class CadastroCardapio extends JFrame {
 				soma = soma - 1;
 				int id = 0;
 				id = id + soma;
-				MesaDao consultaid = new MesaDao();
+				CadastroCardapioDao consultaid = new CadastroCardapioDao();
 				try {
-					List<Mesa> mesa = consultaid.consultaid(id);
-					if (mesa.isEmpty()) {
+					List<ProdutoCardapio> produtocardapio = consultaid.consultaid(id);
+					if (produtocardapio.isEmpty()) {
 						String idex = Integer.toString(id);
 						TFid.setText(idex);
 						TFNome.setText("");
+						FTFPeso.setText("");
+						TFDescricao.setText("");
+						TFValor.setText("");
+						TPInformacaonutricionais.setText("");
+						TFquantidadeproduto.setText("");
+
 					} else {
-						for (Mesa m : mesa) {
-							String retornoid = Integer.toString(m.getIdMesa());
-							TFid.setText(retornoid);
-							TFNome.setText(m.getNomeMesa());
+						for (ProdutoCardapio p : produtocardapio) {
+							TFid.setText(Integer.toString(p.getIdProdutoCardapio()));
+							TFNome.setText(p.getNome());
+							FTFPeso.setText(Double.toString(p.getPeso()));
+							TFDescricao.setText(p.getDescricao());
+							TFValor.setText(Double.toString(p.getValor()));
+							TPInformacaonutricionais.setText(p.getInformacoesNutricionais());
+							TFquantidadeproduto.setText(Integer.toString(p.getQuantidadeDePessoasQueServe()));
+
 						}
 					}
+
 				} catch (SQLException e1) {
-					JOptionPane.showMessageDialog(null, "\nOcorreu um erro, verificar o ID !", "Erro",
-							JOptionPane.ERROR_MESSAGE);
+					System.out.println("Erro botao navegar para frente");
 				}
 			}
 		});
