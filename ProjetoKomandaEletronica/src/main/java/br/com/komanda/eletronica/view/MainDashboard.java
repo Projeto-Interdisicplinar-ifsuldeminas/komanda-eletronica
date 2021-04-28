@@ -23,6 +23,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
@@ -47,7 +48,7 @@ import javax.swing.border.SoftBevelBorder;
 @SuppressWarnings("unused")
 public class MainDashboard {
 
-	private JFrame frmSistemaDeCadastro;
+	public JFrame frmSistemaDeCadastro;
 	private JLabel JLHora;
 	private JLabel JLData;
 	private static Login login;
@@ -74,6 +75,8 @@ public class MainDashboard {
 	public MainDashboard(Login log, LoginDao logDao) {
 		
 		login = log;
+		login.ftUsuario.setText("");
+		login.pfSenha.setText("");
 		main = this;
 		loginDao = logDao;
 		this.BuscaFuncionario(loginDao.getIdFuncionario());
@@ -138,6 +141,20 @@ public class MainDashboard {
 		MenuItemSair.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, InputEvent.ALT_MASK));
 		MenuItemSair.setIcon(new ImageIcon(MainDashboard.class.getResource("/img/door_out.png")));
 		mnArquivo.add(MenuItemSair);
+		
+		JMenuItem bloqueio = new JMenuItem("Bloquear");
+		bloqueio.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B, InputEvent.CTRL_MASK));
+		bloqueio.setIcon(new ImageIcon(MainDashboard.class.getResource("/img/Key.png")));
+		bloqueio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				login.SetMainDashboard(main);
+				((Login) login).setFunc(func);
+				login.MostraLabel();
+				login.setVisible(true);
+				main.frmSistemaDeCadastro.dispose();
+			}
+		});
+		mnArquivo.add(bloqueio);
 
 		JMenu mnCadastro = new JMenu("Cadastro ");
 		mnCadastro.setFont(new Font("Segoe UI", Font.BOLD, 14));
@@ -199,12 +216,6 @@ public class MainDashboard {
 				mntmNewMenuItem.setIcon(new ImageIcon(MainDashboard.class.getResource("/img/cog_add.png")));
 		mntmNewMenuItem_1.setIcon(new ImageIcon(MainDashboard.class.getResource("/img/Key.png")));
 		MenuPessoas.add(mntmNewMenuItem_1);
-
-		JMenu MenuProdutos = new JMenu("Produtos");
-		mnCadastro.add(MenuProdutos);
-		
-		JMenuItem mntmNewMenuItem_3 = new JMenuItem("Tipos de Produtos");
-		MenuProdutos.add(mntmNewMenuItem_3);
 
 		JMenu MenuMesas = new JMenu("Mesas");
 		MenuMesas.setIcon(new ImageIcon(MainDashboard.class.getResource("/img/book_next.png")));
@@ -280,6 +291,9 @@ public class MainDashboard {
 			}
 		});
 		MenuEstoque.add(mntmNewMenuItem_2);
+		
+		JMenuItem mntmNewMenuItem_3 = new JMenuItem("Tipos de Produtos");
+		MenuEstoque.add(mntmNewMenuItem_3);
 
 		JMenu mnPedido = new JMenu("Pedido");
 		mnPedido.setFont(new Font("Segoe UI", Font.BOLD, 14));
@@ -366,7 +380,9 @@ public class MainDashboard {
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 
-		JButton btnNewButton = new JButton("FECHAR");
+		JButton btnNewButton = new JButton("");
+		btnNewButton.setIcon(new ImageIcon(MainDashboard.class.getResource("/img/power-32.png")));
+		btnNewButton.setToolTipText("Fechar");
 		btnNewButton.setSelectedIcon(new ImageIcon(
 				"C:\\Users\\Inform\u00E1tica\\Documents\\Projetos Eclipse\\Komanda Eletr\u00F4nica\\komanda-eletronica\\ProjetoKomandaEletronica\\src\\main\\java\\img\\cancel.png"));
 		btnNewButton.setForeground(Color.WHITE);
@@ -378,7 +394,9 @@ public class MainDashboard {
 			}
 		});
 
-		JButton btnNewButton_1 = new JButton("BLOQUEAR");
+		JButton btnNewButton_1 = new JButton("");
+		btnNewButton_1.setIcon(new ImageIcon(MainDashboard.class.getResource("/img/padlock-32.png")));
+		btnNewButton_1.setToolTipText("Bloquear Sistema");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				login.SetMainDashboard(main);
@@ -491,15 +509,185 @@ public class MainDashboard {
 						.addComponent(panel_4, GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE).addContainerGap()));
 
 		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setIcon(new ImageIcon(MainDashboard.class.getResource("/img/Logo Principal.png")));
+		lblNewLabel.setIcon(new ImageIcon(MainDashboard.class.getResource("/img/Logo Komanda.png")));
+		
+		JPanel panel_menus = new JPanel();
+		panel_menus.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Menus R\u00E1pidos", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 255)));
 		GroupLayout gl_panel_4 = new GroupLayout(panel_4);
-		gl_panel_4.setHorizontalGroup(gl_panel_4.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_4.createSequentialGroup().addContainerGap()
-						.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 962, Short.MAX_VALUE).addContainerGap()));
-		gl_panel_4.setVerticalGroup(gl_panel_4.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_4.createSequentialGroup().addContainerGap()
-						.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 293, Short.MAX_VALUE).addContainerGap()));
+		gl_panel_4.setHorizontalGroup(
+			gl_panel_4.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panel_4.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panel_4.createParallelGroup(Alignment.TRAILING)
+						.addComponent(panel_menus, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 962, Short.MAX_VALUE)
+						.addComponent(lblNewLabel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 962, Short.MAX_VALUE))
+					.addContainerGap())
+		);
+		gl_panel_4.setVerticalGroup(
+			gl_panel_4.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panel_4.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(panel_menus, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
+					.addGap(31))
+		);
+		
+		JButton btnNewButton_2 = new JButton("");
+		btnNewButton_2.setToolTipText("Funcion\u00E1rios");
+		btnNewButton_2.setForeground(Color.WHITE);
+		btnNewButton_2.setBackground(new Color(0, 0, 255));
+		btnNewButton_2.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnNewButton_2.setIcon(new ImageIcon(MainDashboard.class.getResource("/img/conference-32.png")));
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					CadastroFuncionarios funcionarios = new CadastroFuncionarios();
+					funcionarios.setLocationRelativeTo(null);
+					funcionarios.SetMainDashboard(main);
+					// main.frmSistemaDeCadastro.set
+					main.frmSistemaDeCadastro.setEnabled(false);
+					funcionarios.setVisible(true);
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		
+		JButton btnNewButton_2_1 = new JButton("");
+		btnNewButton_2_1.setToolTipText("Card\u00E1pio");
+		btnNewButton_2_1.setBackground(new Color(0, 0, 255));
+		btnNewButton_2_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnNewButton_2_1.setIcon(new ImageIcon(MainDashboard.class.getResource("/img/menu-4-32.png")));
+		btnNewButton_2_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CadastroCardapio cadastrocardapio;
+				try {
+					cadastrocardapio = new CadastroCardapio();
+					cadastrocardapio.setLocationRelativeTo(null);
+					cadastrocardapio.SetMainDashboard(main);
+
+					main.frmSistemaDeCadastro.setEnabled(false);
+					cadastrocardapio.setVisible(true);
+				} catch (ParseException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		
+		JButton btnNewButton_2_2 = new JButton("");
+		btnNewButton_2_2.setToolTipText("Produtos");
+		btnNewButton_2_2.setBackground(new Color(0, 0, 255));
+		btnNewButton_2_2.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnNewButton_2_2.setIcon(new ImageIcon(MainDashboard.class.getResource("/img/product-32.png")));
+		btnNewButton_2_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// TODO Evento para abrir nova tela
+				CadastroProdutoEstoque cadastroprodutoestoque;
+				try {
+					cadastroprodutoestoque = new CadastroProdutoEstoque();
+					cadastroprodutoestoque.setLocationRelativeTo(null);
+					cadastroprodutoestoque.SetMainDashboard(main);
+
+					main.frmSistemaDeCadastro.setEnabled(false);
+					cadastroprodutoestoque.setVisible(true);
+				} catch (ParseException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		
+		JButton btnNewButton_2_3 = new JButton("");
+		btnNewButton_2_3.setToolTipText("Pedido na mesa");
+		btnNewButton_2_3.setBackground(new Color(0, 0, 255));
+		btnNewButton_2_3.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnNewButton_2_3.setIcon(new ImageIcon(MainDashboard.class.getResource("/img/book-19-32.png")));
+		btnNewButton_2_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// TODO Evento para abrir nova tela
+				PedidoMesa pedidomesa;
+				try {
+					pedidomesa = new PedidoMesa();
+					pedidomesa.setLocationRelativeTo(null);
+					pedidomesa.SetMainDashboard(main);
+
+					main.frmSistemaDeCadastro.setEnabled(false);
+					pedidomesa.setVisible(true);
+				} catch (ParseException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		
+		JButton btnNewButton_2_4 = new JButton("");
+		btnNewButton_2_4.setToolTipText("Delivery");
+		btnNewButton_2_4.setBackground(new Color(0, 0, 255));
+		btnNewButton_2_4.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnNewButton_2_4.setIcon(new ImageIcon(MainDashboard.class.getResource("/img/delivery-32.png")));
+		btnNewButton_2_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "Função ainda em desenvolvimento!");
+			}
+		});
+		
+		JButton btnNewButton_2_5 = new JButton("");
+		btnNewButton_2_5.setToolTipText("Mesas");
+		btnNewButton_2_5.setBackground(new Color(0, 0, 255));
+		btnNewButton_2_5.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnNewButton_2_5.setIcon(new ImageIcon(MainDashboard.class.getResource("/img/table-32.png")));
+		btnNewButton_2_5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// TODO Evento para abrir nova tela
+				CadastroMesas cadastromesas;
+				try {
+					cadastromesas = new CadastroMesas();
+					cadastromesas.setLocationRelativeTo(null);
+					cadastromesas.SetMainDashboard(main);
+
+					main.frmSistemaDeCadastro.setEnabled(false);
+					cadastromesas.setVisible(true);
+				} catch (ParseException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		GroupLayout gl_panel_menus = new GroupLayout(panel_menus);
+		gl_panel_menus.setHorizontalGroup(
+			gl_panel_menus.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_menus.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(btnNewButton_2, GroupLayout.PREFERRED_SIZE, 148, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnNewButton_2_1, GroupLayout.PREFERRED_SIZE, 143, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnNewButton_2_2, GroupLayout.PREFERRED_SIZE, 136, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnNewButton_2_3, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnNewButton_2_4, GroupLayout.PREFERRED_SIZE, 137, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnNewButton_2_5, GroupLayout.PREFERRED_SIZE, 117, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(50, Short.MAX_VALUE))
+		);
+		gl_panel_menus.setVerticalGroup(
+			gl_panel_menus.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_menus.createSequentialGroup()
+					.addComponent(btnNewButton_2_5, GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
+					.addContainerGap())
+				.addGroup(Alignment.TRAILING, gl_panel_menus.createSequentialGroup()
+					.addGroup(gl_panel_menus.createParallelGroup(Alignment.TRAILING)
+						.addComponent(btnNewButton_2_4, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
+						.addComponent(btnNewButton_2_3, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
+						.addGroup(gl_panel_menus.createParallelGroup(Alignment.BASELINE)
+							.addComponent(btnNewButton_2, GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
+							.addComponent(btnNewButton_2_1, GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
+							.addComponent(btnNewButton_2_2, GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)))
+					.addContainerGap())
+		);
+		panel_menus.setLayout(gl_panel_menus);
 		panel_4.setLayout(gl_panel_4);
 		panel_1.setLayout(gl_panel_1);
 		frmSistemaDeCadastro.getContentPane().setLayout(groupLayout);

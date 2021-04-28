@@ -65,7 +65,7 @@ public class CadastroFuncionarios extends JFrame {
 		setTitle("CADASTRO DE FUNCION\u00C1RIOS");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(CadastroFuncionarios.class.getResource("/img/user_edit.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1035, 735);
+		setBounds(100, 100, 1144, 735);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		setContentPane(contentPane);

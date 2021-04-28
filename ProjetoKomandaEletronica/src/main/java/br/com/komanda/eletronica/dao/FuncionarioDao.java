@@ -53,7 +53,7 @@ public class FuncionarioDao {
 			}*/
 			
 			
-			String queryLogin = "insert into loginfuncionario (idFuncionario, senha, nivelDeAcesso, IsBloqueado) values(?,?,?,?)";
+			String queryLogin = "insert into loginfuncionario (idFuncionario, senha, nivelDeAcesso, IsBloqueado, primeiroAcesso) values(?,?,?,?,?)";
 			/* Preparando a Query */
 			
 			PreparedStatement prepareLogin = connection.prepareStatement(queryLogin);
@@ -61,6 +61,7 @@ public class FuncionarioDao {
 			prepareLogin.setString(2, login.criptografiaBase64Encoder(login.getSenha()));
 			prepareLogin.setInt(3, login.getNivelDeAcesso());
 			prepareLogin.setBoolean(4, false);
+			prepareLogin.setBoolean(5, true);
 			prepareLogin.execute();
 			sucesso = true;
 		} catch (SQLException e) {

@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import br.com.komanda.eletronica.connection.ConnectFactory;
 import br.com.komanda.eletronica.model.Funcionario;
 import br.com.komanda.eletronica.model.LoginFuncionarios;
-import br.com.komanda.eletronica.model.Mesa;
 
 public class LoginDao {
 	
@@ -16,21 +15,15 @@ public class LoginDao {
 	
 	public LoginDao() {
 		
-	}
-	
-	
+	}	
 	
 	public int getIdFuncionario() {
 		return IdFuncionario;
 	}
 
-
-
 	public void setIdFuncionario(int idFuncionario) {
 		IdFuncionario = idFuncionario;
 	}
-
-
 
 	public boolean ValidaLoginFuncionarios(String usuario, String senha) {
 		
@@ -73,13 +66,34 @@ public class LoginDao {
 		return false;
 	}
 	
+	/******************** Consulta por id *****************/
+	public LoginFuncionarios consultaid(int identificacao) throws SQLException {
+		
+		Connection connection = ConnectFactory.createConnection();
+		String sql = "SELECT IdFuncionario, senha, primeiroAcesso from loginfuncionario WHERE IdLoginFuncionario ='" + identificacao +"';";
+		PreparedStatement stmt = (PreparedStatement) connection.prepareStatement(sql);
+		ResultSet rs = stmt.executeQuery();
+		rs.next();
+		LoginFuncionarios func = new LoginFuncionarios();
+		func.setIdLoginFuncionario(rs.getInt("IdFuncionario"));
+		func.setSenha(func.descriptografiaBase64Decode(rs.getString("senha")));
+		func.setPrimeiroAcesso(rs.getBoolean("primeiroAcesso"));
+		
+		stmt.close();
+		connection.close();
+		
+		return func;
+
+	}
+	
 	/******************** Metodo UPDATE *****************/
 
 	@SuppressWarnings("null")
 	public boolean AlteraSenhaFuncionarios(Funcionario usuario, String senha, String senha2) throws SQLException {
 		Connection connection = ConnectFactory.createConnection();
-		String update = "UPDATE loginFuncionario SET senha = ? WHERE loginFuncionario.IdFuncionario = ?";
-		LoginFuncionarios login = null;
+		
+		String update = "UPDATE loginFuncionario SET senha = ?, primeiroacesso = 0 WHERE loginFuncionario.IdFuncionario = ?";
+		LoginFuncionarios login = new LoginFuncionarios();
 		PreparedStatement stmt = connection.prepareStatement(update);
 		try {
 			stmt = connection.prepareStatement(update);

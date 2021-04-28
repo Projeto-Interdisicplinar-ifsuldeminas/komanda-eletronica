@@ -8,6 +8,7 @@ public class LoginFuncionarios {
 	private String Senha;
 	private int NivelDeAcesso;
 	private boolean IsBloqueado;
+	private boolean primeiroAcesso;
 
 	private Funcionario funcionario;
 
@@ -72,6 +73,15 @@ public class LoginFuncionarios {
 		this.funcionario = funcionario;
 	}
 	
+	public boolean isPrimeiroAcesso() {
+		return primeiroAcesso;
+	}
+
+	public void setPrimeiroAcesso(boolean primeiroAcesso) {
+		this.primeiroAcesso = primeiroAcesso;
+	}
+
+
 	/** Criptografando */
 	public String criptografiaBase64Encoder(String pValor) {
 	    return new String(Base64.getEncoder().encode(pValor.getBytes()));

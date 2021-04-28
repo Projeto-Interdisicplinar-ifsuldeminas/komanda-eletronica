@@ -9,6 +9,7 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -18,7 +19,10 @@ import javax.swing.border.TitledBorder;
 
 import br.com.komanda.eletronica.dao.LoginDao;
 import br.com.komanda.eletronica.model.Funcionario;
+import br.com.komanda.eletronica.model.LoginFuncionarios;
+
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 public class AlteraSenha extends JFrame {
@@ -30,9 +34,9 @@ public class AlteraSenha extends JFrame {
 	private JPanel contentPane;
 	
 	private static MainDashboard main = null;
-	private JPasswordField passwordField;
-	private JPasswordField passwordField_1;
-	private JPasswordField passwordField_2;
+	private JPasswordField senha1;
+	private JPasswordField novasenha1;
+	private JPasswordField novasenha2;
 	private static Funcionario funcionario;
 
 	
@@ -71,17 +75,17 @@ public class AlteraSenha extends JFrame {
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		
-		JLabel lblNewLabel = new JLabel("   ALTERAR SENHA");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setForeground(Color.RED);
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
+		JLabel lbTitulo = new JLabel("   ALTERAR SENHA");
+		lbTitulo.setHorizontalAlignment(SwingConstants.CENTER);
+		lbTitulo.setForeground(Color.RED);
+		lbTitulo.setFont(new Font("Tahoma", Font.BOLD, 18));
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1.setHorizontalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
 				.addGap(0, 605, Short.MAX_VALUE)
 				.addGroup(gl_panel_1.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 581, Short.MAX_VALUE)
+					.addComponent(lbTitulo, GroupLayout.DEFAULT_SIZE, 581, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		gl_panel_1.setVerticalGroup(
@@ -89,7 +93,7 @@ public class AlteraSenha extends JFrame {
 				.addGap(0, 59, Short.MAX_VALUE)
 				.addGroup(gl_panel_1.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+					.addComponent(lbTitulo, GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		panel_1.setLayout(gl_panel_1);
@@ -100,21 +104,21 @@ public class AlteraSenha extends JFrame {
 		JPanel panel_3 = new JPanel();
 		panel_3.setBorder(new TitledBorder(null, "Senha Antiga", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		
-		passwordField = new JPasswordField();
+		senha1 = new JPasswordField();
 		GroupLayout gl_panel_3 = new GroupLayout(panel_3);
 		gl_panel_3.setHorizontalGroup(
 			gl_panel_3.createParallelGroup(Alignment.LEADING)
 				.addGap(0, 581, Short.MAX_VALUE)
 				.addGroup(gl_panel_3.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(passwordField, GroupLayout.DEFAULT_SIZE, 549, Short.MAX_VALUE)
+					.addComponent(senha1, GroupLayout.DEFAULT_SIZE, 549, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		gl_panel_3.setVerticalGroup(
 			gl_panel_3.createParallelGroup(Alignment.LEADING)
 				.addGap(0, 63, Short.MAX_VALUE)
 				.addGroup(gl_panel_3.createSequentialGroup()
-					.addComponent(passwordField, GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+					.addComponent(senha1, GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		panel_3.setLayout(gl_panel_3);
@@ -122,21 +126,21 @@ public class AlteraSenha extends JFrame {
 		JPanel panel_3_1 = new JPanel();
 		panel_3_1.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Nova Senha", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		
-		passwordField_1 = new JPasswordField();
+		novasenha1 = new JPasswordField();
 		GroupLayout gl_panel_3_1 = new GroupLayout(panel_3_1);
 		gl_panel_3_1.setHorizontalGroup(
 			gl_panel_3_1.createParallelGroup(Alignment.LEADING)
 				.addGap(0, 581, Short.MAX_VALUE)
 				.addGroup(gl_panel_3_1.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(passwordField_1, GroupLayout.DEFAULT_SIZE, 549, Short.MAX_VALUE)
+					.addComponent(novasenha1, GroupLayout.DEFAULT_SIZE, 549, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		gl_panel_3_1.setVerticalGroup(
 			gl_panel_3_1.createParallelGroup(Alignment.LEADING)
 				.addGap(0, 63, Short.MAX_VALUE)
 				.addGroup(gl_panel_3_1.createSequentialGroup()
-					.addComponent(passwordField_1, GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+					.addComponent(novasenha1, GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		panel_3_1.setLayout(gl_panel_3_1);
@@ -144,21 +148,21 @@ public class AlteraSenha extends JFrame {
 		JPanel panel_3_2 = new JPanel();
 		panel_3_2.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Repita Nova Senha", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		
-		passwordField_2 = new JPasswordField();
+		novasenha2 = new JPasswordField();
 		GroupLayout gl_panel_3_2 = new GroupLayout(panel_3_2);
 		gl_panel_3_2.setHorizontalGroup(
 			gl_panel_3_2.createParallelGroup(Alignment.LEADING)
 				.addGap(0, 581, Short.MAX_VALUE)
 				.addGroup(gl_panel_3_2.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(passwordField_2, GroupLayout.DEFAULT_SIZE, 549, Short.MAX_VALUE)
+					.addComponent(novasenha2, GroupLayout.DEFAULT_SIZE, 549, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		gl_panel_3_2.setVerticalGroup(
 			gl_panel_3_2.createParallelGroup(Alignment.LEADING)
 				.addGap(0, 63, Short.MAX_VALUE)
 				.addGroup(gl_panel_3_2.createSequentialGroup()
-					.addComponent(passwordField_2, GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+					.addComponent(novasenha2, GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		panel_3_2.setLayout(gl_panel_3_2);
@@ -193,9 +197,37 @@ public class AlteraSenha extends JFrame {
 		
 		JButton btnAtualizar = new JButton("   ATUALIZAR");
 		btnAtualizar.addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
 				LoginDao loginDao = new LoginDao();
-				//loginDao.AlteraSenhaFuncionarios(funcionario, getWarningString(), getName())
+				try {
+					LoginFuncionarios log = loginDao.consultaid(funcionario.getIdFuncionario());
+					if(senha1.getText().equals(log.getSenha())) {
+						if(novasenha1.getText().equals(novasenha2.getText())) {
+							if(log.isPrimeiroAcesso()) {
+								loginDao.AlteraSenhaFuncionarios(funcionario, novasenha1.getText(), novasenha2.getText());
+								JOptionPane.showMessageDialog(null, "Senha alterada com sucesso");
+								dispose();
+								main.setIdFuncionario(funcionario.getIdFuncionario());
+								//main.frmSistemaDeCadastro.setEnabled(true);
+								main.GetFrame().setVisible(true);
+								main.GetFrame().setLocationRelativeTo(null);
+							}else {
+								loginDao.AlteraSenhaFuncionarios(funcionario, novasenha1.getText(), novasenha2.getText());
+								JOptionPane.showMessageDialog(null, "Senha alterada com sucesso");
+								main.frmSistemaDeCadastro.setEnabled(true);
+								dispose();
+							}						
+						}else {
+							JOptionPane.showMessageDialog(null, "As novas senhas não correspondem.");
+						}
+					}else {
+						JOptionPane.showMessageDialog(null, "Senha atual invalida.");
+					}					
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		btnAtualizar.setForeground(Color.WHITE);
@@ -203,6 +235,12 @@ public class AlteraSenha extends JFrame {
 		btnAtualizar.setBackground(Color.BLUE);
 		
 		JButton btnNewButton = new JButton("   CANCELAR");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				main.frmSistemaDeCadastro.setEnabled(true);
+				dispose();
+			}
+		});
 		btnNewButton.setForeground(Color.WHITE);
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnNewButton.setBackground(Color.RED);
@@ -252,6 +290,8 @@ public class AlteraSenha extends JFrame {
 		);
 		panel.setLayout(gl_panel);
 		contentPane.setLayout(gl_contentPane);
+		
+		lbTitulo.setText("ALTERAR SENHA DO FUNCIONARIO: " + func.getNome());
 	}
 
 
