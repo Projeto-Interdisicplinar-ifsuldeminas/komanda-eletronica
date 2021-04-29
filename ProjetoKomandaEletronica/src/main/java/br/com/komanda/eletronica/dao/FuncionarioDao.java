@@ -63,6 +63,17 @@ public class FuncionarioDao {
 			prepareLogin.setBoolean(4, false);
 			prepareLogin.setBoolean(5, true);
 			prepareLogin.execute();
+			
+			String queryUsuario = "insert into loginusuario (IdPessoa, senha, isBloqueado, primeiroAcesso) values(?,?,?,?)";
+			/* Preparando a Query */
+			
+			PreparedStatement prepareLoginUsuario = connection.prepareStatement(queryUsuario);
+			prepareLoginUsuario.setString(1, login.criptografiaBase64Encoder(login.getSenha()));
+			prepareLoginUsuario.setInt(2, lastId);
+			prepareLoginUsuario.setBoolean(3, false);
+			prepareLoginUsuario.setBoolean(4, true);
+			prepareLoginUsuario.execute();
+			
 			sucesso = true;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -94,6 +105,36 @@ public class FuncionarioDao {
 				rs.getInt("IdFuncao"));
 		
 		return func;
+
+	}
+	
+	/******************** Metodo UPDATE *****************/
+	//É feito um delete lógico para evitar perda de dados pelos usuários do sistema. 
+	//Sendo possível pelo Administrador do BD recuperar a informação caso seja errôneamente apagada.
+
+	public boolean Deletar(int idFuncionario) throws SQLException {
+		Connection connection = ConnectFactory.createConnection();
+		String update1 = "UPDATE funcionario SET IsExcluido = ? WHERE idFuncionario = ?";
+		String update2 = "UPDATE loginFuncionario SET IsBloqueado = ? WHERE idFuncionario = ?";
+		//A Pessoa não será excluída devido ao fato de mesmo que ela seja desligada da função, pode vir a ser um cliente
+		PreparedStatement stmt = connection.prepareStatement(update1);
+		PreparedStatement stmt1 = connection.prepareStatement(update1);
+		try {
+			stmt = connection.prepareStatement(update1);
+			stmt.setBoolean(1, true);
+			stmt.setInt(2, idFuncionario);
+			stmt.executeUpdate();
+			stmt.close();
+			stmt1 = connection.prepareStatement(update2);
+			stmt1.setBoolean(1, true);
+			stmt1.setInt(2, idFuncionario);
+			stmt1.executeUpdate();
+			stmt1.close();
+			connection.close();
+			return true;
+		} catch (SQLException e) {
+			return false;
+		}
 
 	}
 

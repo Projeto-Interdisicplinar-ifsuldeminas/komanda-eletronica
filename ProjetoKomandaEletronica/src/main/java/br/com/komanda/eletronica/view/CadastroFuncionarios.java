@@ -411,8 +411,9 @@ public class CadastroFuncionarios extends JFrame {
 		panel_6.setLayout(gl_panel_6);
 		panel_2.setLayout(gl_panel_2);
 		
-		JButton btnFechar = new JButton("   FECHAR");
-		btnFechar.setIcon(new ImageIcon(CadastroFuncionarios.class.getResource("/img/cancel.png")));
+		JButton btnFechar = new JButton("");
+		btnFechar.setToolTipText("Fechar");
+		btnFechar.setIcon(new ImageIcon(CadastroFuncionarios.class.getResource("/img/close-window-32.png")));
 		btnFechar.setBackground(Color.RED);
 		btnFechar.setForeground(Color.WHITE);
 		btnFechar.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -423,21 +424,29 @@ public class CadastroFuncionarios extends JFrame {
 			}
 		});
 		
-		JButton btnSalvar = new JButton("   SALVAR");
+		JButton btnSalvar = new JButton("");
+		btnSalvar.setToolTipText("Salvar");
 		
 		btnSalvar.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnSalvar.setForeground(Color.WHITE);
 		btnSalvar.setBackground(new Color(0, 128, 0));
-		btnSalvar.setIcon(new ImageIcon(CadastroFuncionarios.class.getResource("/img/user_add.png")));
+		btnSalvar.setIcon(new ImageIcon(CadastroFuncionarios.class.getResource("/img/save-32.png")));
 		
-		JButton btnApagar = new JButton("   APAGAR");
+		JButton btnApagar = new JButton("");
+		btnApagar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+					
+			}
+		});
+		btnApagar.setToolTipText("Apagar");
 		btnApagar.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnApagar.setBackground(Color.RED);
 		btnApagar.setForeground(Color.WHITE);
-		btnApagar.setIcon(new ImageIcon(CadastroFuncionarios.class.getResource("/img/user_delete.png")));
+		btnApagar.setIcon(new ImageIcon(CadastroFuncionarios.class.getResource("/img/erase-32.png")));
 		
-		JButton btnEditar = new JButton("   BUSCAR");
-		btnEditar.setIcon(new ImageIcon(CadastroFuncionarios.class.getResource("/img/user_edit.png")));
+		JButton btnEditar = new JButton("");
+		btnEditar.setToolTipText("Buscar");
+		btnEditar.setIcon(new ImageIcon(CadastroFuncionarios.class.getResource("/img/search-2-32.png")));
 		btnEditar.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnEditar.setForeground(Color.WHITE);
 		btnEditar.setBackground(Color.BLUE);
@@ -469,7 +478,7 @@ public class CadastroFuncionarios extends JFrame {
 		panel_1.setLayout(gl_panel_1);
 		
 		JLabel lblNewLabel = new JLabel("CADASTRO DE FUNCION\u00C1RIOS");
-		lblNewLabel.setForeground(new Color(34, 139, 34));
+		lblNewLabel.setForeground(Color.BLUE);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 22));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		GroupLayout gl_panel = new GroupLayout(panel);
