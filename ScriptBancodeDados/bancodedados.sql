@@ -158,7 +158,12 @@ primary key (IdDelivery),
 foreign key (IdPessoa) references pessoa (IdPessoa),
 foreign key (IdCozinha) references Cozinha(IdPedidoCozinha));
 
-/* Criação da tabela Delivery
+/* Inserção de Coluna na tabela loginFuncionario
 ######################################## */
 ALTER TABLE `komandaeletronica`.`loginfuncionario` 
 ADD COLUMN `primeiroAcesso` TINYINT(1) NULL AFTER `IsBloqueado`;
+
+/* Inserção de Coluna na tabela loginUsuario
+######################################## */
+ALTER TABLE `komandaeletronica`.`loginusuario` 
+ADD COLUMN `primeiroAcesso` TINYINT(1) NULL AFTER `isBloqueado`;
