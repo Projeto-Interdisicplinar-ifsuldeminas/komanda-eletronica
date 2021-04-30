@@ -38,6 +38,11 @@ public class Funcionario extends Pessoa {
 		this.IsExcluido = isExcluído;
 		this.idFuncao = idFunc;
 	}
+	
+	public Funcionario(int idFuncionario,int idPessoa,String nome, String CPF) {
+		super(idPessoa, nome, CPF);
+		this.idFuncionario = idFuncionario;
+	}
 
 	public int getIdFuncionario() {
 		return idFuncionario;

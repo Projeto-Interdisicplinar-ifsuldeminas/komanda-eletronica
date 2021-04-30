@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import br.com.komanda.eletronica.connection.ConnectFactory;
 import br.com.komanda.eletronica.model.Funcionario;
@@ -43,15 +44,7 @@ public class FuncionarioDao {
 			int lastId = rs.getInt("IdFuncionario");
 
 			rs.close();
-			stmt.close();
-					
-			
-			/*ResultSet rs = prepare.getGeneratedKeys();
-			
-			if(rs.next()){
-				idRetornoFuncionario = rs.getInt(1);
-			}*/
-			
+			stmt.close();			
 			
 			String queryLogin = "insert into loginfuncionario (idFuncionario, senha, nivelDeAcesso, IsBloqueado, primeiroAcesso) values(?,?,?,?,?)";
 			/* Preparando a Query */
@@ -68,8 +61,8 @@ public class FuncionarioDao {
 			/* Preparando a Query */
 			
 			PreparedStatement prepareLoginUsuario = connection.prepareStatement(queryUsuario);
-			prepareLoginUsuario.setString(1, login.criptografiaBase64Encoder(login.getSenha()));
-			prepareLoginUsuario.setInt(2, lastId);
+			prepareLoginUsuario.setInt(1, lastId);
+			prepareLoginUsuario.setString(2, login.criptografiaBase64Encoder(login.getSenha()));
 			prepareLoginUsuario.setBoolean(3, false);
 			prepareLoginUsuario.setBoolean(4, true);
 			prepareLoginUsuario.execute();
@@ -94,8 +87,8 @@ public class FuncionarioDao {
 	/******************** Consulta por id *****************/
 	public Funcionario consultaid(int identificacao) throws SQLException {
 		Connection connection = ConnectFactory.createConnection();
-		String query = "SELECT a.IdFuncionario, b.IdPessoa, b. cpf, a.NumeroRegistro, a.IdFuncao, a.IsGerente, b.nome, a.IsExcluido FROM komandaeletronica.funcionario as a INNER JOIN\r\n"
-				+ "pessoa as b WHERE a.IdFuncionario = " + identificacao;
+		String query = "SELECT a.IdFuncionario, b.IdPessoa, b. cpf, a.NumeroRegistro, a.IdFuncao, a.IsGerente, b.nome, a.IsExcluido FROM funcionario as a \r\n"
+				+ "INNER JOIN pessoa as b ON a.IdPessoa = b.IdPessoa AND a.IdFuncionario = " + identificacao;
 
 		PreparedStatement stmt = (PreparedStatement) connection.prepareStatement(query);
 		ResultSet rs = stmt.executeQuery();
@@ -135,6 +128,28 @@ public class FuncionarioDao {
 		} catch (SQLException e) {
 			return false;
 		}
+
+	}
+	
+	/******************** Busca todas os funcionarios *****************/
+	public ArrayList<Funcionario> getAll() throws SQLException {
+		Connection connection = ConnectFactory.createConnection();
+		String query = "SELECT a.IdFuncionario,  a.IdPessoa, b.nome, b.cpf FROM funcionario a INNER JOIN pessoa b ON a.IdPessoa = b.IdPessoa;";
+
+		Statement stmt = (Statement) connection.createStatement();
+		ResultSet resultado = stmt.executeQuery(query);
+		ArrayList<Funcionario> tipo = new ArrayList<>();
+		while (resultado.next()) {
+			int id = resultado.getInt("IdFuncionario");
+			int idPessoa = resultado.getInt("IdPessoa");
+			String nome = resultado.getString("nome");
+			String cpf = resultado.getString("cpf");
+			tipo.add(new Funcionario(id, idPessoa, nome, cpf));
+		}
+		stmt.close();
+		connection.close();
+		
+		return tipo;
 
 	}
 

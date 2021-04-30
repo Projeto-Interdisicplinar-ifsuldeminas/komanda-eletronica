@@ -543,14 +543,15 @@ public class MainDashboard {
 		btnNewButton_2.setIcon(new ImageIcon(MainDashboard.class.getResource("/img/conference-32.png")));
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				BuscaFuncionarios busca;
 				try {
-					CadastroFuncionarios funcionarios = new CadastroFuncionarios();
-					funcionarios.setLocationRelativeTo(null);
-					funcionarios.SetMainDashboard(main);
+					busca = new BuscaFuncionarios();
+					busca.setLocationRelativeTo(null);
+					busca.SetMainDashboard(main);
 					// main.frmSistemaDeCadastro.set
 					main.frmSistemaDeCadastro.setEnabled(false);
-					funcionarios.setVisible(true);
-				} catch (ParseException e1) {
+					busca.setVisible(true);
+				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
@@ -710,13 +711,18 @@ public class MainDashboard {
 	}
 	
 	public void BuscaFuncionario(int id) {
-		FuncionarioDao funcDao = new FuncionarioDao();
-		try {
-			func = funcDao.consultaid(id);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(id != 0) {
+			FuncionarioDao funcDao = new FuncionarioDao();
+			try {
+				func = funcDao.consultaid(id);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}				
+		}else {
+			func = new Funcionario(0, 0, "Administrador","12345678900", false, 0, true,0);
 		}
+				
 		//return func;
 	}
 

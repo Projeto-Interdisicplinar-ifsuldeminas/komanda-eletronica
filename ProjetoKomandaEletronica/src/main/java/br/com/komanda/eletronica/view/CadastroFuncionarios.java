@@ -445,8 +445,12 @@ public class CadastroFuncionarios extends JFrame {
 		btnApagar.setIcon(new ImageIcon(CadastroFuncionarios.class.getResource("/img/erase-32.png")));
 		
 		JButton btnEditar = new JButton("");
-		btnEditar.setToolTipText("Buscar");
-		btnEditar.setIcon(new ImageIcon(CadastroFuncionarios.class.getResource("/img/search-2-32.png")));
+		btnEditar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnEditar.setToolTipText("Editar");
+		btnEditar.setIcon(new ImageIcon(CadastroFuncionarios.class.getResource("/img/edit-32.png")));
 		btnEditar.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnEditar.setForeground(Color.WHITE);
 		btnEditar.setBackground(Color.BLUE);

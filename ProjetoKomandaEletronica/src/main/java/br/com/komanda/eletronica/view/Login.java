@@ -70,7 +70,7 @@ public class Login extends JFrame {
 		setUndecorated(true);
 		setResizable(false);
 		
-		setSize(new Dimension(530, 398));
+		setSize(new Dimension(450, 325));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -87,7 +87,7 @@ public class Login extends JFrame {
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		panel_1.setBounds(10, 58, 420, 98);
+		panel_1.setBounds(10, 50, 420, 98);
 		panel.add(panel_1);
 		
 		//JFormattedTextField ftUsuario = new JFormattedTextField();
@@ -107,23 +107,23 @@ public class Login extends JFrame {
 					.addContainerGap()
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
 						.addComponent(ftUsuario, GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE)
-						.addComponent(pfSenha, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE))
+						.addComponent(pfSenha, GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		gl_panel_1.setVerticalGroup(
-			gl_panel_1.createParallelGroup(Alignment.LEADING)
+			gl_panel_1.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panel_1.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(ftUsuario, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
+					.addGap(6)
+					.addComponent(ftUsuario, GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(pfSenha, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(58, Short.MAX_VALUE))
+					.addComponent(pfSenha, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap())
 		);
 		panel_1.setLayout(gl_panel_1);
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		panel_2.setBounds(10, 167, 420, 112);
+		panel_2.setBounds(10, 173, 420, 106);
 		panel.add(panel_2);
 		
 		JButton btnOk = new JButton("");
@@ -160,19 +160,19 @@ public class Login extends JFrame {
 							.addComponent(btnOk, GroupLayout.PREFERRED_SIZE, 180, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
 							.addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, 180, GroupLayout.PREFERRED_SIZE))
-						.addComponent(lblNewLabel_1, GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE))
+						.addComponent(lblNewLabel_1, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		gl_panel_2.setVerticalGroup(
 			gl_panel_2.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_2.createSequentialGroup()
-					.addGap(20)
-					.addGroup(gl_panel_2.createParallelGroup(Alignment.BASELINE)
+					.addContainerGap()
+					.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
 						.addComponent(btnOk, GroupLayout.PREFERRED_SIZE, 68, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, 68, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(lblNewLabel_1)
-					.addContainerGap())
+					.addGap(12))
 		);
 		panel_2.setLayout(gl_panel_2);
 		
@@ -238,16 +238,28 @@ public class Login extends JFrame {
 	
 	public void ValidaUsuario(String usuario, String senha) throws SQLException {
 		boolean retorno = false;
+		boolean master = false;
 		loginDao = new LoginDao();
 		if(usuario.equals("123.456.789-00") && senha.equals("master")) {
 			retorno = true;
+			master = true;
 		}else {
 						
 			retorno = loginDao.ValidaLoginFuncionarios(usuario, senha);
 		}		
 		//boolean retorno = true;
-		
-		if(retorno) {
+		if(retorno && master) {
+			this.dispose();
+			MainDashboard window = null;
+			if(main != null) {
+				window = main;
+			}else {
+				window = new MainDashboard(this, loginDao);
+			}
+			window.setIdFuncionario(0);
+			window.GetFrame().setVisible(true);
+			window.GetFrame().setLocationRelativeTo(null);
+		}else if(retorno && !master) {
 			this.dispose();
 			MainDashboard window = null;
 			if(main != null) {
