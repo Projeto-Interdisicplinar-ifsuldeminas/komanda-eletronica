@@ -167,3 +167,8 @@ ADD COLUMN `primeiroAcesso` TINYINT(1) NULL AFTER `IsBloqueado`;
 ######################################## */
 ALTER TABLE `komandaeletronica`.`loginusuario` 
 ADD COLUMN `primeiroAcesso` TINYINT(1) NULL AFTER `isBloqueado`;
+
+/* Inserção de Coluna na tabela Funcionario
+######################################## */
+ALTER TABLE `komandaeletronica`.`funcionario` 
+ADD COLUMN `NivelDeAcesso` INT(3) NULL AFTER `IsExcluido`;
