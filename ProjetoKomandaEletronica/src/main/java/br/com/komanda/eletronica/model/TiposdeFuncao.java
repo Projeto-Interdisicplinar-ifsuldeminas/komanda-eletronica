@@ -11,6 +11,10 @@ public class TiposdeFuncao {
 		this.idFuncao = idFuncao;
 		this.funcao = funcao;
 	}
+	
+	public TiposdeFuncao() {
+		
+	}
 
 	public String getFuncao() {
 		return funcao;

@@ -137,24 +137,14 @@ public class BuscaFuncionarios extends JFrame {
 		});
 		
 		tableFuncionario.getColumnModel().getColumn(1).setPreferredWidth(326);
-		scrollPane.setViewportView(tableFuncionario);
-		
+		scrollPane.setViewportView(tableFuncionario);	
 		
 		
 		JButton btnNewButton_1 = new JButton("");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					CadastroFuncionarios funcionarios = new CadastroFuncionarios();
-					funcionarios.setLocationRelativeTo(null);
-					funcionarios.SetMainDashboard(main);
-					// main.frmSistemaDeCadastro.set
-					main.frmSistemaDeCadastro.setEnabled(false);
-					funcionarios.setVisible(true);
-				} catch (ParseException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				EditarFuncionario((int)tableFuncionario.getModel().getValueAt(
+						tableFuncionario.getSelectedRow(),0));
 			}
 		});
 		btnNewButton_1.setBackground(Color.BLUE);
@@ -180,22 +170,27 @@ public class BuscaFuncionarios extends JFrame {
 		JButton btnNewButton_1_2 = new JButton("");
 		btnNewButton_1_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					CadastroFuncionarios funcionarios = new CadastroFuncionarios();
-					funcionarios.setLocationRelativeTo(null);
-					funcionarios.SetMainDashboard(main);
-					// main.frmSistemaDeCadastro.set
-					main.frmSistemaDeCadastro.setEnabled(false);
-					funcionarios.setVisible(true);
-				} catch (ParseException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				CadastroDeFuncionario();
 			}
 		});
 		btnNewButton_1_2.setIcon(new ImageIcon(BuscaFuncionarios.class.getResource("/img/plus-5-32.png")));
 		btnNewButton_1_2.setToolTipText("Novo");
 		btnNewButton_1_2.setBackground(new Color(0, 128, 0));
+		
+		JButton btnNewButton_1_1_2 = new JButton("");
+		btnNewButton_1_1_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					PreencheTabela();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		btnNewButton_1_1_2.setIcon(new ImageIcon(BuscaFuncionarios.class.getResource("/img/refresh-32.png")));
+		btnNewButton_1_1_2.setToolTipText("Apagar");
+		btnNewButton_1_1_2.setBackground(Color.ORANGE);
 		
 		GroupLayout gl_panel_4 = new GroupLayout(panel_4);
 		gl_panel_4.setHorizontalGroup(
@@ -203,7 +198,9 @@ public class BuscaFuncionarios extends JFrame {
 				.addGroup(gl_panel_4.createSequentialGroup()
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addComponent(btnNewButton_1_1_1, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE)
-					.addGap(315)
+					.addGap(171)
+					.addComponent(btnNewButton_1_1_2, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(btnNewButton_1_1, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(btnNewButton_1, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE)
@@ -215,11 +212,12 @@ public class BuscaFuncionarios extends JFrame {
 			gl_panel_4.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_4.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_panel_4.createParallelGroup(Alignment.TRAILING)
-						.addComponent(btnNewButton_1, GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
-						.addComponent(btnNewButton_1_1, GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
-						.addComponent(btnNewButton_1_2, GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
-						.addComponent(btnNewButton_1_1_1, GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE))
+					.addGroup(gl_panel_4.createParallelGroup(Alignment.LEADING)
+						.addComponent(btnNewButton_1_1_2, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnNewButton_1, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
+						.addComponent(btnNewButton_1_1, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
+						.addComponent(btnNewButton_1_2, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
+						.addComponent(btnNewButton_1_1_1, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		panel_4.setLayout(gl_panel_4);
@@ -361,6 +359,35 @@ public class BuscaFuncionarios extends JFrame {
 		panel.setLayout(gl_panel);
 		contentPane.setLayout(gl_contentPane);
 		PreencheTabela();
+	}
+	
+	public void CadastroDeFuncionario() {
+		try {
+			CadastroFuncionarios funcionarios = new CadastroFuncionarios(0);
+			funcionarios.setLocationRelativeTo(null);
+			funcionarios.SetMainDashboard(main);
+			funcionarios.setBuscarFunc(this);
+			// main.frmSistemaDeCadastro.set
+			main.frmSistemaDeCadastro.setEnabled(false);
+			funcionarios.setVisible(true);
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
+	
+	public void EditarFuncionario(int id) {
+		try {
+			CadastroFuncionarios funcionarios = new CadastroFuncionarios(id);
+			funcionarios.setLocationRelativeTo(null);
+			funcionarios.SetMainDashboard(main);
+			// main.frmSistemaDeCadastro.set
+			main.frmSistemaDeCadastro.setEnabled(false);
+			funcionarios.setVisible(true);
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 	
 	public void SetMainDashboard(MainDashboard p) {

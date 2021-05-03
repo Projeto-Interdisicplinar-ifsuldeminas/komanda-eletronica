@@ -5,10 +5,15 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
@@ -33,13 +38,6 @@ import br.com.komanda.eletronica.model.LoginFuncionarios;
 import br.com.komanda.eletronica.model.TiposdeFuncao;
 import br.com.komanda.eletronica.view.enums.CadastroDeFuncoes;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.security.NoSuchAlgorithmException;
-import java.sql.SQLException;
-
-import javax.swing.DefaultComboBoxModel;
-
 public class CadastroFuncionarios extends JFrame {
 
 	/**
@@ -53,13 +51,26 @@ public class CadastroFuncionarios extends JFrame {
 	
 	private static MainDashboard main = null;
 	private JTextField txtMatricula;
+	@SuppressWarnings("rawtypes")
+	private JComboBox comboBox, cbNivel;
+	private JFormattedTextField ftTelefone;
+	private JRadioButton RBSim;
+	private JRadioButton RBNao;
+	private JComboBox<String> cbFuncao;
+	private JFormattedTextField ftCpf;
+	
+	private JButton btnSalvar;
+	
+	private BuscaFuncionarios buscarFunc;
+	
+	
 
 	/**
 	 * Create the frame.
 	 * @throws ParseException 
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public CadastroFuncionarios() throws ParseException {
+	public CadastroFuncionarios(int id) throws ParseException {
 		
 		setUndecorated(true);
 		setTitle("CADASTRO DE FUNCION\u00C1RIOS");
@@ -107,22 +118,22 @@ public class CadastroFuncionarios extends JFrame {
 					.addContainerGap())
 		);
 		
-		JLabel lblNewLabel_2 = new JLabel("O USU\u00C1RIO PARA ACESSO SER\u00C1 O CPF CADASTRADO E A SENHA INICIAL SER\u00C1 \"12345678\" (ESTA SER\u00C1 SOLICITADA A ALTERA\u00C7\u00C3O NO PRIMEIRO ACESSO).");
-		lblNewLabel_2.setForeground(Color.RED);
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 13));
+		JLabel rotulo = new JLabel("O USU\u00C1RIO PARA ACESSO SER\u00C1 O CPF CADASTRADO E A SENHA INICIAL SER\u00C1 \"12345678\" (ESTA SER\u00C1 SOLICITADA A ALTERA\u00C7\u00C3O NO PRIMEIRO ACESSO).");
+		rotulo.setForeground(Color.RED);
+		rotulo.setFont(new Font("Tahoma", Font.BOLD, 13));
 		GroupLayout gl_panel_7 = new GroupLayout(panel_7);
 		gl_panel_7.setHorizontalGroup(
 			gl_panel_7.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_7.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(lblNewLabel_2, GroupLayout.DEFAULT_SIZE, 987, Short.MAX_VALUE)
+					.addComponent(rotulo, GroupLayout.DEFAULT_SIZE, 987, Short.MAX_VALUE)
 					.addGap(115))
 		);
 		gl_panel_7.setVerticalGroup(
 			gl_panel_7.createParallelGroup(Alignment.LEADING)
 				.addGroup(Alignment.TRAILING, gl_panel_7.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(lblNewLabel_2, GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE))
+					.addComponent(rotulo, GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE))
 		);
 		panel_7.setLayout(gl_panel_7);
 		
@@ -152,36 +163,61 @@ public class CadastroFuncionarios extends JFrame {
 		
 		JPanel panel_8 = new JPanel();
 		panel_8.setBorder(new TitledBorder(null, "N\u00EDvel de Acesso", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		
+		JPanel panel_3_1 = new JPanel();
+		panel_3_1.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "N\u00EDvel de acesso", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		
+		cbNivel = new JComboBox();
+		cbNivel.setModel(new DefaultComboBoxModel(new String[] {"SELECIONE", "ATENDENTE", "GERENTE", "ADMINISTRADOR"}));
+		GroupLayout gl_panel_3_1 = new GroupLayout(panel_3_1);
+		gl_panel_3_1.setHorizontalGroup(
+			gl_panel_3_1.createParallelGroup(Alignment.LEADING)
+				.addGroup(Alignment.TRAILING, gl_panel_3_1.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(cbNivel, 0, 570, Short.MAX_VALUE)
+					.addContainerGap())
+		);
+		gl_panel_3_1.setVerticalGroup(
+			gl_panel_3_1.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_3_1.createSequentialGroup()
+					.addComponent(cbNivel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(13, Short.MAX_VALUE))
+		);
+		panel_3_1.setLayout(gl_panel_3_1);
 		GroupLayout gl_panel_2 = new GroupLayout(panel_2);
 		gl_panel_2.setHorizontalGroup(
 			gl_panel_2.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_2.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
-						.addGroup(Alignment.TRAILING, gl_panel_2.createSequentialGroup()
-							.addComponent(panel_8, GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
+					.addGroup(gl_panel_2.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_panel_2.createSequentialGroup()
+							.addComponent(panel_8, GroupLayout.DEFAULT_SIZE, 517, Short.MAX_VALUE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(panel_4, GroupLayout.DEFAULT_SIZE, 519, Short.MAX_VALUE))
-						.addGroup(Alignment.TRAILING, gl_panel_2.createSequentialGroup()
-							.addComponent(panel_3, GroupLayout.DEFAULT_SIZE, 843, Short.MAX_VALUE)
-							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(panel_4, GroupLayout.DEFAULT_SIZE, 573, Short.MAX_VALUE))
+						.addGroup(gl_panel_2.createSequentialGroup()
+							.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 320, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
+							.addComponent(panel_3_1, GroupLayout.DEFAULT_SIZE, 602, Short.MAX_VALUE)
+							.addGap(18)
 							.addComponent(panel_6, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE))
-						.addGroup(Alignment.TRAILING, gl_panel_2.createSequentialGroup()
-							.addComponent(panel_5_2, GroupLayout.DEFAULT_SIZE, 675, Short.MAX_VALUE)
+						.addGroup(gl_panel_2.createSequentialGroup()
+							.addComponent(panel_5_2, GroupLayout.DEFAULT_SIZE, 729, Short.MAX_VALUE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(panel_5_2_1, GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE))
-						.addComponent(panel_5_1, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 987, Short.MAX_VALUE)
-						.addComponent(panel_5, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 987, Short.MAX_VALUE)
-						.addComponent(panel_5_1_1, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 987, Short.MAX_VALUE))
+							.addComponent(panel_5_2_1, GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE))
+						.addComponent(panel_5_1, GroupLayout.DEFAULT_SIZE, 1096, Short.MAX_VALUE)
+						.addComponent(panel_5, GroupLayout.DEFAULT_SIZE, 1096, Short.MAX_VALUE)
+						.addComponent(panel_5_1_1, GroupLayout.DEFAULT_SIZE, 1096, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		gl_panel_2.setVerticalGroup(
 			gl_panel_2.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_2.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_panel_2.createParallelGroup(Alignment.BASELINE)
-						.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 57, GroupLayout.PREFERRED_SIZE)
-						.addComponent(panel_6, 0, 0, Short.MAX_VALUE))
+					.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel_2.createParallelGroup(Alignment.BASELINE)
+							.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 57, GroupLayout.PREFERRED_SIZE)
+							.addComponent(panel_6, 0, 0, Short.MAX_VALUE))
+						.addComponent(panel_3_1, GroupLayout.PREFERRED_SIZE, 57, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
 						.addComponent(panel_8, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -199,7 +235,7 @@ public class CadastroFuncionarios extends JFrame {
 					.addGap(16))
 		);
 		
-		JComboBox comboBox = new JComboBox();
+		comboBox = new JComboBox();
 		comboBox.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"SELECIONE", "Administrador", "Gerente", "Atendente"}));
 		GroupLayout gl_panel_8 = new GroupLayout(panel_8);
@@ -237,7 +273,7 @@ public class CadastroFuncionarios extends JFrame {
 		);
 		panel_5_1_1.setLayout(gl_panel_5_1_1);
 		
-		JFormattedTextField ftTelefone = new JFormattedTextField(new MaskFormatter("(##) #####-####"));
+		ftTelefone = new JFormattedTextField(new MaskFormatter("(##) #####-####"));
 		ftTelefone.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GroupLayout gl_panel_5_2_1 = new GroupLayout(panel_5_2_1);
 		gl_panel_5_2_1.setHorizontalGroup(
@@ -255,7 +291,7 @@ public class CadastroFuncionarios extends JFrame {
 		);
 		panel_5_2_1.setLayout(gl_panel_5_2_1);
 		
-		JFormattedTextField ftCpf = new JFormattedTextField(new MaskFormatter("###.###.###-##"));
+		ftCpf = new JFormattedTextField(new MaskFormatter("###.###.###-##"));
 		ftCpf.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GroupLayout gl_panel_5_2 = new GroupLayout(panel_5_2);
 		gl_panel_5_2.setHorizontalGroup(
@@ -311,7 +347,7 @@ public class CadastroFuncionarios extends JFrame {
 		);
 		panel_5.setLayout(gl_panel_5);
 		
-		JComboBox<String> cbFuncao = new JComboBox();
+		cbFuncao = new JComboBox();
 		cbFuncao.setModel(new DefaultComboBoxModel(new String[] {"SELECIONE"}));
 		cbFuncao.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		
@@ -365,11 +401,11 @@ public class CadastroFuncionarios extends JFrame {
 		);
 		panel_3.setLayout(gl_panel_3);
 		
-		JRadioButton RBSim = new JRadioButton("SIM");
+		RBSim = new JRadioButton("SIM");
 		
 		RBSim.setFont(new Font("Tahoma", Font.BOLD, 12));
 		
-		JRadioButton RBNao = new JRadioButton("N\u00C3O");
+		RBNao = new JRadioButton("N\u00C3O");
 		RBNao.setFont(new Font("Tahoma", Font.BOLD, 12));
 		
 		RBSim.addMouseListener(new MouseAdapter() {
@@ -424,7 +460,7 @@ public class CadastroFuncionarios extends JFrame {
 			}
 		});
 		
-		JButton btnSalvar = new JButton("");
+		btnSalvar = new JButton("");
 		btnSalvar.setToolTipText("Salvar");
 		
 		btnSalvar.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -435,7 +471,11 @@ public class CadastroFuncionarios extends JFrame {
 		JButton btnApagar = new JButton("");
 		btnApagar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-					
+				int opcao=0;
+				int op;
+				do{
+				 op=Integer.parseInt(JOptionPane.showInputDialog("Deseja continuar?Digite 1 para sair "));
+				}while(op!=1);					
 			}
 		});
 		btnApagar.setToolTipText("Apagar");
@@ -447,6 +487,18 @@ public class CadastroFuncionarios extends JFrame {
 		JButton btnEditar = new JButton("");
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				txtMatricula.setEditable(true);				
+				RBSim.setEnabled(true);
+				RBNao.setEnabled(true);								
+				txtNome.setEditable(true);				
+				comboBox.setEnabled(true);				
+				cbFuncao.setEnabled(true);				
+				txtEndereco.setEditable(true);				
+				txtEmail.setEditable(true);				
+				ftCpf.setEditable(true);				
+				ftTelefone.setEditable(true);
+				cbNivel.setEnabled(true);
+				btnSalvar.setEnabled(true);
 			}
 		});
 		btnEditar.setToolTipText("Editar");
@@ -504,49 +556,148 @@ public class CadastroFuncionarios extends JFrame {
 		btnSalvar.addActionListener(new ActionListener() {
 			@SuppressWarnings("unused")
 			public void actionPerformed(ActionEvent e) {
-				
-				boolean isGerente = false;
-				int control = 0;
-				
-				comboBox.getSelectedIndex();
-				cbFuncao.getSelectedIndex();
-				if(RBSim.isSelected()) {
-					isGerente = true;
-					control = 1;
-				}else if(RBNao.isSelected()) {
-					isGerente = false;
-					control = 1;
-				}
-				
-				if(control == 1) {
-					int index = cbFuncao.getSelectedIndex();
-					Funcionario funcionario = new Funcionario(txtNome.getText(), ftCpf.getText(),txtEndereco.getText(), 
-							ftTelefone.getText(), txtEmail.getText(), true, false, 
-							Integer.parseInt(txtMatricula.getText()),isGerente, false, index);
-					LoginFuncionarios login = new LoginFuncionarios("12345678", comboBox.getSelectedIndex(), false, funcionario);
-					FuncionarioDao conection = new FuncionarioDao();
-					boolean resultado = false;
-					try {
-						resultado = conection.adicionar(funcionario, login);
-					} catch (NoSuchAlgorithmException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					if(resultado == true) {
-						JOptionPane.showMessageDialog(null, "FUNCIONÁRIO CADASTRADO COM SUCESSO!");
-					}else {
-						JOptionPane.showMessageDialog(null, "ERRO AO CADASTRAR NOVO USUÁRIO");
-					}
-				}else {
-					JOptionPane.showMessageDialog(null, "POR FAVOR VERIFIQUE OS CAMPOS E TENTE NOVAMENTE!");
-				}
-				
-				
+				try {
+					SalvarOuAtualizar(id);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}				
 			}
 		});
 		
 		panel.setLayout(gl_panel);
 		contentPane.setLayout(gl_contentPane);
+		
+		if(id != 0) {
+			try {
+				FuncionarioDao conectionEdit = new FuncionarioDao();
+				Funcionario f = conectionEdit.ConsultaIdCompleta(id);
+				
+				String matricula = Integer.toString(f.getNumeroRegistro());
+				txtMatricula.setEditable(false);
+				txtMatricula.setText(matricula);
+				
+				RBSim.setEnabled(false);
+				RBNao.setEnabled(false);
+				if(f.isIsGerente()) {
+					RBSim.setSelected(true);
+					RBNao.setSelected(false);
+				}else {
+					RBSim.setSelected(false);
+					RBNao.setSelected(true);
+				}
+				
+				txtNome.setEditable(false);
+				txtNome.setText(f.getNome());
+				
+				comboBox.setEnabled(false);
+				comboBox.setSelectedIndex(f.getNivelAcesso());
+				
+				cbFuncao.setEnabled(false);
+				cbFuncao.setSelectedIndex(f.getIdFuncao());
+				
+				txtEndereco.setEditable(false);
+				txtEndereco.setText(f.getEndereço());
+				
+				txtEmail.setEditable(false);
+				txtEmail.setText(f.getEmail());
+				
+				ftCpf.setEditable(false);
+				ftCpf.setText(f.getCPF());
+				
+				ftTelefone.setEditable(false);
+				ftTelefone.setText(f.getTelefone());
+				
+				cbNivel.setEnabled(false);
+				cbNivel.setSelectedIndex(f.getNivelAcesso());
+				
+				btnSalvar.setEnabled(false);
+				
+				rotulo.setVisible(false);
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	public void SalvarOuAtualizar(int id) throws SQLException {
+		boolean isGerente = false;
+		int control = 0;
+		if(id == 0) {
+			//INSERT
+			if(RBSim.isSelected()) {
+				isGerente = true;
+				control = 1;
+			}else if(RBNao.isSelected()) {
+				isGerente = false;
+				control = 1;
+			}
+			
+			if(control == 1) {
+				Funcionario funcionario = new Funcionario(txtNome.getText(), ftCpf.getText(),txtEndereco.getText(), 
+						ftTelefone.getText(), txtEmail.getText(), true, false, 
+						Integer.parseInt(txtMatricula.getText()),isGerente, false, cbFuncao.getSelectedIndex());
+				LoginFuncionarios login = new LoginFuncionarios("12345678", comboBox.getSelectedIndex(), false, funcionario);
+				FuncionarioDao conection = new FuncionarioDao();
+				boolean resultado = false;
+				try {
+					resultado = conection.adicionar(funcionario, login);
+				} catch (NoSuchAlgorithmException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				if(resultado == true) {
+					JOptionPane.showMessageDialog(null, "FUNCIONÁRIO CADASTRADO COM SUCESSO!");
+					buscarFunc.setEnabled(true);
+					dispose();
+				}else {
+					JOptionPane.showMessageDialog(null, "ERRO AO CADASTRAR NOVO USUÁRIO");
+				}
+			}else {
+				JOptionPane.showMessageDialog(null, "POR FAVOR VERIFIQUE OS CAMPOS E TENTE NOVAMENTE!");
+			}
+		}else {
+			//Update
+			if(RBSim.isSelected()) {
+				isGerente = true;
+				control = 1;
+			}else if(RBNao.isSelected()) {
+				isGerente = false;
+				control = 1;
+			}
+			
+			if(control == 1) {
+				
+				FuncionarioDao conection = new FuncionarioDao();
+				Funcionario func = conection.ConsultaIdCompleta(id);
+				
+				func.setNome(txtNome.getText());
+				func.setCPF(ftCpf.getText());
+				func.setEndereço(txtEndereco.getText());
+				func.setTelefone(ftTelefone.getText());
+				func.setEmail(txtEmail.getText());
+				func.setIsGerente(isGerente);
+				func.setIdFuncao(cbFuncao.getSelectedIndex());
+				func.setNivelAcesso(cbNivel.getSelectedIndex());
+				
+				boolean resultado = false;
+				resultado = conection.Atualizar(func);
+				if(resultado == true) {
+					JOptionPane.showMessageDialog(null, "FUNCIONÁRIO ATUALIZADO COM SUCESSO!");
+					buscarFunc.setEnabled(true);
+					dispose();
+				}else {
+					JOptionPane.showMessageDialog(null, "ERRO AO ATUALIZAR USUÁRIO");
+				}
+			}else {
+				JOptionPane.showMessageDialog(null, "POR FAVOR VERIFIQUE OS CAMPOS E TENTE NOVAMENTE!");
+			}
+		}
+		
+		
 	}
 	
 	public void SetMainDashboard(MainDashboard p) {
@@ -613,4 +764,14 @@ public class CadastroFuncionarios extends JFrame {
                 return(false);
             }
 	}
+
+	public BuscaFuncionarios getBuscarFunc() {
+		return buscarFunc;
+	}
+
+	public void setBuscarFunc(BuscaFuncionarios buscarFunc) {
+		this.buscarFunc = buscarFunc;
+	}
+	
+	
 }

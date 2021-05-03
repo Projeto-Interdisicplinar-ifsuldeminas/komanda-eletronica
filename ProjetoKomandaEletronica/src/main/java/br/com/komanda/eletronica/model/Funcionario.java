@@ -7,16 +7,18 @@ public class Funcionario extends Pessoa {
 	private int idFuncao;
 	private boolean IsGerente;
 	private boolean IsExcluido;
+	private int nivelAcesso;
 
 	public Funcionario(int idPessoa, String nome, String cPF, String endereço, String telefone, String email,
 			boolean isFuncionario, boolean isExcuído, int idFuncionario, int numeroRegistro, boolean isGerente,
-			boolean isExcluído, int idFunc) {
+			boolean isExcluído, int idFunc, int nivelDeAcesso) {
 		super(idPessoa, nome, cPF, endereço, telefone, email, isExcuído);
 		this.idFuncionario = idFuncionario;
 		this.NumeroRegistro = numeroRegistro;
 		this.IsGerente = isGerente;
 		this.IsExcluido = isExcluído;
 		this.idFuncao = idFunc;
+		this.nivelAcesso = nivelDeAcesso;
 	}
 	
 	public Funcionario(String nome, String CPF, String endereço, String telefone, String email,
@@ -82,6 +84,14 @@ public class Funcionario extends Pessoa {
 
 	public void setIdFuncao(int idFuncao) {
 		this.idFuncao = idFuncao;
-	}	
+	}
+
+	public int getNivelAcesso() {
+		return nivelAcesso;
+	}
+
+	public void setNivelAcesso(int nivelAcesso) {
+		this.nivelAcesso = nivelAcesso;
+	}
 
 }

@@ -167,17 +167,7 @@ public class MainDashboard {
 		JMenuItem MenuItemAdicionar = new JMenuItem("Funcion\u00E1rios");
 		MenuItemAdicionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					CadastroFuncionarios funcionarios = new CadastroFuncionarios();
-					funcionarios.setLocationRelativeTo(null);
-					funcionarios.SetMainDashboard(main);
-					// main.frmSistemaDeCadastro.set
-					main.frmSistemaDeCadastro.setEnabled(false);
-					funcionarios.setVisible(true);
-				} catch (ParseException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				BuscaDeFuncionarios();
 			}
 		});
 		MenuItemAdicionar.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F5, InputEvent.ALT_MASK));
@@ -543,18 +533,7 @@ public class MainDashboard {
 		btnNewButton_2.setIcon(new ImageIcon(MainDashboard.class.getResource("/img/conference-32.png")));
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				BuscaFuncionarios busca;
-				try {
-					busca = new BuscaFuncionarios();
-					busca.setLocationRelativeTo(null);
-					busca.SetMainDashboard(main);
-					// main.frmSistemaDeCadastro.set
-					main.frmSistemaDeCadastro.setEnabled(false);
-					busca.setVisible(true);
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				BuscaDeFuncionarios();
 			}
 		});
 		
@@ -699,6 +678,21 @@ public class MainDashboard {
 		//this.BuscaFuncionario(this.getIdFuncionario());
 		
 		
+	}
+	
+	public void BuscaDeFuncionarios() {
+		BuscaFuncionarios busca;
+		try {
+			busca = new BuscaFuncionarios();
+			busca.setLocationRelativeTo(null);
+			busca.SetMainDashboard(main);
+			// main.frmSistemaDeCadastro.set
+			main.frmSistemaDeCadastro.setEnabled(false);
+			busca.setVisible(true);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 
 	// classe hora
