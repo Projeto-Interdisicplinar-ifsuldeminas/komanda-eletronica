@@ -50,6 +50,9 @@ Executar a aplicação via IDE ou jar.
 
 * [org.apache.commons]
 * [mysql]
+* [com.jgoodies]
+* [com.miglayout]
+
 
 
 
