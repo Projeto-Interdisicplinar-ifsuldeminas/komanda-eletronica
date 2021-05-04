@@ -5,6 +5,6 @@
 		<porta>3306</porta>
 		<base>komandaeletronica</base>
 		<user>root</user>
-		<senha> </senha>
+		<senha></senha>
 	</conexao>
 </banco>

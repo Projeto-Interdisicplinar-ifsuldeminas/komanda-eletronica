@@ -490,19 +490,17 @@ public class Login extends JFrame {
 		Document doc = dBuilder.parse(fXmlFile);
 		ConnectFactory con = null;
 		NodeList nList = doc.getElementsByTagName("conexao");
-		for (int temp = 0; temp < nList.getLength(); temp++) {
-			Node nNode = nList.item(temp);
-			//System.out.println("\nElemento corrente :" + nNode.getNodeName());
-			if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-				Element eElement = (Element) nNode;
-				server = eElement.getElementsByTagName("server").item(0).getTextContent();
-				door = eElement.getElementsByTagName("porta").item(0).getTextContent();
-				nameDB = eElement.getElementsByTagName("base").item(0).getTextContent();
-				user = eElement.getElementsByTagName("user").item(0).getTextContent();
-				password = eElement.getElementsByTagName("senha").item(0).getTextContent();
-				
-				con = new ConnectFactory(server, password, nameDB, user, door);
-			}
+		Node nNode = nList.item(0);
+		//System.out.println("\nElemento corrente :" + nNode.getNodeName());
+		if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+			Element eElement = (Element) nNode;
+			server = eElement.getElementsByTagName("server").item(0).getTextContent();
+			door = eElement.getElementsByTagName("porta").item(0).getTextContent();
+			nameDB = eElement.getElementsByTagName("base").item(0).getTextContent();
+			user = eElement.getElementsByTagName("user").item(0).getTextContent();
+			password = eElement.getElementsByTagName("senha").item(0).getTextContent();
+			
+			con = new ConnectFactory(server, door, nameDB, user, password);
 		}
 		return con;
 	}
