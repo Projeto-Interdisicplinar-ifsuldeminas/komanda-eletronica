@@ -471,11 +471,30 @@ public class CadastroFuncionarios extends JFrame {
 		JButton btnApagar = new JButton("");
 		btnApagar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int opcao=0;
-				int op;
-				do{
-				 op=Integer.parseInt(JOptionPane.showInputDialog("Deseja continuar?Digite 1 para sair "));
-				}while(op!=1);					
+				int i = JOptionPane.showConfirmDialog(
+				        null, 
+				        "Deseja excluir o funcionário?",
+				        "Continua",
+				        JOptionPane.YES_NO_OPTION
+				        );
+				if(i == 0) {
+					JOptionPane.showMessageDialog(null, "Para desfazer a exclusão, caso necessário.\nContate o administrador do sistema.");
+					FuncionarioDao conection1 = new FuncionarioDao();
+					try {
+						if(conection1.Deletar(id)) {
+							JOptionPane.showMessageDialog(null, "Funcionário excluído!");
+							buscarFunc.setEnabled(true);
+							dispose();
+						}else {
+							JOptionPane.showMessageDialog(null, "Erro ao excluir funcionário.");
+						}
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}else {
+					
+				}				
 			}
 		});
 		btnApagar.setToolTipText("Apagar");

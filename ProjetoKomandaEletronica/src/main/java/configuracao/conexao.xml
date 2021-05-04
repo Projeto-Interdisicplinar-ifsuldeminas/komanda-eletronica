@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<banco>
+	<conexao>
+		<server>localhost</server>
+		<porta>3306</porta>
+		<base>komandaeletronica</base>
+		<user>root</user>
+		<senha> </senha>
+	</conexao>
+</banco>

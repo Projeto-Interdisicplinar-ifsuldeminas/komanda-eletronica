@@ -167,7 +167,12 @@ public class MainDashboard {
 		JMenuItem MenuItemAdicionar = new JMenuItem("Funcion\u00E1rios");
 		MenuItemAdicionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				BuscaDeFuncionarios();
+				try {
+					BuscaDeFuncionarios();
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		MenuItemAdicionar.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F5, InputEvent.ALT_MASK));
@@ -533,7 +538,12 @@ public class MainDashboard {
 		btnNewButton_2.setIcon(new ImageIcon(MainDashboard.class.getResource("/img/conference-32.png")));
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				BuscaDeFuncionarios();
+				try {
+					BuscaDeFuncionarios();
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		
@@ -680,7 +690,7 @@ public class MainDashboard {
 		
 	}
 	
-	public void BuscaDeFuncionarios() {
+	public void BuscaDeFuncionarios() throws ParseException {
 		BuscaFuncionarios busca;
 		try {
 			busca = new BuscaFuncionarios();

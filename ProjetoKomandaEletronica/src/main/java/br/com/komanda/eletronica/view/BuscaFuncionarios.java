@@ -14,6 +14,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -24,9 +25,11 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.MaskFormatter;
 
 import br.com.komanda.eletronica.dao.FuncionarioDao;
 import br.com.komanda.eletronica.model.Funcionario;
+import javax.swing.JFormattedTextField;
 
 public class BuscaFuncionarios extends JFrame {
 
@@ -37,14 +40,16 @@ public class BuscaFuncionarios extends JFrame {
 	private JPanel contentPane;
 	private JTable tableFuncionario;
 	private JTextField txtMatricula;
-	private JTextField txtCpf;
 	private JTextField txtNome;
+	private JFormattedTextField ftCpf;
 	private static MainDashboard main = null;
+	private ArrayList<Funcionario> listaDeFuncionarios;
 	/**
 	 * Create the frame.
 	 * @throws SQLException 
+	 * @throws ParseException 
 	 */
-	public BuscaFuncionarios() throws SQLException {
+	public BuscaFuncionarios() throws SQLException, ParseException {
 		setBackground(Color.LIGHT_GRAY);
 		setUndecorated(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -119,7 +124,7 @@ public class BuscaFuncionarios extends JFrame {
 			new Object[][] {
 			},
 			new String[] {
-				"Id", "Nome", "CPF"
+				"Id", "Matricula", "Nome", "CPF"
 			}
 		) {
 			/**
@@ -128,7 +133,7 @@ public class BuscaFuncionarios extends JFrame {
 			private static final long serialVersionUID = 1L;
 			@SuppressWarnings("rawtypes")
 			Class[] columnTypes = new Class[] {
-				String.class, Object.class, Object.class
+				String.class, Object.class, Object.class, Object.class
 			};
 			@SuppressWarnings({ "rawtypes", "unchecked" })
 			public Class getColumnClass(int columnIndex) {
@@ -150,11 +155,6 @@ public class BuscaFuncionarios extends JFrame {
 		btnNewButton_1.setBackground(Color.BLUE);
 		btnNewButton_1.setIcon(new ImageIcon(BuscaFuncionarios.class.getResource("/img/edit-32.png")));
 		btnNewButton_1.setToolTipText("Editar");
-		
-		JButton btnNewButton_1_1 = new JButton("");
-		btnNewButton_1_1.setIcon(new ImageIcon(BuscaFuncionarios.class.getResource("/img/erase-32.png")));
-		btnNewButton_1_1.setToolTipText("Apagar");
-		btnNewButton_1_1.setBackground(Color.RED);
 		
 		JButton btnNewButton_1_1_1 = new JButton("");
 		btnNewButton_1_1_1.addActionListener(new ActionListener() {
@@ -189,7 +189,7 @@ public class BuscaFuncionarios extends JFrame {
 			}
 		});
 		btnNewButton_1_1_2.setIcon(new ImageIcon(BuscaFuncionarios.class.getResource("/img/refresh-32.png")));
-		btnNewButton_1_1_2.setToolTipText("Apagar");
+		btnNewButton_1_1_2.setToolTipText("Atualizar tabela");
 		btnNewButton_1_1_2.setBackground(Color.ORANGE);
 		
 		GroupLayout gl_panel_4 = new GroupLayout(panel_4);
@@ -198,13 +198,11 @@ public class BuscaFuncionarios extends JFrame {
 				.addGroup(gl_panel_4.createSequentialGroup()
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addComponent(btnNewButton_1_1_1, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE)
-					.addGap(171)
+					.addGap(295)
 					.addComponent(btnNewButton_1_1_2, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnNewButton_1_1, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGap(18)
 					.addComponent(btnNewButton_1, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGap(18)
 					.addComponent(btnNewButton_1_2, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE)
 					.addGap(12))
 		);
@@ -214,8 +212,7 @@ public class BuscaFuncionarios extends JFrame {
 					.addContainerGap()
 					.addGroup(gl_panel_4.createParallelGroup(Alignment.LEADING)
 						.addComponent(btnNewButton_1_1_2, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnNewButton_1, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
-						.addComponent(btnNewButton_1_1, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
+						.addComponent(btnNewButton_1, GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
 						.addComponent(btnNewButton_1_2, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
 						.addComponent(btnNewButton_1_1_1, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE))
 					.addContainerGap())
@@ -236,6 +233,26 @@ public class BuscaFuncionarios extends JFrame {
 		panel_5_1_1.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "CPF", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		
 		JButton btnNewButton = new JButton("");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				FuncionarioDao conection = new FuncionarioDao();
+				String matricula = txtMatricula.getText();
+				String nome = txtNome.getText();
+				String cpf = ftCpf.getText();
+				cpf = cpf.replace( " " , ""); //tira espaço em branco
+				cpf = cpf.replace( "." , ""); //tira ponto
+				cpf = cpf.replace( "/" , ""); //tira barra
+				cpf = cpf.replace( "-" , ""); //tira hífen
+				try {
+					listaDeFuncionarios = new ArrayList<>();
+					listaDeFuncionarios = conection.getFuncionarios(nome, matricula, cpf);
+					PreencheTabelaPesquisa(listaDeFuncionarios);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		btnNewButton.setToolTipText("Pesquisar");
 		btnNewButton.setBackground(Color.BLUE);
 		btnNewButton.setIcon(new ImageIcon(BuscaFuncionarios.class.getResource("/img/search-2-32.png")));
@@ -251,10 +268,10 @@ public class BuscaFuncionarios extends JFrame {
 							.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 196, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_panel_2.createSequentialGroup()
 							.addComponent(panel_5, GroupLayout.PREFERRED_SIZE, 403, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+							.addGap(18)
 							.addComponent(lblNewLabel_1)
 							.addGap(18)
-							.addComponent(panel_5_1_1, GroupLayout.PREFERRED_SIZE, 383, GroupLayout.PREFERRED_SIZE)
+							.addComponent(panel_5_1_1, GroupLayout.DEFAULT_SIZE, 398, Short.MAX_VALUE)
 							.addGap(18)
 							.addComponent(lblNewLabel_1_1, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)))
 					.addContainerGap())
@@ -267,17 +284,17 @@ public class BuscaFuncionarios extends JFrame {
 							.addContainerGap()
 							.addGroup(gl_panel_2.createParallelGroup(Alignment.BASELINE)
 								.addComponent(panel_5, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
-								.addComponent(panel_5_1_1, GroupLayout.PREFERRED_SIZE, 48, Short.MAX_VALUE)))
+								.addComponent(panel_5_1_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
 						.addGroup(gl_panel_2.createSequentialGroup()
 							.addGap(27)
-							.addComponent(lblNewLabel_1))
+							.addComponent(lblNewLabel_1_1))
 						.addGroup(gl_panel_2.createSequentialGroup()
-							.addGap(27)
-							.addComponent(lblNewLabel_1_1)))
+							.addGap(28)
+							.addComponent(lblNewLabel_1)))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
 						.addComponent(panel_5_1, GroupLayout.PREFERRED_SIZE, 47, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnNewButton, GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE))
+						.addComponent(btnNewButton, GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		
@@ -299,21 +316,20 @@ public class BuscaFuncionarios extends JFrame {
 		);
 		panel_5_1.setLayout(gl_panel_5_1);
 		
-		txtCpf = new JTextField();
-		txtCpf.setColumns(10);
+		ftCpf = new JFormattedTextField(new MaskFormatter("###.###.###-##"));
 		GroupLayout gl_panel_5_1_1 = new GroupLayout(panel_5_1_1);
 		gl_panel_5_1_1.setHorizontalGroup(
 			gl_panel_5_1_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_5_1_1.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(txtCpf, GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE)
+					.addComponent(ftCpf, GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		gl_panel_5_1_1.setVerticalGroup(
 			gl_panel_5_1_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_5_1_1.createSequentialGroup()
-					.addComponent(txtCpf, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addComponent(ftCpf, GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
+					.addContainerGap())
 		);
 		panel_5_1_1.setLayout(gl_panel_5_1_1);
 		
@@ -399,7 +415,7 @@ public class BuscaFuncionarios extends JFrame {
 	}
 	
 	public void PreencheTabela() throws SQLException {		
-		ArrayList<Funcionario> listaDeFuncionarios = new ArrayList<>();
+		listaDeFuncionarios = new ArrayList<>();
 		listaDeFuncionarios = this.GetAll();
 		
 		DefaultTableModel model = (DefaultTableModel) tableFuncionario.getModel();
@@ -409,7 +425,27 @@ public class BuscaFuncionarios extends JFrame {
 			int id = listaDeFuncionarios.get(i).getIdFuncionario();
 			String nome = listaDeFuncionarios.get(i).getNome();
 			String cpf = listaDeFuncionarios.get(i).getCPF();
-			model.insertRow(0, new Object[] { id, nome, cpf});
+			int matricula = listaDeFuncionarios.get(i).getNumeroRegistro();
+			model.insertRow(0, new Object[] { id, matricula, nome, cpf});
+		}
+	}
+	
+	public void PreencheTabelaPesquisa(ArrayList<Funcionario> lista) throws SQLException {		
+		
+		DefaultTableModel model = (DefaultTableModel) tableFuncionario.getModel();
+		model.setNumRows(0);
+		
+		if(lista.size() > 0) {
+			for(int i=0; i < lista.size(); i++) {
+				int id = lista.get(i).getIdFuncionario();
+				String nome = lista.get(i).getNome();
+				String cpf = lista.get(i).getCPF();
+				int matricula = lista.get(i).getNumeroRegistro();
+				model.insertRow(0, new Object[] { id, matricula, nome, cpf});
+				model.insertRow(0, new Object[] { id, nome, cpf});
+			}
+		}else {
+			JOptionPane.showMessageDialog(null, "Não existem ");
 		}
 	}
 	

@@ -149,6 +149,8 @@ public class SplashScreen extends JFrame {
 			Thread.sleep(5000);
 			Login login = new Login();
 			login.setLocationRelativeTo(null);
+			
+			login.setLog(login);
 			//splash.dispose();
 			login.FechaSplashScreen(aux);
 			login.setVisible(true);			

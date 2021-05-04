@@ -188,7 +188,7 @@ public class FuncionarioDao {
 	/******************** Busca todas os funcionarios *****************/
 	public ArrayList<Funcionario> getAll() throws SQLException {
 		Connection connection = ConnectFactory.createConnection();
-		String query = "SELECT a.IdFuncionario,  a.IdPessoa, b.nome, b.cpf FROM funcionario a INNER JOIN pessoa b ON a.IdPessoa = b.IdPessoa;";
+		String query = "SELECT a.IdFuncionario,  a.IdPessoa, b.nome, b.cpf, a.NumeroRegistro FROM funcionario a INNER JOIN pessoa b ON a.IdPessoa = b.IdPessoa AND a.IsExcluido != 1 ORDER BY a.IdFuncionario DESC;";
 
 		Statement stmt = (Statement) connection.createStatement();
 		ResultSet resultado = stmt.executeQuery(query);
@@ -198,7 +198,44 @@ public class FuncionarioDao {
 			int idPessoa = resultado.getInt("IdPessoa");
 			String nome = resultado.getString("nome");
 			String cpf = resultado.getString("cpf");
-			tipo.add(new Funcionario(id, idPessoa, nome, cpf));
+			int matricula = resultado.getInt("NumeroRegistro");
+			tipo.add(new Funcionario(id, idPessoa, nome, cpf, matricula));
+		}
+		stmt.close();
+		connection.close();
+		
+		return tipo;
+
+	}
+	
+	/******************** Pesquisa Funcionarios *****************/
+	public ArrayList<Funcionario> getFuncionarios(String nomeF, String matriculaF, String cpfF) throws SQLException {
+		Connection connection = ConnectFactory.createConnection();
+		
+		String query = "SELECT a.IdFuncionario,  a.IdPessoa, b.nome, b.cpf, a.NumeroRegistro FROM funcionario a INNER JOIN pessoa b ON a.IdPessoa = b.IdPessoa";
+		
+		if(!matriculaF.equals("")) {
+			query = query + " AND a.NumeroRegistro LIKE '%"+ matriculaF +"%'";
+		}
+		if(!cpfF.equals("")) {
+			query = query + " AND b.cpf LIKE '%"+ cpfF +"%'";
+		}
+		if(!nomeF.equals("")){
+			query = query + " AND b.nome LIKE '%"+ nomeF +"%'";
+		}
+		
+		String consulta = query + " AND a.IsExcluido != 1 ORDER BY a.IdFuncionario DESC;";
+		
+		Statement stmt = (Statement) connection.createStatement();
+		ResultSet resultado = stmt.executeQuery(consulta);
+		ArrayList<Funcionario> tipo = new ArrayList<>();
+		while (resultado.next()) {
+			int id = resultado.getInt("IdFuncionario");
+			int idPessoa = resultado.getInt("IdPessoa");
+			String nome = resultado.getString("nome");
+			String cpf = resultado.getString("cpf");
+			int matricula = resultado.getInt("NumeroRegistro");
+			tipo.add(new Funcionario(id, idPessoa, nome, cpf, matricula));
 		}
 		stmt.close();
 		connection.close();

@@ -25,7 +25,7 @@ public class LoginDao {
 		IdFuncionario = idFuncionario;
 	}
 
-	public boolean ValidaLoginFuncionarios(String usuario, String senha) {
+	public boolean ValidaLoginFuncionarios(String usuario, String senha, String server, String porta, String nomeBanco, String user, String password) {
 		
 		if(usuario.equals("123.456.789-00") && senha.equals("master")) {
 			return true;
@@ -34,7 +34,7 @@ public class LoginDao {
 			@SuppressWarnings("unused")
 			boolean successo = false;
 			try {
-				connection = ConnectFactory.createConnection();
+				connection = ConnectFactory.createConnection(server, porta, nomeBanco, user, password);
 				LoginFuncionarios loginFunc = new LoginFuncionarios();
 				String cpf = usuario;
 				cpf = cpf.replace( " " , ""); //tira espaço em branco
@@ -43,7 +43,7 @@ public class LoginDao {
 				cpf = cpf.replace( "-" , ""); //tira hífen
 				
 				String sql = "SELECT a.IdLoginFuncionario, a. senha, c.cpf from loginfuncionario as a INNER JOIN funcionario as b ON a.IdFuncionario = b.IdFuncionario \r\n"
-						+ "INNER JOIN pessoa as c ON b.IdPessoa = c.IdPessoa AND c.cpf ='" + cpf +"';";
+						+ "INNER JOIN pessoa as c ON b.IdPessoa = c.IdPessoa AND c.cpf ='" + cpf +"' AND a.IsBloqueado = 0;";
 				PreparedStatement stmt = (PreparedStatement) connection.prepareStatement(sql);
 				ResultSet rs = stmt.executeQuery();
 				rs.next();
@@ -51,14 +51,10 @@ public class LoginDao {
 				this.setIdFuncionario(rs.getInt("IdLoginFuncionario"));
 				String senhaFuncionario = rs.getString("senha");
 				String CpfFuncionario = rs.getString("cpf");
-						
-				//loginFunc.setSenha();
 				String senhaLogin = loginFunc.descriptografiaBase64Decode(senhaFuncionario); 
 				if(cpf.equals(CpfFuncionario) && senha.equals(senhaLogin)) {
-					//JOptionPane.showMessageDialog(null, "PAssou");
 					return true;
 				}else {
-					//JOptionPane.showMessageDialog(null, "Não Passou");
 					return false;
 				}
 				

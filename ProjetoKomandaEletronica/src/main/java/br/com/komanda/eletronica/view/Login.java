@@ -16,13 +16,22 @@ import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import javax.swing.border.EtchedBorder;
 import javax.swing.text.MaskFormatter;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import br.com.komanda.eletronica.connection.ConnectFactory;
 import br.com.komanda.eletronica.dao.FuncionarioDao;
 import br.com.komanda.eletronica.dao.LoginDao;
 import br.com.komanda.eletronica.model.Funcionario;
@@ -37,58 +46,40 @@ import javax.swing.border.TitledBorder;
 @SuppressWarnings({ "serial", "unused" })
 public class Login extends JFrame {
 
-	private JPanel contentPane;
+	private JPanel contentPane, Servidor, Porta, Usuario, senha, panel_4;
 	public JPasswordField pfSenha;
 	JFormattedTextField ftUsuario;
 	private static MainDashboard main = null;
 	private LoginDao loginDao;
-	private JLabel lbLog;
+	private JLabel lbLog, rotulo;
 	private Funcionario func;
-
-	/**
-	 * Launch the application.
-	 */
-	/*public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Login frame = new Login();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}*/
+	private JTextField txtServer;
+	private JTextField txtPorta;
+	private JTextField txtUser;
+	private JPasswordField pswSenha; 
+	private int buttonState = 0;
+	private Login log;	
+	private static String server, door, user, nameDB, password;
 
 	/**
 	 * Create the frame.
 	 * @throws ParseException 
 	 */
 	public Login() throws ParseException {
-		
 		setUndecorated(true);
-		setResizable(false);
-		
-		setSize(new Dimension(450, 325));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 450, 466);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(128, 128, 128));
 		contentPane.setMaximumSize(new Dimension(32739, 25000));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		contentPane.add(panel, BorderLayout.CENTER);
-		panel.setLayout(null);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		panel_1.setBounds(10, 50, 420, 98);
-		panel.add(panel_1);
 		
 		//JFormattedTextField ftUsuario = new JFormattedTextField();
 		ftUsuario = new JFormattedTextField(new MaskFormatter("###.###.###-##"));
@@ -123,8 +114,6 @@ public class Login extends JFrame {
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		panel_2.setBounds(10, 173, 420, 106);
-		panel.add(panel_2);
 		
 		JButton btnOk = new JButton("");
 		btnOk.setToolTipText("Login");
@@ -180,13 +169,9 @@ public class Login extends JFrame {
 		lbLog.setForeground(new Color(0, 0, 205));
 		lbLog.setHorizontalAlignment(SwingConstants.CENTER);
 		lbLog.setVisible(false);
-		lbLog.setBounds(10, 153, 420, 14);
-		panel.add(lbLog);
 		
 		JPanel panel_3 = new JPanel();
 		panel_3.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		panel_3.setBounds(10, 11, 420, 36);
-		panel.add(panel_3);
 		
 		JLabel lblNewLabel = new JLabel("   Acesso ao sistema");
 		lblNewLabel.setIcon(new ImageIcon(Login.class.getResource("/img/komanda.png")));
@@ -206,7 +191,186 @@ public class Login extends JFrame {
 				.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
 		);
 		panel_3.setLayout(gl_panel_3);
+		GroupLayout gl_contentPane = new GroupLayout(contentPane);
+		gl_contentPane.setHorizontalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 440, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+		);
+		gl_contentPane.setVerticalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 454, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(31, Short.MAX_VALUE))
+		);
 		
+		panel_4 = new JPanel();
+		panel_4.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		GroupLayout gl_panel = new GroupLayout(panel);
+		gl_panel.setHorizontalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGap(8)
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lbLog, GroupLayout.PREFERRED_SIZE, 420, GroupLayout.PREFERRED_SIZE)
+						.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(panel_4, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addContainerGap())
+		);
+		gl_panel.setVerticalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGap(9)
+					.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(3)
+					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 98, GroupLayout.PREFERRED_SIZE)
+					.addGap(5)
+					.addComponent(lbLog, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
+					.addGap(6)
+					.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(panel_4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(35, Short.MAX_VALUE))
+		);
+		
+		rotulo = new JLabel("Configura\u00E7\u00F5es do Banco de dados");
+		rotulo.setForeground(Color.RED);
+		
+		Servidor = new JPanel();
+		Servidor.setBorder(new TitledBorder(null, "Servidor", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		
+		Porta = new JPanel();
+		Porta.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Porta", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		
+		Usuario = new JPanel();
+		Usuario.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Usu\u00E1rio", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		
+		senha = new JPanel();
+		senha.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Senha", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		
+		pswSenha = new JPasswordField();
+		GroupLayout gl_senha = new GroupLayout(senha);
+		gl_senha.setHorizontalGroup(
+			gl_senha.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_senha.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(pswSenha, GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
+					.addContainerGap())
+		);
+		gl_senha.setVerticalGroup(
+			gl_senha.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_senha.createSequentialGroup()
+					.addComponent(pswSenha, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+		);
+		senha.setLayout(gl_senha);
+		
+		txtUser = new JTextField();
+		txtUser.setColumns(10);
+		GroupLayout gl_Usuario = new GroupLayout(Usuario);
+		gl_Usuario.setHorizontalGroup(
+			gl_Usuario.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_Usuario.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(txtUser, GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
+					.addContainerGap())
+		);
+		gl_Usuario.setVerticalGroup(
+			gl_Usuario.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_Usuario.createSequentialGroup()
+					.addComponent(txtUser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+		);
+		Usuario.setLayout(gl_Usuario);
+		
+		txtPorta = new JTextField();
+		txtPorta.setColumns(10);
+		GroupLayout gl_Porta = new GroupLayout(Porta);
+		gl_Porta.setHorizontalGroup(
+			gl_Porta.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_Porta.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(txtPorta, GroupLayout.DEFAULT_SIZE, 61, Short.MAX_VALUE)
+					.addContainerGap())
+		);
+		gl_Porta.setVerticalGroup(
+			gl_Porta.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_Porta.createSequentialGroup()
+					.addComponent(txtPorta, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+		);
+		Porta.setLayout(gl_Porta);
+		
+		txtServer = new JTextField();
+		txtServer.setColumns(10);
+		GroupLayout gl_Servidor = new GroupLayout(Servidor);
+		gl_Servidor.setHorizontalGroup(
+			gl_Servidor.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_Servidor.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(txtServer, GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE)
+					.addContainerGap())
+		);
+		gl_Servidor.setVerticalGroup(
+			gl_Servidor.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_Servidor.createSequentialGroup()
+					.addComponent(txtServer, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+		);
+		Servidor.setLayout(gl_Servidor);
+		GroupLayout gl_panel_4 = new GroupLayout(panel_4);
+		gl_panel_4.setHorizontalGroup(
+			gl_panel_4.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_4.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panel_4.createParallelGroup(Alignment.TRAILING)
+						.addComponent(rotulo, GroupLayout.DEFAULT_SIZE, 394, Short.MAX_VALUE)
+						.addGroup(gl_panel_4.createSequentialGroup()
+							.addComponent(Servidor, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(Porta, GroupLayout.PREFERRED_SIZE, 101, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panel_4.createSequentialGroup()
+							.addComponent(Usuario, GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(senha, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+					.addGap(10))
+		);
+		gl_panel_4.setVerticalGroup(
+			gl_panel_4.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_4.createSequentialGroup()
+					.addGap(11)
+					.addComponent(rotulo)
+					.addGap(6)
+					.addGroup(gl_panel_4.createParallelGroup(Alignment.BASELINE)
+						.addComponent(Porta, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
+						.addComponent(Servidor, GroupLayout.PREFERRED_SIZE, 46, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(gl_panel_4.createParallelGroup(Alignment.LEADING)
+						.addComponent(senha, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(Usuario, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap())
+		);
+		panel_4.setLayout(gl_panel_4);
+		panel.setLayout(gl_panel);
+		contentPane.setLayout(gl_contentPane);
+		
+		
+		ConnectFactory conection = null;
+		try {
+			conection = lerXML();
+			txtServer.setText(conection.getServer());
+			txtPorta.setText(conection.getPorta());
+			txtUser.setText(conection.getUser());
+			pswSenha.setText(conection.getSenha());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//contentPane.setBounds(100, 100, 450, 320);
 		
 		btnOk.addActionListener(new ActionListener() {
 			@SuppressWarnings("deprecation")
@@ -244,8 +408,14 @@ public class Login extends JFrame {
 			retorno = true;
 			master = true;
 		}else {
-						
-			retorno = loginDao.ValidaLoginFuncionarios(usuario, senha);
+			ConnectFactory conection = null;
+			try {
+				conection = lerXML();
+				retorno = loginDao.ValidaLoginFuncionarios(usuario, senha, conection.getServer(), conection.getPorta(), conection.getNome(), conection.getUser(), conection.getSenha());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}		
 		//boolean retorno = true;
 		if(retorno && master) {
@@ -290,8 +460,16 @@ public class Login extends JFrame {
 		}
 		
 		
-	}
+	}	
 	
+	public Login getLog() {
+		return log;
+	}
+
+	public void setLog(Login log) {
+		this.log = log;
+	}
+
 	public void FechaSplashScreen(SplashScreen splash) {
 		splash.dispose();
 	}
@@ -302,5 +480,30 @@ public class Login extends JFrame {
 
 	public void setFunc(Funcionario funcionario) {
 		func = funcionario;
-	}	
+	}
+	
+
+	private ConnectFactory lerXML() throws Exception{
+		File fXmlFile = new File("src/main/java/configuracao/conexao.xml");
+		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+		Document doc = dBuilder.parse(fXmlFile);
+		ConnectFactory con = null;
+		NodeList nList = doc.getElementsByTagName("conexao");
+		for (int temp = 0; temp < nList.getLength(); temp++) {
+			Node nNode = nList.item(temp);
+			//System.out.println("\nElemento corrente :" + nNode.getNodeName());
+			if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+				Element eElement = (Element) nNode;
+				server = eElement.getElementsByTagName("server").item(0).getTextContent();
+				door = eElement.getElementsByTagName("porta").item(0).getTextContent();
+				nameDB = eElement.getElementsByTagName("base").item(0).getTextContent();
+				user = eElement.getElementsByTagName("user").item(0).getTextContent();
+				password = eElement.getElementsByTagName("senha").item(0).getTextContent();
+				
+				con = new ConnectFactory(server, password, nameDB, user, door);
+			}
+		}
+		return con;
+	}
 }
