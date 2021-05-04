@@ -35,7 +35,7 @@ lanchonetes..
 
 ### Construído com 
 
-* [Mavem](https://maven.apache.org/)
+* [Maven](https://maven.apache.org/)
 
 <h3> Rodar, buildar e/ou testar o projeto:</h3>
 
