@@ -33,10 +33,11 @@ public class PedidoMesa extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField TFNome;
+	private JTextField TFidpedido;
 
 	private static MainDashboard main = null;
 	private JTextField TFid;
+	private JTextField TFidmesa;
 
 	/**
 	 * Create the frame.
@@ -81,25 +82,30 @@ public class PedidoMesa extends JFrame {
 						.addContainerGap()));
 
 		JPanel panel_5 = new JPanel();
-		panel_5.setBorder(new TitledBorder(
-				new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)),
-				"Nome Completo da Mesa", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel_5.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Pedido Mesa", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 
 		JPanel panelID = new JPanel();
 		panelID.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "ID DO PEDIDO", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		panelID.setToolTipText("");
 		GroupLayout gl_panel_central = new GroupLayout(panel_central);
-		gl_panel_central.setHorizontalGroup(gl_panel_central.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_central.createSequentialGroup().addContainerGap()
-						.addGroup(gl_panel_central.createParallelGroup(Alignment.LEADING)
-								.addComponent(panelID, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE)
-								.addComponent(panel_5, GroupLayout.DEFAULT_SIZE, 965, Short.MAX_VALUE))
-						.addContainerGap()));
-		gl_panel_central.setVerticalGroup(gl_panel_central.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_central.createSequentialGroup().addGap(20)
-						.addComponent(panelID, GroupLayout.PREFERRED_SIZE, 62, GroupLayout.PREFERRED_SIZE).addGap(18)
-						.addComponent(panel_5, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(130, Short.MAX_VALUE)));
+		gl_panel_central.setHorizontalGroup(
+			gl_panel_central.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_central.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panel_central.createParallelGroup(Alignment.LEADING)
+						.addComponent(panel_5, GroupLayout.DEFAULT_SIZE, 965, Short.MAX_VALUE)
+						.addComponent(panelID, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap())
+		);
+		gl_panel_central.setVerticalGroup(
+			gl_panel_central.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_central.createSequentialGroup()
+					.addGap(20)
+					.addComponent(panelID, GroupLayout.PREFERRED_SIZE, 62, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(panel_5, GroupLayout.PREFERRED_SIZE, 170, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(27, Short.MAX_VALUE))
+		);
 		panelID.setLayout(null);
 
 		TFid = new JTextField();
@@ -108,19 +114,27 @@ public class PedidoMesa extends JFrame {
 		TFid.setBounds(23, 16, 126, 35);
 		panelID.add(TFid);
 		TFid.setColumns(10);
+		panel_5.setLayout(null);
 
-		TFNome = new JTextField();
-		TFNome.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		TFNome.setColumns(10);
-		GroupLayout gl_panel_5 = new GroupLayout(panel_5);
-		gl_panel_5.setHorizontalGroup(gl_panel_5.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_5.createSequentialGroup().addContainerGap()
-						.addComponent(TFNome, GroupLayout.DEFAULT_SIZE, 937, Short.MAX_VALUE).addGap(12)));
-		gl_panel_5.setVerticalGroup(gl_panel_5.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_5.createSequentialGroup()
-						.addComponent(TFNome, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
-		panel_5.setLayout(gl_panel_5);
+		TFidpedido = new JTextField();
+		TFidpedido.setBounds(10, 110, 462, 34);
+		TFidpedido.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		TFidpedido.setColumns(10);
+		panel_5.add(TFidpedido);
+		
+		TFidmesa = new JTextField();
+		TFidmesa.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		TFidmesa.setColumns(10);
+		TFidmesa.setBounds(10, 42, 462, 34);
+		panel_5.add(TFidmesa);
+		
+		JLabel lblNewLabel_1 = new JLabel("ID MESA");
+		lblNewLabel_1.setBounds(10, 17, 46, 14);
+		panel_5.add(lblNewLabel_1);
+		
+		JLabel lblNewLabel_2 = new JLabel("ID PEDIDO ( Produto )");
+		lblNewLabel_2.setBounds(10, 87, 147, 14);
+		panel_5.add(lblNewLabel_2);
 		panel_central.setLayout(gl_panel_central);
 
 		JButton btnNewButton = new JButton("   FECHAR");
@@ -139,7 +153,7 @@ public class PedidoMesa extends JFrame {
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Botão Salvar
-				String nome = TFNome.getText();
+				String nome = TFidpedido.getText();
 				Mesa mesa = new Mesa(nome);
 
 				MesaDao conexaoadicionar = new MesaDao();
@@ -180,7 +194,7 @@ public class PedidoMesa extends JFrame {
 				}
 				// Limpando os campos
 				TFid.setText("0");
-				TFNome.setText("");
+				TFidpedido.setText("");
 			}
 		});
 		btnApagar.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -193,7 +207,7 @@ public class PedidoMesa extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Botao atualizar
 				String idtexto = TFid.getText();
-				String nome = TFNome.getText();
+				String nome = TFidpedido.getText();
 				int id = Integer.parseInt(idtexto);
 				Mesa mesa = new Mesa(id, nome);
 
@@ -233,12 +247,12 @@ public class PedidoMesa extends JFrame {
 					if (mesa.isEmpty()) {
 						String idex = Integer.toString(id);
 						TFid.setText(idex);
-						TFNome.setText("");
+						TFidpedido.setText("");
 					} else {
 						for (Mesa m : mesa) {
 							String retornoid = Integer.toString(m.getIdMesa());
 							TFid.setText(retornoid);
-							TFNome.setText(m.getNomeMesa());
+							TFidpedido.setText(m.getNomeMesa());
 						}
 					}
 
@@ -270,12 +284,12 @@ public class PedidoMesa extends JFrame {
 					if (mesa.isEmpty()) {
 						String idex = Integer.toString(id);
 						TFid.setText(idex);
-						TFNome.setText("");
+						TFidpedido.setText("");
 					} else {
 						for (Mesa m : mesa) {
 							String retornoid = Integer.toString(m.getIdMesa());
 							TFid.setText(retornoid);
-							TFNome.setText(m.getNomeMesa());
+							TFidpedido.setText(m.getNomeMesa());
 						}
 					}
 				} catch (SQLException e1) {
