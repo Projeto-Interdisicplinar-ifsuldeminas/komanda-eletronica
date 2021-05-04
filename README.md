@@ -43,7 +43,7 @@ lanchonetes..
 Necessario ter o Java versão 11, instalado. 
 Necessario ter o MySQL instalado. 
 Rodar o script SQL para criação do banco de dados do sistema.
-Realizar a configuração na classe ConnectFactory, informando o nome de usuario e senha do seu banco de dados. 
+Realizar a configuração do banco de dados, informando o nome de usuario e senha. 
 Executar a aplicação via IDE ou jar.  
 ```
 ## Dependência necessárias para o projeto:
