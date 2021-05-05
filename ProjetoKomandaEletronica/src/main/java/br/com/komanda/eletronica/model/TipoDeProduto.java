@@ -1,4 +1,4 @@
-package br.com.komanda.eletronica.model.Enums;
+package br.com.komanda.eletronica.model;
 
 public enum TipoDeProduto {
 

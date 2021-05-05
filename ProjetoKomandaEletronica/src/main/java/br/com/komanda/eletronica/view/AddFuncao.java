@@ -1,4 +1,4 @@
-package br.com.komanda.eletronica.view.enums;
+package br.com.komanda.eletronica.view;
 
 import java.awt.Color;
 import java.awt.Font;

@@ -36,7 +36,6 @@ import br.com.komanda.eletronica.dao.FuncionarioDao;
 import br.com.komanda.eletronica.model.Funcionario;
 import br.com.komanda.eletronica.model.LoginFuncionarios;
 import br.com.komanda.eletronica.model.TiposdeFuncao;
-import br.com.komanda.eletronica.view.enums.CadastroDeFuncoes;
 
 public class CadastroFuncionarios extends JFrame {
 

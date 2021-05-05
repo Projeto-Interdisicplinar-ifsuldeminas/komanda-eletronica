@@ -1,7 +1,5 @@
 package br.com.komanda.eletronica.model;
 
-import br.com.komanda.eletronica.model.Enums.*;
-
 public class ProdutoCardapio {
 	private int IdProdutoCardapio;
 	private String Nome;

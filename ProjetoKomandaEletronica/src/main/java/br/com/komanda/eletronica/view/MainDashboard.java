@@ -35,7 +35,6 @@ import javax.swing.border.TitledBorder;
 import br.com.komanda.eletronica.dao.FuncionarioDao;
 import br.com.komanda.eletronica.dao.LoginDao;
 import br.com.komanda.eletronica.model.Funcionario;
-import br.com.komanda.eletronica.view.enums.CadastroDeFuncoes;
 
 import java.awt.FlowLayout;
 import javax.swing.JButton;
