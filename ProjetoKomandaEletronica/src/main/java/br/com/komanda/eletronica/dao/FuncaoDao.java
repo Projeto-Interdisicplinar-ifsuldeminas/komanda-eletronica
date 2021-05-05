@@ -10,6 +10,7 @@ import java.util.List;
 
 import br.com.komanda.eletronica.connection.ConnectFactory;
 import br.com.komanda.eletronica.model.TiposdeFuncao;
+import br.com.komanda.eletronica.model.Xml;
 
 public class FuncaoDao {
 	
@@ -18,17 +19,21 @@ public class FuncaoDao {
 		Connection connection = null;
 		boolean sucesso = true;
 		try {
-			connection = ConnectFactory.createConnection();
-			/* SQL */
-			String query = "insert into tiposdefuncao (nomeFuncao) values(?)";
-			/* Preparando a Query */
-			PreparedStatement prepare = connection.prepareStatement(query);
-			prepare.setString(1, nomeFuncao);
-			prepare.execute();
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-			sucesso = false;
+			ConnectFactory conection = null;
+			Xml xml = new Xml();			
+			try {
+				conection = xml.lerXML();
+				connection = ConnectFactory.createConnection(conection.getServer(), conection.getPorta(), conection.getNome(), conection.getUser(), conection.getSenha());
+				/* SQL */
+				String query = "insert into tiposdefuncao (nomeFuncao) values(?)";
+				/* Preparando a Query */
+				PreparedStatement prepare = connection.prepareStatement(query);
+				prepare.setString(1, nomeFuncao);
+				prepare.execute();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		/* Fechando a conexao Sql */
 		finally {
@@ -42,9 +47,13 @@ public class FuncaoDao {
 		return sucesso;
 	}
 
-	/******************** Metodo Deletar *****************/
-	public boolean deletar(int identificacao) throws SQLException {
-		Connection connection = ConnectFactory.createConnection();
+	/******************** Metodo Deletar 
+	 * @throws Exception *****************/
+	public boolean deletar(int identificacao) throws Exception {
+		ConnectFactory conection = null;
+		Xml xml = new Xml();			
+		conection = xml.lerXML();
+		Connection connection = ConnectFactory.createConnection(conection.getServer(), conection.getPorta(), conection.getNome(), conection.getUser(), conection.getSenha());
 		String query = " DELETE FROM tiposdefuncao WHERE idFuncao = ?";
 		PreparedStatement stmt = connection.prepareStatement(query);
 		stmt.setInt(1, identificacao);
@@ -59,9 +68,13 @@ public class FuncaoDao {
 
 	}
 
-	/******************** Consulta por id *****************/
-	public List<TiposdeFuncao> consultaid(int identificacao) throws SQLException {
-		Connection connection = ConnectFactory.createConnection();
+	/******************** Consulta por id 
+	 * @throws Exception *****************/
+	public List<TiposdeFuncao> consultaid(int identificacao) throws Exception {
+		ConnectFactory conection = null;
+		Xml xml = new Xml();			
+		conection = xml.lerXML();
+		Connection connection = ConnectFactory.createConnection(conection.getServer(), conection.getPorta(), conection.getNome(), conection.getUser(), conection.getSenha());
 		String query = "SELECT idFuncao, nomeFuncao FROM tiposdefuncao WHERE idFuncao = " + identificacao;
 
 		Statement stmt = (Statement) connection.createStatement();
@@ -79,9 +92,13 @@ public class FuncaoDao {
 
 	}
 	
-	/******************** Busca todas as funções *****************/
-	public ArrayList<TiposdeFuncao> getAll() throws SQLException {
-		Connection connection = ConnectFactory.createConnection();
+	/******************** Busca todas as funções 
+	 * @throws Exception *****************/
+	public ArrayList<TiposdeFuncao> getAll() throws Exception {
+		ConnectFactory conection = null;
+		Xml xml = new Xml();			
+		conection = xml.lerXML();
+		Connection connection = ConnectFactory.createConnection(conection.getServer(), conection.getPorta(), conection.getNome(), conection.getUser(), conection.getSenha());
 		String query = "SELECT * FROM tiposdefuncao ";
 
 		Statement stmt = (Statement) connection.createStatement();
@@ -99,10 +116,14 @@ public class FuncaoDao {
 
 	}
 
-	/******************** Metodo UPDATE *****************/
+	/******************** Metodo UPDATE 
+	 * @throws Exception *****************/
 
-	public boolean atualizar(TiposdeFuncao funcao, int idFuncao) throws SQLException {
-		Connection connection = ConnectFactory.createConnection();
+	public boolean atualizar(TiposdeFuncao funcao, int idFuncao) throws Exception {
+		ConnectFactory conection = null;
+		Xml xml = new Xml();			
+		conection = xml.lerXML();
+		Connection connection = ConnectFactory.createConnection(conection.getServer(), conection.getPorta(), conection.getNome(), conection.getUser(), conection.getSenha());
 		String update = "UPDATE tiposdefuncao SET nomeFuncao = ? WHERE tiposdefuncao.idFuncao = ?";
 
 		PreparedStatement stmt = connection.prepareStatement(update);

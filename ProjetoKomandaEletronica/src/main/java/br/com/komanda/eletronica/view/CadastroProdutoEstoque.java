@@ -1,11 +1,11 @@
 package br.com.komanda.eletronica.view;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.List;
 
@@ -27,8 +27,6 @@ import br.com.komanda.eletronica.dao.MesaDao;
 import br.com.komanda.eletronica.dao.ProdutoEstoqueDao;
 import br.com.komanda.eletronica.model.Mesa;
 import br.com.komanda.eletronica.model.ProdutoEstoque;
-
-import java.awt.Component;
 
 public class CadastroProdutoEstoque extends JFrame {
 
@@ -265,14 +263,21 @@ public class CadastroProdutoEstoque extends JFrame {
 				
 				ProdutoEstoque produtoestoque = new ProdutoEstoque(idConverte, nome, pesoConverte,descricao,informacao,false);
 				ProdutoEstoqueDao conexaoadicionar = new ProdutoEstoqueDao();
-				boolean resposta = conexaoadicionar.adicionar(produtoestoque);
-
-				if (resposta == true) {
-					JOptionPane.showMessageDialog(null, "\nincluido com sucesso !", "Sucesso",
-							JOptionPane.INFORMATION_MESSAGE);
-				} else {
-					JOptionPane.showMessageDialog(null, "\nOcorreu um erro !", "Erro", JOptionPane.ERROR_MESSAGE);
+				boolean resposta;
+				try {
+					resposta = conexaoadicionar.adicionar(produtoestoque);
+					if (resposta == true) {
+						JOptionPane.showMessageDialog(null, "\nincluido com sucesso !", "Sucesso",
+								JOptionPane.INFORMATION_MESSAGE);
+					} else {
+						JOptionPane.showMessageDialog(null, "\nOcorreu um erro !", "Erro", JOptionPane.ERROR_MESSAGE);
+					}
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
+
+				
 
 			}
 		});
@@ -289,16 +294,18 @@ public class CadastroProdutoEstoque extends JFrame {
 				int idenvio = 0;
 				idenvio = Integer.parseInt(rcid);
 				ProdutoEstoqueDao deletarpessoa = new ProdutoEstoqueDao();
+				boolean retorno;
 				try {
-					boolean retorno = deletarpessoa.deletar(idenvio);
+					retorno = deletarpessoa.deletar(idenvio);
 					if (retorno == true) {
 						JOptionPane.showMessageDialog(null, "\nDeletado com sucesso !", "Sucesso",
 								JOptionPane.INFORMATION_MESSAGE);
 					} else {
 						JOptionPane.showMessageDialog(null, "\nOcorreu um erro !", "Erro", JOptionPane.ERROR_MESSAGE);
 					}
-				} catch (SQLException e1) {
-					System.out.println("Erro na conexao apagar");
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
 				// Limpando os campos
 				TFid.setText("0");
@@ -328,8 +335,9 @@ public class CadastroProdutoEstoque extends JFrame {
 				boolean resposta = false;
 				try {
 					resposta = conexaoupdate.atualizar(mesa, id);
-				} catch (SQLException e1) {
-					System.out.println("Erro na conexao update");
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
 				if (resposta == true) {
 					JOptionPane.showMessageDialog(null, "\nRegistro atualizado com sucesso !", "Sucesso",
@@ -355,8 +363,9 @@ public class CadastroProdutoEstoque extends JFrame {
 				int id = 0;
 				id = id + soma;
 				ProdutoEstoqueDao consultaid = new ProdutoEstoqueDao();
+				List<ProdutoEstoque> produtoestoque;
 				try {
-					List<ProdutoEstoque> produtoestoque = consultaid.consultaid(id);
+					produtoestoque = consultaid.consultaid(id);
 					if (produtoestoque.isEmpty()) {
 						String idex = Integer.toString(id);
 						TFid.setText(idex);
@@ -368,9 +377,9 @@ public class CadastroProdutoEstoque extends JFrame {
 							TFNome.setText(m.getNome());
 						}
 					}
-
-				} catch (SQLException e1) {
-					System.out.println("Erro botao navegar para frente");
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
 			}
 		});
@@ -392,8 +401,9 @@ public class CadastroProdutoEstoque extends JFrame {
 				int id = 0;
 				id = id + soma;
 				ProdutoEstoqueDao consultaid = new ProdutoEstoqueDao();
+				List<ProdutoEstoque> produtoestoque;
 				try {
-					List<ProdutoEstoque> produtoestoque = consultaid.consultaid(id);
+					produtoestoque = consultaid.consultaid(id);
 					if (produtoestoque.isEmpty()) {
 						String idex = Integer.toString(id);
 						TFid.setText(idex);
@@ -405,9 +415,9 @@ public class CadastroProdutoEstoque extends JFrame {
 							TFNome.setText(m.getNome());
 						}
 					}
-				} catch (SQLException e1) {
-					JOptionPane.showMessageDialog(null, "\nOcorreu um erro, verificar o ID !", "Erro",
-							JOptionPane.ERROR_MESSAGE);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
 			}
 		});

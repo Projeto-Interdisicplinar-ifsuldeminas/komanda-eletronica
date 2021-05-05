@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.GroupLayout;
@@ -42,10 +41,10 @@ public class CadastroDeFuncoes extends JFrame {
 
 	/**
 	 * Create the frame.
-	 * @throws SQLException 
+	 * @throws Exception 
 	 */
 	@SuppressWarnings("serial")
-	public CadastroDeFuncoes() throws SQLException {
+	public CadastroDeFuncoes() throws Exception {
 		
 		setUndecorated(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -152,7 +151,7 @@ public class CadastroDeFuncoes extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					PreencheTabela();
-				} catch (SQLException e1) {
+				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
@@ -223,7 +222,7 @@ public class CadastroDeFuncoes extends JFrame {
 		cadastro = this;
 	}
 	
-	public void PreencheTabela() throws SQLException {		
+	public void PreencheTabela() throws Exception {		
 		ArrayList<TiposdeFuncao> listaDeFuncoes = new ArrayList<>();
 		listaDeFuncoes = this.GetAllFuncoes();
 		
@@ -245,7 +244,7 @@ public class CadastroDeFuncoes extends JFrame {
 		return main;
 	}
 	
-	public ArrayList<TiposdeFuncao> GetAllFuncoes() throws SQLException {
+	public ArrayList<TiposdeFuncao> GetAllFuncoes() throws Exception {
 		return new FuncaoDao().getAll();
 	}
 }

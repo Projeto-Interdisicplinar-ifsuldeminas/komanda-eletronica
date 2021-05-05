@@ -71,8 +71,9 @@ public class MainDashboard {
 
 	/**
 	 * Create the application.
+	 * @throws Exception 
 	 */
-	public MainDashboard(Login log, LoginDao logDao) {
+	public MainDashboard(Login log, LoginDao logDao) throws Exception {
 		
 		login = log;
 		login.ftUsuario.setText("");
@@ -169,7 +170,7 @@ public class MainDashboard {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					BuscaDeFuncionarios();
-				} catch (ParseException e1) {
+				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
@@ -201,7 +202,7 @@ public class MainDashboard {
 							cadFuncoes.SetMainDashboard(main);
 							main.frmSistemaDeCadastro.setEnabled(false);
 							cadFuncoes.setVisible(true);
-						} catch (SQLException e1) {
+						} catch (Exception e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
@@ -540,7 +541,7 @@ public class MainDashboard {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					BuscaDeFuncionarios();
-				} catch (ParseException e1) {
+				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
@@ -690,7 +691,7 @@ public class MainDashboard {
 		
 	}
 	
-	public void BuscaDeFuncionarios() throws ParseException {
+	public void BuscaDeFuncionarios() throws Exception {
 		BuscaFuncionarios busca;
 		try {
 			busca = new BuscaFuncionarios();
@@ -714,7 +715,7 @@ public class MainDashboard {
 		}
 	}
 	
-	public void BuscaFuncionario(int id) {
+	public void BuscaFuncionario(int id) throws Exception {
 		if(id != 0) {
 			FuncionarioDao funcDao = new FuncionarioDao();
 			try {

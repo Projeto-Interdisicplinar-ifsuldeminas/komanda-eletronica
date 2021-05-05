@@ -10,15 +10,20 @@ import java.util.List;
 
 import br.com.komanda.eletronica.connection.ConnectFactory;
 import br.com.komanda.eletronica.model.ProdutoEstoque;
+import br.com.komanda.eletronica.model.Xml;
 
 public class ProdutoEstoqueDao {
 
-	/******************** Adicionando *****************/
-	public boolean adicionar(ProdutoEstoque produtoestoque) {
+	/******************** Adicionando 
+	 * @throws Exception *****************/
+	public boolean adicionar(ProdutoEstoque produtoestoque) throws Exception {
 		Connection connection = null;
 		boolean sucesso = true;
 		try {
-			connection = ConnectFactory.createConnection();
+			ConnectFactory conection = null;
+			Xml xml = new Xml();			
+			conection = xml.lerXML();
+			connection = ConnectFactory.createConnection(conection.getServer(), conection.getPorta(), conection.getNome(), conection.getUser(), conection.getSenha());
 			/* SQL */
 			String query = "insert into mesa (idprodutoestoque, nome, peso, descricao, informacao, IsExcluido) values(?,?,?,?,?,?)";
 			/* Preparando a Query */
@@ -48,9 +53,13 @@ public class ProdutoEstoqueDao {
 		return sucesso;
 	}
 
-	/******************** Metodo Deletar *****************/
-	public boolean deletar(int identificacao) throws SQLException {
-		Connection connection = ConnectFactory.createConnection();
+	/******************** Metodo Deletar 
+	 * @throws Exception *****************/
+	public boolean deletar(int identificacao) throws Exception {
+		ConnectFactory conection = null;
+		Xml xml = new Xml();			
+		conection = xml.lerXML();
+		Connection connection = ConnectFactory.createConnection(conection.getServer(), conection.getPorta(), conection.getNome(), conection.getUser(), conection.getSenha());
 		String query = " DELETE FROM mesa WHERE idProdutoEstoque = ?";
 		PreparedStatement stmt = connection.prepareStatement(query);
 		stmt.setInt(1, identificacao);
@@ -65,9 +74,13 @@ public class ProdutoEstoqueDao {
 
 	}
 
-	/******************** Consulta por id *****************/
-	public List<ProdutoEstoque> consultaid(int identificacao) throws SQLException {
-		Connection connection = ConnectFactory.createConnection();
+	/******************** Consulta por id 
+	 * @throws Exception *****************/
+	public List<ProdutoEstoque> consultaid(int identificacao) throws Exception {
+		ConnectFactory conection = null;
+		Xml xml = new Xml();			
+		conection = xml.lerXML();
+		Connection connection = ConnectFactory.createConnection(conection.getServer(), conection.getPorta(), conection.getNome(), conection.getUser(), conection.getSenha());
 		String query = "SELECT idMesa, nome FROM Mesa WHERE IdProdutoEstoque = " + identificacao;
 
 		Statement stmt = (Statement) connection.createStatement();
@@ -91,10 +104,14 @@ public class ProdutoEstoqueDao {
 
 	}
 
-	/******************** Metodo UPDATE *****************/
+	/******************** Metodo UPDATE 
+	 * @throws Exception *****************/
 
-	public boolean atualizar(ProdutoEstoque produtoestoque, int IdProdutoEstoque) throws SQLException {
-		Connection connection = ConnectFactory.createConnection();
+	public boolean atualizar(ProdutoEstoque produtoestoque, int IdProdutoEstoque) throws Exception {
+		ConnectFactory conection = null;
+		Xml xml = new Xml();			
+		conection = xml.lerXML();
+		Connection connection = ConnectFactory.createConnection(conection.getServer(), conection.getPorta(), conection.getNome(), conection.getUser(), conection.getSenha());
 		String update = "UPDATE mesa SET nome = ? WHERE produtoestoque.idProdutoEstoque = ?";
 
 		PreparedStatement stmt = connection.prepareStatement(update);

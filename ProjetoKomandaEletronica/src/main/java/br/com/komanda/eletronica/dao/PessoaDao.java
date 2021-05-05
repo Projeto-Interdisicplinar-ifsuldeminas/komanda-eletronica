@@ -8,6 +8,7 @@ import java.sql.Statement;
 
 import br.com.komanda.eletronica.connection.ConnectFactory;
 import br.com.komanda.eletronica.model.Pessoa;
+import br.com.komanda.eletronica.model.Xml;
 
 public class PessoaDao {
 	
@@ -15,12 +16,16 @@ public class PessoaDao {
 		
 	}
 	
-	/******************** Adicionando *****************/
-	public boolean adicionar(Pessoa p) {
+	/******************** Adicionando 
+	 * @throws Exception *****************/
+	public boolean adicionar(Pessoa p) throws Exception {
 		Connection connection = null;
 		boolean sucesso = true;
 		try {
-			connection = ConnectFactory.createConnection();
+			ConnectFactory conection = null;
+			Xml xml = new Xml();			
+			conection = xml.lerXML();
+			connection = ConnectFactory.createConnection(conection.getServer(), conection.getPorta(), conection.getNome(), conection.getUser(), conection.getSenha());
 			/* SQL */
 			String query = "insert into pessoa (cpf, nome, endereco, telefone, email, isExcluido) values(?)";
 			/* Preparando a Query */
@@ -54,13 +59,17 @@ public class PessoaDao {
 		return sucesso;
 	}
 	
-	/******************** Adicionando com retorno de Id *****************/
-	public int adicionarComRetorno(Pessoa pessoa) {
+	/******************** Adicionando com retorno de Id 
+	 * @throws Exception *****************/
+	public int adicionarComRetorno(Pessoa pessoa) throws Exception {
 		Connection connection = null;
 		//boolean sucesso = true;
 		int lastId = 0;
 		try {
-			connection = ConnectFactory.createConnection();
+			ConnectFactory conection = null;
+			Xml xml = new Xml();			
+			conection = xml.lerXML();
+			connection = ConnectFactory.createConnection(conection.getServer(), conection.getPorta(), conection.getNome(), conection.getUser(), conection.getSenha());
 			/* SQL */
 			String query = "insert into pessoa (cpf, nome, endereco, telefone, email, isExcluido) values(?,?,?,?,?,?)";
 			/* Preparando a Query */
@@ -109,9 +118,13 @@ public class PessoaDao {
 		return lastId;
 	}
 	
-	/******************** Consulta por id *****************/
-	public Pessoa consultaid(int identificacao) throws SQLException {
-		Connection connection = ConnectFactory.createConnection();
+	/******************** Consulta por id 
+	 * @throws Exception *****************/
+	public Pessoa consultaid(int identificacao) throws Exception {
+		ConnectFactory conection = null;
+		Xml xml = new Xml();			
+		conection = xml.lerXML();
+		Connection connection = ConnectFactory.createConnection(conection.getServer(), conection.getPorta(), conection.getNome(), conection.getUser(), conection.getSenha());
 		String query = "SELECT idPessoa, nome FROM Mesa WHERE idPessoa = " + identificacao;
 
 		Statement stmt = (Statement) connection.createStatement();

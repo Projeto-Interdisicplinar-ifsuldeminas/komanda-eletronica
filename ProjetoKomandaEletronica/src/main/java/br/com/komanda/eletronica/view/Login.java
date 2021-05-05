@@ -36,6 +36,7 @@ import br.com.komanda.eletronica.dao.FuncionarioDao;
 import br.com.komanda.eletronica.dao.LoginDao;
 import br.com.komanda.eletronica.model.Funcionario;
 import br.com.komanda.eletronica.model.LoginFuncionarios;
+import br.com.komanda.eletronica.model.Xml;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -360,7 +361,8 @@ public class Login extends JFrame {
 		
 		ConnectFactory conection = null;
 		try {
-			conection = lerXML();
+			Xml xml = new Xml();			
+			conection = xml.lerXML();
 			txtServer.setText(conection.getServer());
 			txtPorta.setText(conection.getPorta());
 			txtUser.setText(conection.getUser());
@@ -377,7 +379,7 @@ public class Login extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 					try {
 						ValidaUsuario(ftUsuario.getText(), pfSenha.getText());
-					} catch (SQLException e1) {
+					} catch (Exception e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}			
@@ -400,7 +402,7 @@ public class Login extends JFrame {
 		return main;
 	}
 	
-	public void ValidaUsuario(String usuario, String senha) throws SQLException {
+	public void ValidaUsuario(String usuario, String senha) throws Exception {
 		boolean retorno = false;
 		boolean master = false;
 		loginDao = new LoginDao();
@@ -410,7 +412,8 @@ public class Login extends JFrame {
 		}else {
 			ConnectFactory conection = null;
 			try {
-				conection = lerXML();
+				Xml xml = new Xml();			
+				conection = xml.lerXML();
 				retorno = loginDao.ValidaLoginFuncionarios(usuario, senha, conection.getServer(), conection.getPorta(), conection.getNome(), conection.getUser(), conection.getSenha());
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -480,28 +483,5 @@ public class Login extends JFrame {
 
 	public void setFunc(Funcionario funcionario) {
 		func = funcionario;
-	}
-	
-
-	private ConnectFactory lerXML() throws Exception{
-		File fXmlFile = new File("src/main/java/configuracao/conexao.xml");
-		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-		Document doc = dBuilder.parse(fXmlFile);
-		ConnectFactory con = null;
-		NodeList nList = doc.getElementsByTagName("conexao");
-		Node nNode = nList.item(0);
-		//System.out.println("\nElemento corrente :" + nNode.getNodeName());
-		if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-			Element eElement = (Element) nNode;
-			server = eElement.getElementsByTagName("server").item(0).getTextContent();
-			door = eElement.getElementsByTagName("porta").item(0).getTextContent();
-			nameDB = eElement.getElementsByTagName("base").item(0).getTextContent();
-			user = eElement.getElementsByTagName("user").item(0).getTextContent();
-			password = eElement.getElementsByTagName("senha").item(0).getTextContent();
-			
-			con = new ConnectFactory(server, door, nameDB, user, password);
-		}
-		return con;
 	}
 }

@@ -1,6 +1,5 @@
 package br.com.komanda.eletronica.dao;
 
-import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,12 +11,13 @@ import br.com.komanda.eletronica.connection.ConnectFactory;
 import br.com.komanda.eletronica.model.Funcionario;
 import br.com.komanda.eletronica.model.LoginFuncionarios;
 import br.com.komanda.eletronica.model.Pessoa;
+import br.com.komanda.eletronica.model.Xml;
 
 public class FuncionarioDao {
 
 	/******************** Adicionando 
-	 * @throws NoSuchAlgorithmException *****************/
-	public boolean adicionar(Funcionario funcionario, LoginFuncionarios login) throws NoSuchAlgorithmException {
+	 * @throws Exception *****************/
+	public boolean adicionar(Funcionario funcionario, LoginFuncionarios login) throws Exception {
 		//cpf, nome, endereco, telefone, email, isExcluido
 		Pessoa pessoa = new Pessoa(funcionario.getNome(), funcionario.getCPF(), funcionario.getEndereço(),funcionario.getTelefone(), funcionario.getEmail(), funcionario.isIsExcluido());
 		PessoaDao novaPessoa = new PessoaDao();
@@ -25,7 +25,10 @@ public class FuncionarioDao {
 		Connection connection = null;
 		boolean sucesso = false;
 		try {
-			connection = ConnectFactory.createConnection();
+			ConnectFactory conection = null;
+			Xml xml = new Xml();			
+			conection = xml.lerXML();
+			connection = ConnectFactory.createConnection(conection.getServer(), conection.getPorta(), conection.getNome(), conection.getUser(), conection.getSenha());
 			/* SQL */
 			String query = "insert into funcionario (idPessoa, NumeroRegistro, IdFuncao, IsGerente, isExcluido, NivelDeAcesso) values(?,?,?,?,?,?)";
 			/* Preparando a Query */
@@ -85,9 +88,13 @@ public class FuncionarioDao {
 		return sucesso;
 	}
 	
-	/******************** Consulta por id *****************/
-	public Funcionario consultaid(int identificacao) throws SQLException {
-		Connection connection = ConnectFactory.createConnection();
+	/******************** Consulta por id 
+	 * @throws Exception *****************/
+	public Funcionario consultaid(int identificacao) throws Exception {
+		ConnectFactory conection = null;
+		Xml xml = new Xml();			
+		conection = xml.lerXML();
+		Connection connection = ConnectFactory.createConnection(conection.getServer(), conection.getPorta(), conection.getNome(), conection.getUser(), conection.getSenha());
 		String query = "SELECT a.IdFuncionario, b.IdPessoa, b. cpf, a.NumeroRegistro, a.IdFuncao, a.IsGerente, b.nome, a.IsExcluido FROM funcionario as a \r\n"
 				+ "INNER JOIN pessoa as b ON a.IdPessoa = b.IdPessoa AND a.IdFuncionario = " + identificacao;
 
@@ -102,9 +109,13 @@ public class FuncionarioDao {
 
 	}
 	
-	/******************** Consulta por id *****************/
-	public Funcionario ConsultaIdCompleta(int identificacao) throws SQLException {
-		Connection connection = ConnectFactory.createConnection();
+	/******************** Consulta por id 
+	 * @throws Exception *****************/
+	public Funcionario ConsultaIdCompleta(int identificacao) throws Exception {
+		ConnectFactory conection = null;
+		Xml xml = new Xml();			
+		conection = xml.lerXML();
+		Connection connection = ConnectFactory.createConnection(conection.getServer(), conection.getPorta(), conection.getNome(), conection.getUser(), conection.getSenha());
 		String query = "\r\n"
 				+ "SELECT b.IdPessoa, b.nome, b.cpf, b.endereco, b.telefone, b.email, b.IsExcluido as Pessoa_Excluido, a.IdFuncionario,  "
 				+ "a.NumeroRegistro, a.IsGerente,  a.IsExcluido as Func_Excluido, a.IdFuncao, a.NivelDeAcesso "
@@ -122,12 +133,16 @@ public class FuncionarioDao {
 
 	}
 	
-	/******************** Metodo DELETE LÓGICO *****************/
+	/******************** Metodo DELETE LÓGICO 
+	 * @throws Exception *****************/
 	//É feito um delete lógico para evitar perda de dados pelos usuários do sistema. 
 	//Sendo possível pelo Administrador do BD recuperar a informação caso seja errôneamente apagada.
 
-	public boolean Deletar(int idFuncionario) throws SQLException {
-		Connection connection = ConnectFactory.createConnection();
+	public boolean Deletar(int idFuncionario) throws Exception {
+		ConnectFactory conection = null;
+		Xml xml = new Xml();			
+		conection = xml.lerXML();
+		Connection connection = ConnectFactory.createConnection(conection.getServer(), conection.getPorta(), conection.getNome(), conection.getUser(), conection.getSenha());
 		String update1 = "UPDATE funcionario SET IsExcluido = ? WHERE idFuncionario = ?";
 		String update2 = "UPDATE loginFuncionario SET IsBloqueado = ? WHERE idFuncionario = ?";
 		//A Pessoa não será excluída devido ao fato de mesmo que ela seja desligada da função, pode vir a ser um cliente
@@ -152,10 +167,14 @@ public class FuncionarioDao {
 
 	}
 	
-	/******************** Metodo UPDATE *****************/
+	/******************** Metodo UPDATE 
+	 * @throws Exception *****************/
 
-	public boolean Atualizar(Funcionario f) throws SQLException {
-		Connection connection = ConnectFactory.createConnection();
+	public boolean Atualizar(Funcionario f) throws Exception {
+		ConnectFactory conection = null;
+		Xml xml = new Xml();			
+		conection = xml.lerXML();
+		Connection connection = ConnectFactory.createConnection(conection.getServer(), conection.getPorta(), conection.getNome(), conection.getUser(), conection.getSenha());
 		String update1 = "UPDATE funcionario SET IdFuncao = ?, IsGerente = ?, NivelDeAcesso = ? WHERE IdFuncionario = ?;";
 		String update2 = "UPDATE pessoa SET nome = ?, endereco = ?, telefone = ?, email = ? WHERE IdPessoa = ?;";
 		
@@ -185,9 +204,13 @@ public class FuncionarioDao {
 
 	}
 	
-	/******************** Busca todas os funcionarios *****************/
-	public ArrayList<Funcionario> getAll() throws SQLException {
-		Connection connection = ConnectFactory.createConnection();
+	/******************** Busca todas os funcionarios 
+	 * @throws Exception *****************/
+	public ArrayList<Funcionario> getAll() throws Exception {
+		ConnectFactory conection = null;
+		Xml xml = new Xml();			
+		conection = xml.lerXML();
+		Connection connection = ConnectFactory.createConnection(conection.getServer(), conection.getPorta(), conection.getNome(), conection.getUser(), conection.getSenha());
 		String query = "SELECT a.IdFuncionario,  a.IdPessoa, b.nome, b.cpf, a.NumeroRegistro FROM funcionario a INNER JOIN pessoa b ON a.IdPessoa = b.IdPessoa AND a.IsExcluido != 1 ORDER BY a.IdFuncionario DESC;";
 
 		Statement stmt = (Statement) connection.createStatement();
@@ -208,9 +231,13 @@ public class FuncionarioDao {
 
 	}
 	
-	/******************** Pesquisa Funcionarios *****************/
-	public ArrayList<Funcionario> getFuncionarios(String nomeF, String matriculaF, String cpfF) throws SQLException {
-		Connection connection = ConnectFactory.createConnection();
+	/******************** Pesquisa Funcionarios 
+	 * @throws Exception *****************/
+	public ArrayList<Funcionario> getFuncionarios(String nomeF, String matriculaF, String cpfF) throws Exception {
+		ConnectFactory conection = null;
+		Xml xml = new Xml();			
+		conection = xml.lerXML();
+		Connection connection = ConnectFactory.createConnection(conection.getServer(), conection.getPorta(), conection.getNome(), conection.getUser(), conection.getSenha());
 		
 		String query = "SELECT a.IdFuncionario,  a.IdPessoa, b.nome, b.cpf, a.NumeroRegistro FROM funcionario a INNER JOIN pessoa b ON a.IdPessoa = b.IdPessoa";
 		

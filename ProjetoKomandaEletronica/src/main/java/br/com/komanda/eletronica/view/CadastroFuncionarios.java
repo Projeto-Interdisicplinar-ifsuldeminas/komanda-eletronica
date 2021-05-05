@@ -2,6 +2,7 @@ package br.com.komanda.eletronica.view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.HeadlessException;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,7 +10,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 
@@ -67,10 +67,10 @@ public class CadastroFuncionarios extends JFrame {
 
 	/**
 	 * Create the frame.
-	 * @throws ParseException 
+	 * @throws Exception 
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public CadastroFuncionarios(int id) throws ParseException {
+	public CadastroFuncionarios(int id) throws Exception {
 		
 		setUndecorated(true);
 		setTitle("CADASTRO DE FUNCION\u00C1RIOS");
@@ -488,7 +488,10 @@ public class CadastroFuncionarios extends JFrame {
 						}else {
 							JOptionPane.showMessageDialog(null, "Erro ao excluir funcionário.");
 						}
-					} catch (SQLException e1) {
+					} catch (HeadlessException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (Exception e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
@@ -577,7 +580,7 @@ public class CadastroFuncionarios extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					SalvarOuAtualizar(id);
-				} catch (SQLException e1) {
+				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}				
@@ -642,7 +645,7 @@ public class CadastroFuncionarios extends JFrame {
 		
 	}
 	
-	public void SalvarOuAtualizar(int id) throws SQLException {
+	public void SalvarOuAtualizar(int id) throws Exception {
 		boolean isGerente = false;
 		int control = 0;
 		if(id == 0) {

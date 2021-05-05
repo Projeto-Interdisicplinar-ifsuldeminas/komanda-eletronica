@@ -46,10 +46,9 @@ public class BuscaFuncionarios extends JFrame {
 	private ArrayList<Funcionario> listaDeFuncionarios;
 	/**
 	 * Create the frame.
-	 * @throws SQLException 
-	 * @throws ParseException 
+	 * @throws Exception 
 	 */
-	public BuscaFuncionarios() throws SQLException, ParseException {
+	public BuscaFuncionarios() throws Exception {
 		setBackground(Color.LIGHT_GRAY);
 		setUndecorated(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -148,8 +147,13 @@ public class BuscaFuncionarios extends JFrame {
 		JButton btnNewButton_1 = new JButton("");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				EditarFuncionario((int)tableFuncionario.getModel().getValueAt(
-						tableFuncionario.getSelectedRow(),0));
+				try {
+					EditarFuncionario((int)tableFuncionario.getModel().getValueAt(
+							tableFuncionario.getSelectedRow(),0));
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		btnNewButton_1.setBackground(Color.BLUE);
@@ -170,7 +174,12 @@ public class BuscaFuncionarios extends JFrame {
 		JButton btnNewButton_1_2 = new JButton("");
 		btnNewButton_1_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CadastroDeFuncionario();
+				try {
+					CadastroDeFuncionario();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		btnNewButton_1_2.setIcon(new ImageIcon(BuscaFuncionarios.class.getResource("/img/plus-5-32.png")));
@@ -182,7 +191,7 @@ public class BuscaFuncionarios extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					PreencheTabela();
-				} catch (SQLException e1) {
+				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
@@ -245,7 +254,12 @@ public class BuscaFuncionarios extends JFrame {
 				cpf = cpf.replace( "-" , ""); //tira hífen
 				try {
 					listaDeFuncionarios = new ArrayList<>();
-					listaDeFuncionarios = conection.getFuncionarios(nome, matricula, cpf);
+					try {
+						listaDeFuncionarios = conection.getFuncionarios(nome, matricula, cpf);
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					PreencheTabelaPesquisa(listaDeFuncionarios);
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
@@ -377,7 +391,7 @@ public class BuscaFuncionarios extends JFrame {
 		PreencheTabela();
 	}
 	
-	public void CadastroDeFuncionario() {
+	public void CadastroDeFuncionario() throws Exception {
 		try {
 			CadastroFuncionarios funcionarios = new CadastroFuncionarios(0);
 			funcionarios.setLocationRelativeTo(null);
@@ -392,7 +406,7 @@ public class BuscaFuncionarios extends JFrame {
 		}
 	}
 	
-	public void EditarFuncionario(int id) {
+	public void EditarFuncionario(int id) throws Exception {
 		try {
 			CadastroFuncionarios funcionarios = new CadastroFuncionarios(id);
 			funcionarios.setLocationRelativeTo(null);
@@ -414,7 +428,7 @@ public class BuscaFuncionarios extends JFrame {
 		return main;
 	}
 	
-	public void PreencheTabela() throws SQLException {		
+	public void PreencheTabela() throws Exception {		
 		listaDeFuncionarios = new ArrayList<>();
 		listaDeFuncionarios = this.GetAll();
 		
@@ -449,7 +463,7 @@ public class BuscaFuncionarios extends JFrame {
 		}
 	}
 	
-	public ArrayList<Funcionario> GetAll() throws SQLException {
+	public ArrayList<Funcionario> GetAll() throws Exception {
 		return new FuncionarioDao().getAll();
 	}
 }

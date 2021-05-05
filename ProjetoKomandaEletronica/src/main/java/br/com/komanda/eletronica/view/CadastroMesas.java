@@ -5,7 +5,6 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.List;
 
@@ -145,14 +144,21 @@ public class CadastroMesas extends JFrame {
 				Mesa mesa = new Mesa(nome);
 
 				MesaDao conexaoadicionar = new MesaDao();
-				boolean resposta = conexaoadicionar.adicionar(mesa);
-
-				if (resposta == true) {
-					JOptionPane.showMessageDialog(null, "\nincluido com sucesso !", "Sucesso",
-							JOptionPane.INFORMATION_MESSAGE);
-				} else {
-					JOptionPane.showMessageDialog(null, "\nOcorreu um erro !", "Erro", JOptionPane.ERROR_MESSAGE);
+				boolean resposta;
+				try {
+					resposta = conexaoadicionar.adicionar(mesa);
+					if (resposta == true) {
+						JOptionPane.showMessageDialog(null, "\nincluido com sucesso !", "Sucesso",
+								JOptionPane.INFORMATION_MESSAGE);
+					} else {
+						JOptionPane.showMessageDialog(null, "\nOcorreu um erro !", "Erro", JOptionPane.ERROR_MESSAGE);
+					}
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
+
+				
 
 			}
 		});
@@ -169,16 +175,18 @@ public class CadastroMesas extends JFrame {
 				int idenvio = 0;
 				idenvio = Integer.parseInt(rcid);
 				MesaDao deletarpessoa = new MesaDao();
+				boolean retorno;
 				try {
-					boolean retorno = deletarpessoa.deletar(idenvio);
+					retorno = deletarpessoa.deletar(idenvio);
 					if (retorno == true) {
 						JOptionPane.showMessageDialog(null, "\nDeletado com sucesso !", "Sucesso",
 								JOptionPane.INFORMATION_MESSAGE);
 					} else {
 						JOptionPane.showMessageDialog(null, "\nOcorreu um erro !", "Erro", JOptionPane.ERROR_MESSAGE);
 					}
-				} catch (SQLException e1) {
-					System.out.println("Erro na conexao apagar");
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
 				// Limpando os campos
 				TFid.setText("0");
@@ -203,8 +211,9 @@ public class CadastroMesas extends JFrame {
 				boolean resposta = false;
 				try {
 					resposta = conexaoupdate.atualizar(mesa, id);
-				} catch (SQLException e1) {
-					System.out.println("Erro na conexao update");
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
 				if (resposta == true) {
 					JOptionPane.showMessageDialog(null, "\nRegistro atualizado com sucesso !", "Sucesso",
@@ -230,8 +239,9 @@ public class CadastroMesas extends JFrame {
 				int id = 0;
 				id = id + soma;
 				MesaDao consultaid = new MesaDao();
+				List<Mesa> mesa;
 				try {
-					List<Mesa> mesa = consultaid.consultaid(id);
+					mesa = consultaid.consultaid(id);
 					if (mesa.isEmpty()) {
 						String idex = Integer.toString(id);
 						TFid.setText(idex);
@@ -243,9 +253,9 @@ public class CadastroMesas extends JFrame {
 							TFNome.setText(m.getNomeMesa());
 						}
 					}
-
-				} catch (SQLException e1) {
-					System.out.println("Erro botao navegar para frente");
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
 			}
 		});
@@ -267,8 +277,9 @@ public class CadastroMesas extends JFrame {
 				int id = 0;
 				id = id + soma;
 				MesaDao consultaid = new MesaDao();
+				List<Mesa> mesa;
 				try {
-					List<Mesa> mesa = consultaid.consultaid(id);
+					mesa = consultaid.consultaid(id);
 					if (mesa.isEmpty()) {
 						String idex = Integer.toString(id);
 						TFid.setText(idex);
@@ -280,9 +291,9 @@ public class CadastroMesas extends JFrame {
 							TFNome.setText(m.getNomeMesa());
 						}
 					}
-				} catch (SQLException e1) {
-					JOptionPane.showMessageDialog(null, "\nOcorreu um erro, verificar o ID !", "Erro",
-							JOptionPane.ERROR_MESSAGE);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
 			}
 		});

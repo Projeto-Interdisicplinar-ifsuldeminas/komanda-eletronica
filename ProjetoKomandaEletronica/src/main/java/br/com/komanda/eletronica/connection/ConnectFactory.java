@@ -79,7 +79,7 @@ public class ConnectFactory {
 
 	}
 	
-	public static Connection createConnection() throws SQLException {
+	/*public static Connection createConnection() throws SQLException {
 
 		String servidor = "localhost";
 		String porta = "3306";
@@ -98,7 +98,7 @@ public class ConnectFactory {
 
 		return DriverManager.getConnection(url, user, password);
 
-	}
+	}*/
 
 	/*public static void main(String[] args) throws SQLException {
 		Connection c = createConnection();

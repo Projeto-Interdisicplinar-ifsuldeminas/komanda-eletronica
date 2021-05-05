@@ -244,16 +244,18 @@ public class CadastroCardapio extends JFrame {
 				int id = Integer.parseInt(TFid.getText());
 
 				CadastroCardapioDao deletarpessoa = new CadastroCardapioDao();
+				boolean retorno;
 				try {
-					boolean retorno = deletarpessoa.deletar(id);
+					retorno = deletarpessoa.deletar(id);
 					if (retorno == true) {
 						JOptionPane.showMessageDialog(null, "\nDeletado com sucesso !", "Sucesso",
 								JOptionPane.INFORMATION_MESSAGE);
 					} else {
 						JOptionPane.showMessageDialog(null, "\nOcorreu um erro !", "Erro", JOptionPane.ERROR_MESSAGE);
 					}
-				} catch (SQLException e1) {
-					System.out.println("Erro na conexao apagar");
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
 				// Limpando os campos
 				TFid.setText("0");
@@ -343,8 +345,9 @@ public class CadastroCardapio extends JFrame {
 				int id = 0;
 				id = id + soma;
 				CadastroCardapioDao consultaid = new CadastroCardapioDao();
+				List<ProdutoCardapio> produtocardapio;
 				try {
-					List<ProdutoCardapio> produtocardapio = consultaid.consultaid(id);
+					produtocardapio = consultaid.consultaid(id);
 					if (produtocardapio.isEmpty()) {
 						String idex = Integer.toString(id);
 						TFid.setText(idex);
@@ -367,9 +370,9 @@ public class CadastroCardapio extends JFrame {
 
 						}
 					}
-
-				} catch (SQLException e1) {
-					System.out.println("Erro botao navegar para frente");
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
 			}
 		});
@@ -391,8 +394,9 @@ public class CadastroCardapio extends JFrame {
 				int id = 0;
 				id = id + soma;
 				CadastroCardapioDao consultaid = new CadastroCardapioDao();
+				List<ProdutoCardapio> produtocardapio;
 				try {
-					List<ProdutoCardapio> produtocardapio = consultaid.consultaid(id);
+					produtocardapio = consultaid.consultaid(id);
 					if (produtocardapio.isEmpty()) {
 						String idex = Integer.toString(id);
 						TFid.setText(idex);
@@ -415,9 +419,9 @@ public class CadastroCardapio extends JFrame {
 
 						}
 					}
-
-				} catch (SQLException e1) {
-					System.out.println("Erro botao navegar para frente");
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
 			}
 		});

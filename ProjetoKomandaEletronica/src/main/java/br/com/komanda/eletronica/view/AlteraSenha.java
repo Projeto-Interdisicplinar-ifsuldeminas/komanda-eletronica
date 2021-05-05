@@ -22,7 +22,6 @@ import br.com.komanda.eletronica.model.Funcionario;
 import br.com.komanda.eletronica.model.LoginFuncionarios;
 
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 public class AlteraSenha extends JFrame {
@@ -200,8 +199,9 @@ public class AlteraSenha extends JFrame {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
 				LoginDao loginDao = new LoginDao();
+				LoginFuncionarios log;
 				try {
-					LoginFuncionarios log = loginDao.consultaid(funcionario.getIdFuncionario());
+					log = loginDao.consultaid(funcionario.getIdFuncionario());
 					if(senha1.getText().equals(log.getSenha())) {
 						if(novasenha1.getText().equals(novasenha2.getText())) {
 							if(log.isPrimeiroAcesso()) {
@@ -223,8 +223,8 @@ public class AlteraSenha extends JFrame {
 						}
 					}else {
 						JOptionPane.showMessageDialog(null, "Senha atual invalida.");
-					}					
-				} catch (SQLException e1) {
+					}
+				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}

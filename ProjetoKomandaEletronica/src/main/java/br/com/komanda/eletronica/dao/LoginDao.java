@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import br.com.komanda.eletronica.connection.ConnectFactory;
 import br.com.komanda.eletronica.model.Funcionario;
 import br.com.komanda.eletronica.model.LoginFuncionarios;
+import br.com.komanda.eletronica.model.Xml;
 
 public class LoginDao {
 	
@@ -25,7 +26,7 @@ public class LoginDao {
 		IdFuncionario = idFuncionario;
 	}
 
-	public boolean ValidaLoginFuncionarios(String usuario, String senha, String server, String porta, String nomeBanco, String user, String password) {
+	public boolean ValidaLoginFuncionarios(String usuario, String senha, String server, String porta, String nomeBanco, String user, String password) throws Exception {
 		
 		if(usuario.equals("123.456.789-00") && senha.equals("master")) {
 			return true;
@@ -34,7 +35,10 @@ public class LoginDao {
 			@SuppressWarnings("unused")
 			boolean successo = false;
 			try {
-				connection = ConnectFactory.createConnection(server, porta, nomeBanco, user, password);
+				ConnectFactory conection = null;
+				Xml xml = new Xml();			
+				conection = xml.lerXML();
+				connection = ConnectFactory.createConnection(conection.getServer(), conection.getPorta(), conection.getNome(), conection.getUser(), conection.getSenha());
 				LoginFuncionarios loginFunc = new LoginFuncionarios();
 				String cpf = usuario;
 				cpf = cpf.replace( " " , ""); //tira espaço em branco
@@ -66,10 +70,14 @@ public class LoginDao {
 		return false;
 	}
 	
-	/******************** Consulta por id *****************/
-	public LoginFuncionarios consultaid(int identificacao) throws SQLException {
+	/******************** Consulta por id 
+	 * @throws Exception *****************/
+	public LoginFuncionarios consultaid(int identificacao) throws Exception {
 		
-		Connection connection = ConnectFactory.createConnection();
+		ConnectFactory conection = null;
+		Xml xml = new Xml();			
+		conection = xml.lerXML();
+		Connection connection = ConnectFactory.createConnection(conection.getServer(), conection.getPorta(), conection.getNome(), conection.getUser(), conection.getSenha());
 		String sql = "SELECT IdFuncionario, senha, primeiroAcesso from loginfuncionario WHERE IdLoginFuncionario ='" + identificacao +"';";
 		PreparedStatement stmt = (PreparedStatement) connection.prepareStatement(sql);
 		ResultSet rs = stmt.executeQuery();
@@ -86,11 +94,15 @@ public class LoginDao {
 
 	}
 	
-	/******************** Metodo UPDATE *****************/
+	/******************** Metodo UPDATE 
+	 * @throws Exception *****************/
 
 	@SuppressWarnings("null")
-	public boolean AlteraSenhaFuncionarios(Funcionario usuario, String senha, String senha2) throws SQLException {
-		Connection connection = ConnectFactory.createConnection();
+	public boolean AlteraSenhaFuncionarios(Funcionario usuario, String senha, String senha2) throws Exception {
+		ConnectFactory conection = null;
+		Xml xml = new Xml();			
+		conection = xml.lerXML();
+		Connection connection = ConnectFactory.createConnection(conection.getServer(), conection.getPorta(), conection.getNome(), conection.getUser(), conection.getSenha());
 		
 		String update = "UPDATE loginFuncionario SET senha = ?, primeiroacesso = 0 WHERE loginFuncionario.IdFuncionario = ?";
 		LoginFuncionarios login = new LoginFuncionarios();
