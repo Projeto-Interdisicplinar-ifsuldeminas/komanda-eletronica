@@ -225,7 +225,7 @@ public class AlteraSenha extends JFrame {
 						JOptionPane.showMessageDialog(null, "Senha atual invalida.");
 					}
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
+					
 					e1.printStackTrace();
 				}
 			}

@@ -9,25 +9,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.komanda.eletronica.connection.ConnectFactory;
+import br.com.komanda.eletronica.model.Mesa;
 import br.com.komanda.eletronica.model.ProdutoCardapio;
 import br.com.komanda.eletronica.model.Xml;
 
 public class CadastroCardapioDao {
 
-	/******************** Adicionando 
-	 * @throws Exception *****************/
+	/********************
+	 * Adicionando
+	 * 
+	 * @throws Exception
+	 *****************/
 	public boolean adicionar(ProdutoCardapio produtocardapio) throws Exception {
 		Connection connection = null;
 		boolean sucesso = true;
-		
+
 		try {
 			ConnectFactory conection = null;
-			Xml xml = new Xml();			
+			Xml xml = new Xml();
 			conection = xml.lerXML();
-			connection = ConnectFactory.createConnection(conection.getServer(), conection.getPorta(), conection.getNome(), conection.getUser(), conection.getSenha()); 
+			connection = ConnectFactory.createConnection(conection.getServer(), conection.getPorta(),
+					conection.getNome(), conection.getUser(), conection.getSenha());
 
 			String query = "insert into produtocardapio (`Nome`, `Peso`, `Descricao`, `Valor`, `InformacaoesNutricionais`, `QuantidadeDePessoasQueServe`, `IsExcluido`) values(?, ?, ?, ?, ?,?,?)";
-			
+
 			PreparedStatement prepare = connection.prepareStatement(query);
 			prepare.setString(1, produtocardapio.getNome());
 			prepare.setDouble(2, produtocardapio.getPeso());
@@ -54,13 +59,17 @@ public class CadastroCardapioDao {
 		return sucesso;
 	}
 
-	/******************** Metodo Deletar 
-	 * @throws Exception *****************/
+	/********************
+	 * Metodo Deletar
+	 * 
+	 * @throws Exception
+	 *****************/
 	public boolean deletar(int identificacao) throws Exception {
 		ConnectFactory conection = null;
-		Xml xml = new Xml();			
+		Xml xml = new Xml();
 		conection = xml.lerXML();
-		Connection connection = ConnectFactory.createConnection(conection.getServer(), conection.getPorta(), conection.getNome(), conection.getUser(), conection.getSenha());
+		Connection connection = ConnectFactory.createConnection(conection.getServer(), conection.getPorta(),
+				conection.getNome(), conection.getUser(), conection.getSenha());
 		String query = " DELETE FROM produtocardapio WHERE IdProdutoCardapio = ?";
 		PreparedStatement stmt = connection.prepareStatement(query);
 		stmt.setInt(1, identificacao);
@@ -75,23 +84,27 @@ public class CadastroCardapioDao {
 
 	}
 
-
-	/******************** Consulta por id 
-	 * @throws Exception *****************/
+	/********************
+	 * Consulta por id
+	 * 
+	 * @throws Exception
+	 *****************/
 	public List<ProdutoCardapio> consultaid(int identificacao) throws Exception {
 		ConnectFactory conection = null;
-		Xml xml = new Xml();			
+		Xml xml = new Xml();
 		conection = xml.lerXML();
-		Connection connection = ConnectFactory.createConnection(conection.getServer(), conection.getPorta(), conection.getNome(), conection.getUser(), conection.getSenha());
-		String query = "SELECT `IdProdutoCardapio`, `Nome`, `Peso`, `Descricao`, `Valor`, `InformacaoesNutricionais`, `QuantidadeDePessoasQueServe`, `IsExcluido` FROM `produtocardapio` WHERE `IdProdutoCardapio` = " + identificacao;
+		Connection connection = ConnectFactory.createConnection(conection.getServer(), conection.getPorta(),
+				conection.getNome(), conection.getUser(), conection.getSenha());
+		String query = "SELECT `IdProdutoCardapio`, `Nome`, `Peso`, `Descricao`, `Valor`, `InformacaoesNutricionais`, `QuantidadeDePessoasQueServe`, `IsExcluido` FROM `produtocardapio` WHERE `IdProdutoCardapio` = "
+				+ identificacao;
 
 		Statement stmt = (Statement) connection.createStatement();
 		ResultSet resultado = stmt.executeQuery(query);
-		
+
 		List<ProdutoCardapio> produtocardapio = new ArrayList<>();
-		
+
 		while (resultado.next()) {
-						
+
 			int IdProdutoCardapio = resultado.getInt("IdProdutoCardapio");
 			String Nome = resultado.getString("Nome");
 			double Peso = resultado.getDouble("Peso");
@@ -100,22 +113,27 @@ public class CadastroCardapioDao {
 			String informacoesNutricionais = resultado.getString("InformacaoesNutricionais");
 			int QuantidadeDePessoasQueServe = resultado.getInt("QuantidadeDePessoasQueServe");
 			boolean IsExcluido = resultado.getBoolean("IsExcluido");
-			produtocardapio.add(new ProdutoCardapio(IdProdutoCardapio,Nome,Peso,Descricao,Valor,informacoesNutricionais,QuantidadeDePessoasQueServe,IsExcluido));
+			produtocardapio.add(new ProdutoCardapio(IdProdutoCardapio, Nome, Peso, Descricao, Valor,
+					informacoesNutricionais, QuantidadeDePessoasQueServe, IsExcluido));
 		}
 		stmt.close();
 		connection.close();
-		
+
 		return produtocardapio;
 
 	}
 
-	/******************** Metodo UPDATE 
-	 * @throws Exception *****************/
+	/********************
+	 * Metodo UPDATE
+	 * 
+	 * @throws Exception
+	 *****************/
 	public boolean atualizar(ProdutoCardapio produtocardapio, int id) throws Exception {
 		ConnectFactory conection = null;
-		Xml xml = new Xml();			
+		Xml xml = new Xml();
 		conection = xml.lerXML();
-		Connection connection = ConnectFactory.createConnection(conection.getServer(), conection.getPorta(), conection.getNome(), conection.getUser(), conection.getSenha());
+		Connection connection = ConnectFactory.createConnection(conection.getServer(), conection.getPorta(),
+				conection.getNome(), conection.getUser(), conection.getSenha());
 		String update = "UPDATE produtocardapio SET Nome = ?, Peso = ?, Descricao = ?, Valor = ?, InformacaoesNutricionais = ?, QuantidadeDePessoasQueServe = ?, IsExcluido = ? WHERE produtocardapio.IdProdutoCardapio = ?";
 
 		PreparedStatement stmt = connection.prepareStatement(update);
@@ -139,6 +157,41 @@ public class CadastroCardapioDao {
 
 	}
 
-	
+	/********************
+	 * Metodo Retornando Lista do cardapio
+	 * 
+	 *****************/
+	public List<ProdutoCardapio> produtocardapiolista() throws Exception {
+		ConnectFactory conection = null;
+		Xml xml = new Xml();
+		conection = xml.lerXML();
+		Connection connection = ConnectFactory.createConnection(conection.getServer(), conection.getPorta(),
+				conection.getNome(), conection.getUser(), conection.getSenha());
+
+		String query = "SELECT * FROM produtocardapio";
+
+		Statement stmt = (Statement) connection.createStatement();
+		ResultSet resultado = stmt.executeQuery(query);
+		List<ProdutoCardapio> produtoscardapio = new ArrayList<>();
+		while (resultado.next()) {
+
+			int IdProdutoCardapio = resultado.getInt("IdProdutoCardapio");
+			String Nome = resultado.getString("Nome");
+			double Peso = resultado.getDouble("Peso");
+			String Descricao = resultado.getString("Descricao");
+			double Valor = resultado.getDouble("Valor");
+			String informacoesNutricionais = resultado.getString("InformacaoesNutricionais");
+			int QuantidadeDePessoasQueServe = resultado.getInt("QuantidadeDePessoasQueServe");
+
+			produtoscardapio.add(new ProdutoCardapio(IdProdutoCardapio, Nome, Peso, Descricao, Valor,
+					informacoesNutricionais, QuantidadeDePessoasQueServe));
+		}
+
+		stmt.close();
+		connection.close();
+
+		return produtoscardapio;
+
+	}
 
 }

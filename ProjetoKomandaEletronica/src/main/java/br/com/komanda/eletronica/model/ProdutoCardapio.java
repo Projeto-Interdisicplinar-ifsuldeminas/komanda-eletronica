@@ -33,6 +33,20 @@ public class ProdutoCardapio {
 		QuantidadeDePessoasQueServe = quantidadeDePessoasQueServe;
 		IsExcluido = isExcluido;
 	}
+	
+	
+
+	public ProdutoCardapio(int idProdutoCardapio, String nome, double peso, String descricao, double valor,
+			String informacoesNutricionais, int quantidadeDePessoasQueServe) {
+		IdProdutoCardapio = idProdutoCardapio;
+		Nome = nome;
+		Peso = peso;
+		Descricao = descricao;
+		Valor = valor;
+		this.informacoesNutricionais = informacoesNutricionais;
+		QuantidadeDePessoasQueServe = quantidadeDePessoasQueServe;
+	}
+	
 
 	public int getIdProdutoCardapio() {
 		return IdProdutoCardapio;

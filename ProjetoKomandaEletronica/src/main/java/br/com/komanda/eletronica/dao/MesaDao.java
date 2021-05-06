@@ -12,18 +12,23 @@ import br.com.komanda.eletronica.connection.ConnectFactory;
 import br.com.komanda.eletronica.model.Mesa;
 import br.com.komanda.eletronica.model.Xml;
 
+
 public class MesaDao {
 
-	/******************** Adicionando 
-	 * @throws Exception *****************/
+	/********************
+	 * Adicionando
+	 * 
+	 * @throws Exception
+	 *****************/
 	public boolean adicionar(Mesa mesa) throws Exception {
 		Connection connection = null;
 		boolean sucesso = true;
 		try {
 			ConnectFactory conection = null;
-			Xml xml = new Xml();			
+			Xml xml = new Xml();
 			conection = xml.lerXML();
-			connection = ConnectFactory.createConnection(conection.getServer(), conection.getPorta(), conection.getNome(), conection.getUser(), conection.getSenha());
+			connection = ConnectFactory.createConnection(conection.getServer(), conection.getPorta(),
+					conection.getNome(), conection.getUser(), conection.getSenha());
 			/* SQL */
 			String query = "insert into mesa (nome) values(?)";
 			/* Preparando a Query */
@@ -47,13 +52,17 @@ public class MesaDao {
 		return sucesso;
 	}
 
-	/******************** Metodo Deletar 
-	 * @throws Exception *****************/
+	/********************
+	 * Metodo Deletar
+	 * 
+	 * @throws Exception
+	 *****************/
 	public boolean deletar(int identificacao) throws Exception {
 		ConnectFactory conection = null;
-		Xml xml = new Xml();			
+		Xml xml = new Xml();
 		conection = xml.lerXML();
-		Connection connection = ConnectFactory.createConnection(conection.getServer(), conection.getPorta(), conection.getNome(), conection.getUser(), conection.getSenha());
+		Connection connection = ConnectFactory.createConnection(conection.getServer(), conection.getPorta(),
+				conection.getNome(), conection.getUser(), conection.getSenha());
 		String query = " DELETE FROM mesa WHERE idMesa = ?";
 		PreparedStatement stmt = connection.prepareStatement(query);
 		stmt.setInt(1, identificacao);
@@ -68,13 +77,17 @@ public class MesaDao {
 
 	}
 
-	/******************** Consulta por id 
-	 * @throws Exception *****************/
+	/********************
+	 * Consulta por id
+	 * 
+	 * @throws Exception
+	 *****************/
 	public List<Mesa> consultaid(int identificacao) throws Exception {
 		ConnectFactory conection = null;
-		Xml xml = new Xml();			
+		Xml xml = new Xml();
 		conection = xml.lerXML();
-		Connection connection = ConnectFactory.createConnection(conection.getServer(), conection.getPorta(), conection.getNome(), conection.getUser(), conection.getSenha());
+		Connection connection = ConnectFactory.createConnection(conection.getServer(), conection.getPorta(),
+				conection.getNome(), conection.getUser(), conection.getSenha());
 		String query = "SELECT idMesa, nome FROM Mesa WHERE idMesa = " + identificacao;
 
 		Statement stmt = (Statement) connection.createStatement();
@@ -87,19 +100,23 @@ public class MesaDao {
 		}
 		stmt.close();
 		connection.close();
-		
+
 		return mesa;
 
 	}
 
-	/******************** Metodo UPDATE 
-	 * @throws Exception *****************/
+	/********************
+	 * Metodo UPDATE
+	 * 
+	 * @throws Exception
+	 *****************/
 
 	public boolean atualizar(Mesa mesa, int idMesa) throws Exception {
 		ConnectFactory conection = null;
-		Xml xml = new Xml();			
+		Xml xml = new Xml();
 		conection = xml.lerXML();
-		Connection connection = ConnectFactory.createConnection(conection.getServer(), conection.getPorta(), conection.getNome(), conection.getUser(), conection.getSenha());
+		Connection connection = ConnectFactory.createConnection(conection.getServer(), conection.getPorta(),
+				conection.getNome(), conection.getUser(), conection.getSenha());
 		String update = "UPDATE mesa SET nome = ? WHERE mesa.idMesa = ?";
 
 		PreparedStatement stmt = connection.prepareStatement(update);
@@ -117,6 +134,33 @@ public class MesaDao {
 
 	}
 
-	/******************** Metodo Retornando Mesas *****************/
+	/********************
+	 * Metodo Retornando   Lista de Mesas
+	 * 
+	 *****************/
+	public List<Mesa> listamesa() throws Exception {
+		ConnectFactory conection = null;
+		Xml xml = new Xml();
+		conection = xml.lerXML();
+		Connection connection = ConnectFactory.createConnection(conection.getServer(), conection.getPorta(),
+				conection.getNome(), conection.getUser(), conection.getSenha());
+
+		String query = "SELECT * FROM Mesa";
+
+		Statement stmt = (Statement) connection.createStatement();
+		ResultSet resultado = stmt.executeQuery(query);
+		List<Mesa> mesas = new ArrayList<>();
+		while (resultado.next()) {
+			int IdMesa= resultado.getInt("IdMesa");
+			String NomeMesa = resultado.getString("Nome");
+			mesas.add(new Mesa(IdMesa, NomeMesa));
+		}
+
+		stmt.close();
+		connection.close();
+
+		return mesas;
+
+	}
 
 }
