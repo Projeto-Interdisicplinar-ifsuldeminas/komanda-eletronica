@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.komanda.eletronica.connection.ConnectFactory;
-import br.com.komanda.eletronica.model.Mesa;
 import br.com.komanda.eletronica.model.ProdutoCardapio;
 import br.com.komanda.eletronica.model.Xml;
 
