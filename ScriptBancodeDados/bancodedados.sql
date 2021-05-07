@@ -172,3 +172,9 @@ ADD COLUMN `primeiroAcesso` TINYINT(1) NULL AFTER `isBloqueado`;
 ######################################## */
 ALTER TABLE `komandaeletronica`.`funcionario` 
 ADD COLUMN `NivelDeAcesso` INT(3) NULL AFTER `IsExcluido`;
+
+/* Inserção de Colunas na tabela produtocardapiopedido
+######################################## */
+ALTER TABLE `komandaeletronica`.`produtocardapiopedido` 
+ADD COLUMN `Quantidade` INT(5) NULL AFTER `IdPedido`,
+ADD COLUMN `Status` INT(5) NULL AFTER `Quantidade`;
