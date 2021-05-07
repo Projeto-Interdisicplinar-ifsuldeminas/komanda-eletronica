@@ -171,7 +171,7 @@ public class CadastroCardapioDao {
 
 		Statement stmt = (Statement) connection.createStatement();
 		ResultSet resultado = stmt.executeQuery(query);
-		List<ProdutoCardapio> produtoscardapio = new ArrayList<>();
+		ArrayList<ProdutoCardapio> produtoscardapio = new ArrayList<>();
 		while (resultado.next()) {
 
 			int IdProdutoCardapio = resultado.getInt("IdProdutoCardapio");

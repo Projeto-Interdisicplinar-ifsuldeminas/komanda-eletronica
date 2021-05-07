@@ -15,7 +15,9 @@ public class Mesa {
 		NomeMesa = nomeMesa;
 	}
 	
-	
+	public String toString() {
+		return this.IdMesa + " - " + this.NomeMesa;
+	}
 
 
 	public int getIdMesa() {

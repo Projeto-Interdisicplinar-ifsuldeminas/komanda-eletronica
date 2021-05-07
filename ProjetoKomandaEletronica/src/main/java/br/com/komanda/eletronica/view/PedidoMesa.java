@@ -6,6 +6,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
@@ -18,6 +19,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -29,8 +31,10 @@ import javax.swing.table.DefaultTableModel;
 import br.com.komanda.eletronica.dao.CadastroCardapioDao;
 import br.com.komanda.eletronica.dao.MesaDao;
 import br.com.komanda.eletronica.model.Mesa;
+import br.com.komanda.eletronica.model.Pedido;
 import br.com.komanda.eletronica.model.ProdutoCardapio;
-import javax.swing.JSpinner;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class PedidoMesa extends JFrame {
 
@@ -43,8 +47,13 @@ public class PedidoMesa extends JFrame {
 	private static MainDashboard main = null;
 	private JTextField TFid;
 	
+	@SuppressWarnings("rawtypes")
+	private JComboBox cbPedido;
+	
 	private JTable tablePedido;
-	private JTextField textField;
+	private JTextField txtVlTotal;
+	private JSpinner spQuantidade;
+	private ArrayList<Pedido> listaDePedidos;
 
 	/**
 	 * Create the frame.
@@ -53,12 +62,12 @@ public class PedidoMesa extends JFrame {
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public PedidoMesa() throws Exception {
-
+		listaDePedidos = new ArrayList<>();
 		setUndecorated(true);
 		setTitle("CADASTRO DE MESAS");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(PedidoMesa.class.getResource("/img/user_edit.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1089, 772);
+		setBounds(100, 100, 1089, 786);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		setContentPane(contentPane);
@@ -168,27 +177,14 @@ public class PedidoMesa extends JFrame {
 				btnApagar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						// TODO Botao apagar
-
-//				String rcid = TFid.getText();
-//				int idenvio = 0;
-//				idenvio = Integer.parseInt(rcid);
-//				MesaDao deletarpessoa = new MesaDao();
-//				boolean retorno;
-//				try {
-//					retorno = deletarpessoa.deletar(idenvio);
-//					if (retorno == true) {
-//						JOptionPane.showMessageDialog(null, "\nDeletado com sucesso !", "Sucesso",
-//								JOptionPane.INFORMATION_MESSAGE);
-//					} else {
-//						JOptionPane.showMessageDialog(null, "\nOcorreu um erro !", "Erro", JOptionPane.ERROR_MESSAGE);
-//					}
-//				} catch (Exception e1) {
-//					// TODO Auto-generated catch block
-//					e1.printStackTrace();
-//				}
-//				// Limpando os campos
-//				TFid.setText("0");
-//				TFidpedido.setText("");
+						int selected = tablePedido.getSelectedRow();
+						listaDePedidos.remove(selected);
+						try {
+							PreencheTabela();
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 					}
 				});
 				btnApagar.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -264,10 +260,12 @@ public class PedidoMesa extends JFrame {
 		JLabel lblNewLabel_1 = new JLabel("R$");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 14));
 		
-		textField = new JTextField();
-		textField.setEditable(false);
-		textField.setFont(new Font("Tahoma", Font.BOLD, 14));
-		textField.setColumns(10);
+		txtVlTotal = new JTextField();
+		txtVlTotal.setHorizontalAlignment(SwingConstants.RIGHT);
+		txtVlTotal.setText("0.00");
+		txtVlTotal.setEditable(false);
+		txtVlTotal.setFont(new Font("Tahoma", Font.BOLD, 14));
+		txtVlTotal.setColumns(10);
 		GroupLayout gl_panel_3 = new GroupLayout(panel_3);
 		gl_panel_3.setHorizontalGroup(
 			gl_panel_3.createParallelGroup(Alignment.LEADING)
@@ -275,7 +273,7 @@ public class PedidoMesa extends JFrame {
 					.addContainerGap()
 					.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addComponent(textField, GroupLayout.PREFERRED_SIZE, 260, GroupLayout.PREFERRED_SIZE)
+					.addComponent(txtVlTotal, GroupLayout.PREFERRED_SIZE, 260, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap())
 		);
 		gl_panel_3.setVerticalGroup(
@@ -283,7 +281,7 @@ public class PedidoMesa extends JFrame {
 				.addComponent(lblNewLabel_1, GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
 				.addGroup(Alignment.TRAILING, gl_panel_3.createSequentialGroup()
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addComponent(textField, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+					.addComponent(txtVlTotal, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap())
 		);
 		panel_3.setLayout(gl_panel_3);
@@ -321,59 +319,47 @@ public class PedidoMesa extends JFrame {
 			MesaDao mesadao = new MesaDao();
 			List<Mesa> funcoes = mesadao.listamesa();
 			for (Mesa tipo : funcoes) {
-				cbMesa.addItem(tipo.getNomeMesa());
+				cbMesa.addItem(tipo);
 			}
 
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
 
-		JComboBox cbPedido = new JComboBox();
+		cbPedido = new JComboBox();
+		cbPedido.setEnabled(false);
 		cbPedido.setModel(new DefaultComboBoxModel(new String[] { "SELECIONE" }));
 		cbPedido.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		cbPedido.setBounds(10, 22, 771, 47);
-		panel_5.add(cbPedido);
-		
-		JButton btnNewButton_1 = new JButton("");
-		btnNewButton_1.setToolTipText("Incluir");
-		btnNewButton_1.setIcon(new ImageIcon(PedidoMesa.class.getResource("/img/plus-5-32.png")));
-		btnNewButton_1.setBackground(new Color(0, 128, 0));
-		btnNewButton_1.setBounds(942, 22, 80, 47);
-		panel_5.add(btnNewButton_1);
+		panel_5.add(cbPedido);		
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(new TitledBorder(null, "Quantidade", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panel_2.setBounds(791, 22, 141, 47);
 		panel_5.add(panel_2);
 		
-		JSpinner spinner = new JSpinner();
+		spQuantidade = new JSpinner();
+		spQuantidade.setEnabled(false);
 		GroupLayout gl_panel_2 = new GroupLayout(panel_2);
 		gl_panel_2.setHorizontalGroup(
 			gl_panel_2.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_2.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(spinner, GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
+					.addComponent(spQuantidade, GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		gl_panel_2.setVerticalGroup(
 			gl_panel_2.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_2.createSequentialGroup()
-					.addComponent(spinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addComponent(spQuantidade, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		panel_2.setLayout(gl_panel_2);
 		panel_central.setLayout(gl_panel_central);
 
-		try {
-			CadastroCardapioDao cadastrocardapiodao = new CadastroCardapioDao();
-			List<ProdutoCardapio> funcoes = cadastrocardapiodao.produtocardapiolista();
-			for (ProdutoCardapio tipo : funcoes) {
-				cbPedido.addItem(tipo.getNome());
-			}
-
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
+		CarregaCardapio();
+		
+		
 
 		JButton btnNewButton = new JButton("");
 		btnNewButton.setToolTipText("Fechar");
@@ -385,6 +371,46 @@ public class PedidoMesa extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				main.GetFrame().setEnabled(true);
 				dispose();
+			}
+		});
+		
+		JButton btnIncluir = new JButton("");
+		btnIncluir.setEnabled(false);
+		btnIncluir.setToolTipText("Incluir");
+		btnIncluir.setIcon(new ImageIcon(PedidoMesa.class.getResource("/img/plus-5-32.png")));
+		btnIncluir.setBackground(new Color(0, 128, 0));
+		btnIncluir.setBounds(942, 22, 80, 47);
+		panel_5.add(btnIncluir);
+		btnIncluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Pedido pedido = new Pedido();
+				ProdutoCardapio index = (ProdutoCardapio)cbPedido.getSelectedItem();
+				Mesa m = (Mesa)cbMesa.getSelectedItem();
+				pedido.setMesa(m);
+				pedido.setProdutoCardapio(index);
+				pedido.setQuantidade(Integer.parseInt(spQuantidade.getValue().toString()));
+				pedido.setStatus(1);
+				listaDePedidos.add(pedido);
+				try {
+					PreencheTabela();
+					MostraTotal();
+					//cbPedido.setSelectedIndex("SELECIONE");
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				//JOptionPane.showMessageDialog(null, index);
+				
+			}
+		});
+		
+		cbMesa.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				cbPedido.setEnabled(true);
+				spQuantidade.setEnabled(true);
+				btnIncluir.setEnabled(true);
+				LimpaTabela();
 			}
 		});
 
@@ -551,4 +577,45 @@ public class PedidoMesa extends JFrame {
 	public MainDashboard GetMainDashboard() {
 		return main;
 	}
+	
+	public void MostraTotal() {
+		double valorTotal = 0.00;
+		for(int i=0; i < listaDePedidos.size(); i++) {
+			valorTotal = valorTotal + (listaDePedidos.get(i).getQuantidade() * listaDePedidos.get(i).getProdutoCardapio().getValor()); 
+		}
+		txtVlTotal.setText(String.valueOf(valorTotal));
+	}
+	
+	public void LimpaTabela() {
+		DefaultTableModel model = (DefaultTableModel) tablePedido.getModel();
+		model.setNumRows(0);
+	}
+	
+	@SuppressWarnings({ "unchecked" })
+	public void CarregaCardapio() throws Exception {
+		try {
+			CadastroCardapioDao cardapio = new CadastroCardapioDao();
+			ArrayList<ProdutoCardapio> listaCardapio = (ArrayList<ProdutoCardapio>) cardapio.produtocardapiolista();
+			//cbPedido.setModel(new ComboBoxModelAll(ProdutoCardapio));
+			for(ProdutoCardapio tipo : listaCardapio) {
+				//cbPedido.addItem(tipo.getNome());
+				cbPedido.addItem(tipo);
+			}
+			//cbPedido.DisplayMember = "nome";
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
+	
+	public void PreencheTabela() throws Exception {		
+		
+		DefaultTableModel model = (DefaultTableModel) tablePedido.getModel();
+		model.setNumRows(0);	
+		
+		for(int i=0; i < listaDePedidos.size(); i++) {
+			model.insertRow(0, new Object[] { listaDePedidos.get(i).getProdutoCardapio().getIdProdutoCardapio(), listaDePedidos.get(i).getProdutoCardapio().getNome(), listaDePedidos.get(i).getQuantidade(),listaDePedidos.get(i).getProdutoCardapio().getValor(), (listaDePedidos.get(i).getProdutoCardapio().getValor()*listaDePedidos.get(i).getQuantidade()), "Aguardando envio à cozinha"});
+		}
+	}
+	
 }

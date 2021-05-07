@@ -175,8 +175,9 @@ public class CadastroCardapio extends JFrame {
 		panel.add(TFquantidadeproduto);
 		panel_central.setLayout(gl_panel_central);
 
-		JButton btnNewButton = new JButton("   FECHAR");
-		btnNewButton.setIcon(new ImageIcon(CadastroCardapio.class.getResource("/img/cancel.png")));
+		JButton btnNewButton = new JButton("");
+		btnNewButton.setToolTipText("FECHAR");
+		btnNewButton.setIcon(new ImageIcon(CadastroCardapio.class.getResource("/img/close-window-32.png")));
 		btnNewButton.setBackground(Color.RED);
 		btnNewButton.setForeground(Color.WHITE);
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -187,20 +188,26 @@ public class CadastroCardapio extends JFrame {
 			}
 		});
 
-		JButton btnSalvar = new JButton("   SALVAR");
+		JButton btnSalvar = new JButton("");
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Botão Salvar
 
 				String nome = TFNome.getText();
 				String descricao = TFDescricao.getText();
+				//int quantidade = 
 				String informacaonutricionais = TPInformacaonutricionais.getText();
 				boolean IsExcluido = true;
 
 				try {
 
-					Double Peso = Double.parseDouble(FTFPeso.getText());
-					Double Valor = Double.parseDouble(TFValor.getText());
+					String peso = FTFPeso.getText();
+					String valor = TFValor.getText();
+					peso = peso.replace( "," , "."); 
+					valor = valor.replace( "," , ".");
+							
+					Double Peso = Double.parseDouble(peso);
+					Double Valor = Double.parseDouble(valor);
 					int quantidadeDePessoasQueServe = Integer.parseInt(TFquantidadeproduto.getText());
 
 					ProdutoCardapio produtocardapio = new ProdutoCardapio(nome, Peso, descricao, Valor,
@@ -235,9 +242,9 @@ public class CadastroCardapio extends JFrame {
 		btnSalvar.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnSalvar.setForeground(Color.WHITE);
 		btnSalvar.setBackground(new Color(0, 128, 0));
-		btnSalvar.setIcon(new ImageIcon(CadastroCardapio.class.getResource("/img/user_add.png")));
+		btnSalvar.setIcon(new ImageIcon(CadastroCardapio.class.getResource("/img/save-32.png")));
 
-		JButton btnApagar = new JButton("   APAGAR");
+		JButton btnApagar = new JButton("");
 		btnApagar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Botao apagar
@@ -270,9 +277,10 @@ public class CadastroCardapio extends JFrame {
 		btnApagar.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnApagar.setBackground(Color.RED);
 		btnApagar.setForeground(Color.WHITE);
-		btnApagar.setIcon(new ImageIcon(CadastroCardapio.class.getResource("/img/user_delete.png")));
+		btnApagar.setIcon(new ImageIcon(CadastroCardapio.class.getResource("/img/erase-32.png")));
 
-		JButton btnEditar = new JButton("   EDITAR");
+		JButton btnEditar = new JButton("");
+		btnEditar.setToolTipText("EDITAR");
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Botao atualizar
@@ -329,7 +337,7 @@ public class CadastroCardapio extends JFrame {
 
 			}
 		});
-		btnEditar.setIcon(new ImageIcon(CadastroCardapio.class.getResource("/img/user_edit.png")));
+		btnEditar.setIcon(new ImageIcon(CadastroCardapio.class.getResource("/img/edit-32.png")));
 		btnEditar.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnEditar.setForeground(Color.WHITE);
 		btnEditar.setBackground(Color.BLUE);
@@ -376,7 +384,7 @@ public class CadastroCardapio extends JFrame {
 				}
 			}
 		});
-		btnFrente.setIcon(new ImageIcon(CadastroCardapio.class.getResource("/img/arrow_right.png")));
+		btnFrente.setIcon(new ImageIcon(CadastroCardapio.class.getResource("/img/arrow-24-32.png")));
 		btnFrente.setForeground(Color.WHITE);
 		btnFrente.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnFrente.setBackground(Color.CYAN);
@@ -425,7 +433,7 @@ public class CadastroCardapio extends JFrame {
 				}
 			}
 		});
-		btnTras.setIcon(new ImageIcon(CadastroCardapio.class.getResource("/img/arrow_left.png")));
+		btnTras.setIcon(new ImageIcon(CadastroCardapio.class.getResource("/img/arrow-88-32.png")));
 		btnTras.setForeground(Color.WHITE);
 		btnTras.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnTras.setBackground(Color.CYAN);

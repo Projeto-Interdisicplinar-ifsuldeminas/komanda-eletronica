@@ -47,6 +47,14 @@ public class ProdutoCardapio {
 		QuantidadeDePessoasQueServe = quantidadeDePessoasQueServe;
 	}
 	
+	public ProdutoCardapio() {
+		
+	}
+	
+	public String toString() {
+		return this.IdProdutoCardapio + " - " + this.Nome;
+	}
+	
 
 	public int getIdProdutoCardapio() {
 		return IdProdutoCardapio;
