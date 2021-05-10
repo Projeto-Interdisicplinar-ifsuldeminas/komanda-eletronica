@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +19,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
@@ -30,11 +33,11 @@ import javax.swing.table.DefaultTableModel;
 
 import br.com.komanda.eletronica.dao.CadastroCardapioDao;
 import br.com.komanda.eletronica.dao.MesaDao;
+import br.com.komanda.eletronica.dao.PedidoDao;
 import br.com.komanda.eletronica.model.Mesa;
+import br.com.komanda.eletronica.model.MesaPedido;
 import br.com.komanda.eletronica.model.Pedido;
 import br.com.komanda.eletronica.model.ProdutoCardapio;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class PedidoMesa extends JFrame {
 
@@ -54,6 +57,9 @@ public class PedidoMesa extends JFrame {
 	private JTextField txtVlTotal;
 	private JSpinner spQuantidade;
 	private ArrayList<Pedido> listaDePedidos;
+	private int quantidadeDeMesas = 0;
+	private MesaPedido novaMesa;
+	private ArrayList<MesaPedido> salao = new ArrayList<MesaPedido>();
 
 	/**
 	 * Create the frame.
@@ -150,7 +156,7 @@ public class PedidoMesa extends JFrame {
 			new Object[][] {
 			},
 			new String[] {
-				"Id", "Item", "Quant.", "Vl. Unit.", "Vl. Total", "Status"
+				"Cod. Produto", "Item", "Quant.", "Vl. Unit.", "Vl. Total", "Status"
 			}
 		) {
 			/**
@@ -192,39 +198,6 @@ public class PedidoMesa extends JFrame {
 				btnApagar.setForeground(Color.WHITE);
 				btnApagar.setIcon(new ImageIcon(PedidoMesa.class.getResource("/img/erase-32.png")));
 		
-				JButton btnEditar = new JButton("");
-				btnEditar.setToolTipText("Editar Produto Selecionado");
-				btnEditar.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						// TODO Botao atualizar
-
-//				String idtexto = TFid.getText();
-//				String nome = TFidpedido.getText();
-//				int id = Integer.parseInt(idtexto);
-//				Mesa mesa = new Mesa(id, nome);
-//
-//				MesaDao conexaoupdate = new MesaDao();
-//				boolean resposta = false;
-//				try {
-//					resposta = conexaoupdate.atualizar(mesa, id);
-//				} catch (Exception e1) {
-//					// TODO Auto-generated catch block
-//					e1.printStackTrace();
-//				}
-//				if (resposta == true) {
-//					JOptionPane.showMessageDialog(null, "\nRegistro atualizado com sucesso !", "Sucesso",
-//							JOptionPane.INFORMATION_MESSAGE);
-//				} else {
-//					JOptionPane.showMessageDialog(null, "\nOcorreu um erro !", "Erro", JOptionPane.ERROR_MESSAGE);
-//				}
-
-					}
-				});
-				btnEditar.setIcon(new ImageIcon(PedidoMesa.class.getResource("/img/edit-32.png")));
-				btnEditar.setFont(new Font("Tahoma", Font.BOLD, 14));
-				btnEditar.setForeground(Color.WHITE);
-				btnEditar.setBackground(Color.BLUE);
-		
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1.setHorizontalGroup(
 			gl_panel_1.createParallelGroup(Alignment.TRAILING)
@@ -233,9 +206,7 @@ public class PedidoMesa extends JFrame {
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_panel_1.createSequentialGroup()
 							.addComponent(btnApagar, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addComponent(btnEditar, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED, 504, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED, 604, Short.MAX_VALUE)
 							.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 327, GroupLayout.PREFERRED_SIZE))
 						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 1009, Short.MAX_VALUE))
 					.addContainerGap())
@@ -248,12 +219,10 @@ public class PedidoMesa extends JFrame {
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panel_1.createSequentialGroup()
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(panel_3, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+							.addComponent(panel_3, GroupLayout.DEFAULT_SIZE, 66, Short.MAX_VALUE))
 						.addGroup(gl_panel_1.createSequentialGroup()
 							.addGap(18)
-							.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-								.addComponent(btnEditar, GroupLayout.DEFAULT_SIZE, 52, Short.MAX_VALUE)
-								.addComponent(btnApagar, GroupLayout.DEFAULT_SIZE, 52, Short.MAX_VALUE))))
+							.addComponent(btnApagar, GroupLayout.DEFAULT_SIZE, 54, Short.MAX_VALUE)))
 					.addContainerGap())
 		);
 		
@@ -320,14 +289,18 @@ public class PedidoMesa extends JFrame {
 			List<Mesa> funcoes = mesadao.listamesa();
 			for (Mesa tipo : funcoes) {
 				cbMesa.addItem(tipo);
+				quantidadeDeMesas ++;
 			}
-
+			for (int i = 1; i <= quantidadeDeMesas; i++) {
+				novaMesa = new MesaPedido();
+				novaMesa.setMesa((Mesa)cbMesa.getItemAt(i));
+				salao.add(novaMesa);
+			}
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
 
 		cbPedido = new JComboBox();
-		cbPedido.setEnabled(false);
 		cbPedido.setModel(new DefaultComboBoxModel(new String[] { "SELECIONE" }));
 		cbPedido.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		cbPedido.setBounds(10, 22, 771, 47);
@@ -339,7 +312,6 @@ public class PedidoMesa extends JFrame {
 		panel_5.add(panel_2);
 		
 		spQuantidade = new JSpinner();
-		spQuantidade.setEnabled(false);
 		GroupLayout gl_panel_2 = new GroupLayout(panel_2);
 		gl_panel_2.setHorizontalGroup(
 			gl_panel_2.createParallelGroup(Alignment.LEADING)
@@ -375,7 +347,6 @@ public class PedidoMesa extends JFrame {
 		});
 		
 		JButton btnIncluir = new JButton("");
-		btnIncluir.setEnabled(false);
 		btnIncluir.setToolTipText("Incluir");
 		btnIncluir.setIcon(new ImageIcon(PedidoMesa.class.getResource("/img/plus-5-32.png")));
 		btnIncluir.setBackground(new Color(0, 128, 0));
@@ -383,34 +354,50 @@ public class PedidoMesa extends JFrame {
 		panel_5.add(btnIncluir);
 		btnIncluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Pedido pedido = new Pedido();
-				ProdutoCardapio index = (ProdutoCardapio)cbPedido.getSelectedItem();
-				Mesa m = (Mesa)cbMesa.getSelectedItem();
-				pedido.setMesa(m);
-				pedido.setProdutoCardapio(index);
-				pedido.setQuantidade(Integer.parseInt(spQuantidade.getValue().toString()));
-				pedido.setStatus(1);
-				listaDePedidos.add(pedido);
-				try {
-					PreencheTabela();
-					MostraTotal();
-					//cbPedido.setSelectedIndex("SELECIONE");
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				if(Integer.parseInt(spQuantidade.getValue().toString()) != 0) {
+					Pedido pedido = new Pedido();
+					ProdutoCardapio index = (ProdutoCardapio)cbPedido.getSelectedItem();
+					Mesa m = (Mesa)cbMesa.getSelectedItem();
+					pedido.setMesa(m);
+					pedido.setProdutoCardapio(index);
+					pedido.setQuantidade(Integer.parseInt(spQuantidade.getValue().toString()));
+					pedido.setStatus(1);
+					for (int i = 0; i < quantidadeDeMesas; i++) {
+						if(salao.get(i).getMesa().getIdMesa() == m.getIdMesa()) {
+							novaMesa = salao.get(i);
+						}
+					}
+					novaMesa.AdicionaPedidos(pedido);
+					try {
+						PreencheTabela();
+						MostraTotal();
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}else {
+					JOptionPane.showMessageDialog(null, "Quantidade inválida.");
 				}
-				//JOptionPane.showMessageDialog(null, index);
-				
+								
 			}
 		});
 		
-		cbMesa.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				cbPedido.setEnabled(true);
-				spQuantidade.setEnabled(true);
-				btnIncluir.setEnabled(true);
+		cbMesa.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
 				LimpaTabela();
+				Mesa m = (Mesa)cbMesa.getSelectedItem();
+				for (int i = 0; i < quantidadeDeMesas; i++) {
+					if(salao.get(i).getMesa().getIdMesa() == m.getIdMesa()) {
+						try {
+							novaMesa = salao.get(i);
+							PreencheTabela();
+							MostraTotal();
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
+				}
 			}
 		});
 
@@ -419,6 +406,31 @@ public class PedidoMesa extends JFrame {
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Botão Salvar
+				
+				PedidoDao ped = new PedidoDao();
+				try {
+					if(ped.adicionar(novaMesa)) {
+						JOptionPane.showMessageDialog(null, "Salvo com sucesso.\nPedido enviado à cozinha");
+					}else {
+						JOptionPane.showMessageDialog(null, "Falha ao salvar.\nPor favor, verifique!");
+					}					
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				/*File xmlMap = new File("src/main/java/configuracao/pedidos.xml");
+				OutputStream streamOut = null;
+				
+				if (!(xmlMap.exists()))
+					xmlMap.createNewFile();
+				else {
+					xmlMap.delete();
+					xmlMap.createNewFile();
+				}		
+				streamOut = new FileOutputStream(xmlMap);	
+			    XStream xstream = new XStream(new DomDriver());			
+				xstream.toXML(novaMesa, streamOut);*/
 
 //				String nome = TFidpedido.getText();
 //				Mesa mesa = new Mesa(nome);
@@ -444,92 +456,41 @@ public class PedidoMesa extends JFrame {
 		btnSalvar.setForeground(Color.WHITE);
 		btnSalvar.setBackground(new Color(0, 128, 0));
 		btnSalvar.setIcon(new ImageIcon(PedidoMesa.class.getResource("/img/save-32.png")));
-
-		JButton btnFrente = new JButton("");
-		btnFrente.addActionListener(new ActionListener() {
+		
+		JButton btnSalvar_1 = new JButton("");
+		btnSalvar_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO botao navegar para frente
-
-//				String idatual = TFid.getText();
-//				int soma = Integer.parseInt(idatual);
-//				soma = soma + 1;
-//				int id = 0;
-//				id = id + soma;
-//				MesaDao consultaid = new MesaDao();
-//				List<Mesa> mesa;
-//				try {
-//					mesa = consultaid.consultaid(id);
-//					if (mesa.isEmpty()) {
-//						String idex = Integer.toString(id);
-//						TFid.setText(idex);
-//						TFidpedido.setText("");
-//					} else {
-//						for (Mesa m : mesa) {
-//							String retornoid = Integer.toString(m.getIdMesa());
-//							TFid.setText(retornoid);
-//							TFidpedido.setText(m.getNomeMesa());
-//						}
-//					}
-//				} catch (Exception e1) {
-//					// TODO Auto-generated catch block
-//					e1.printStackTrace();
-//				}
+				int i = JOptionPane.showConfirmDialog(
+				        null, 
+				        "Deseja Fechar a conta? \n Os itens consumidos estão corretos?",
+				        "Continua",
+				        JOptionPane.YES_NO_OPTION
+				        );
+				if(i == 0) {
+					MostraTotal();
+					JOptionPane.showMessageDialog(null, "O valor Total da : "+ novaMesa.getMesa().getNomeMesa() +" é R$ "+txtVlTotal.getText());
+					listaDePedidos = novaMesa.RetornaPedidos();
+					listaDePedidos.clear();
+					novaMesa.setListaDePedidos(listaDePedidos);
+				}else {
+					
+				}
 			}
 		});
-		btnFrente.setIcon(new ImageIcon(PedidoMesa.class.getResource("/img/arrow-24-32.png")));
-		btnFrente.setForeground(Color.WHITE);
-		btnFrente.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnFrente.setBackground(Color.CYAN);
-
-		JButton btnTras = new JButton("");
-		btnTras.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// TODO botao navegar para tras
-
-//				String idatual = TFid.getText();
-//				int soma = Integer.parseInt(idatual);
-//				if (soma == -1) {
-//					soma = 1;
-//				}
-//				soma = soma - 1;
-//				int id = 0;
-//				id = id + soma;
-//				MesaDao consultaid = new MesaDao();
-//				List<Mesa> mesa;
-//				try {
-//					mesa = consultaid.consultaid(id);
-//					if (mesa.isEmpty()) {
-//						String idex = Integer.toString(id);
-//						TFid.setText(idex);
-//						TFidpedido.setText("");
-//					} else {
-//						for (Mesa m : mesa) {
-//							String retornoid = Integer.toString(m.getIdMesa());
-//							TFid.setText(retornoid);
-//							TFidpedido.setText(m.getNomeMesa());
-//						}
-//					}
-//				} catch (Exception e1) {
-//					// TODO Auto-generated catch block
-//					e1.printStackTrace();
-//				}
-			}
-		});
-		btnTras.setIcon(new ImageIcon(PedidoMesa.class.getResource("/img/arrow-88-32.png")));
-		btnTras.setForeground(Color.WHITE);
-		btnTras.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnTras.setBackground(Color.CYAN);
+		btnSalvar_1.setIcon(new ImageIcon(PedidoMesa.class.getResource("/img/calculator-6-32.png")));
+		btnSalvar_1.setToolTipText("Calcular Valor Total");
+		btnSalvar_1.setForeground(Color.WHITE);
+		btnSalvar_1.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnSalvar_1.setBackground(Color.BLUE);
 		GroupLayout gl_panel_botoes_crud = new GroupLayout(panel_botoes_crud);
 		gl_panel_botoes_crud.setHorizontalGroup(
 			gl_panel_botoes_crud.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_botoes_crud.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 149, GroupLayout.PREFERRED_SIZE)
-					.addGap(28)
-					.addComponent(btnTras, GroupLayout.PREFERRED_SIZE, 149, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnFrente, GroupLayout.PREFERRED_SIZE, 149, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 409, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED, 572, Short.MAX_VALUE)
+					.addComponent(btnSalvar_1, GroupLayout.PREFERRED_SIZE, 151, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
 					.addComponent(btnSalvar, GroupLayout.PREFERRED_SIZE, 151, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap())
 		);
@@ -538,9 +499,7 @@ public class PedidoMesa extends JFrame {
 				.addGroup(gl_panel_botoes_crud.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_panel_botoes_crud.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel_botoes_crud.createParallelGroup(Alignment.BASELINE)
-							.addComponent(btnFrente, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)
-							.addComponent(btnTras, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE))
+						.addComponent(btnSalvar_1, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnSalvar, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnNewButton, GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE))
 					.addContainerGap())
@@ -580,9 +539,11 @@ public class PedidoMesa extends JFrame {
 	
 	public void MostraTotal() {
 		double valorTotal = 0.00;
+		listaDePedidos = novaMesa.RetornaPedidos();
 		for(int i=0; i < listaDePedidos.size(); i++) {
 			valorTotal = valorTotal + (listaDePedidos.get(i).getQuantidade() * listaDePedidos.get(i).getProdutoCardapio().getValor()); 
 		}
+		novaMesa.setValorTotal(valorTotal);
 		txtVlTotal.setText(String.valueOf(valorTotal));
 	}
 	
@@ -608,14 +569,12 @@ public class PedidoMesa extends JFrame {
 		}
 	}
 	
-	public void PreencheTabela() throws Exception {		
-		
+	public void PreencheTabela() throws Exception {			
 		DefaultTableModel model = (DefaultTableModel) tablePedido.getModel();
 		model.setNumRows(0);	
-		
+		listaDePedidos = novaMesa.RetornaPedidos();
 		for(int i=0; i < listaDePedidos.size(); i++) {
 			model.insertRow(0, new Object[] { listaDePedidos.get(i).getProdutoCardapio().getIdProdutoCardapio(), listaDePedidos.get(i).getProdutoCardapio().getNome(), listaDePedidos.get(i).getQuantidade(),listaDePedidos.get(i).getProdutoCardapio().getValor(), (listaDePedidos.get(i).getProdutoCardapio().getValor()*listaDePedidos.get(i).getQuantidade()), "Aguardando envio à cozinha"});
 		}
 	}
-	
 }

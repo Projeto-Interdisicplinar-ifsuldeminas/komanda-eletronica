@@ -89,9 +89,10 @@ primary key (IdPedido));
 /* Criação da tabela Produtos Cardapio Pedito
 ######################################## */
 create table ProdutoCardapioPedido (
+Id int,
 IdProdutoCardapio int, 
 IdPedido int,
-primary key (IdProdutoCardapio,IdPedido),
+primary key (Id),
 foreign key (IdProdutoCardapio) references ProdutoCardapio (IdProdutoCardapio),
 foreign key (IdPedido) references Pedido(IdPedido));
 
@@ -131,9 +132,10 @@ foreign key (IdMesa) references Mesa(IdMesa));
 /* Criação da tabela Pedito Mesa Pedito
 ######################################## */
 create table PedidoMesaPedido (
+Id int,
 IdPedido int,
 IdMesaPedido int,
-primary key (IdPedido, IdMesaPedido),
+primary key (Id),
 foreign key (IdPedido) references Pedido(IdPedido),
 foreign key (IdMesaPedido) references MesaPedido (IdMesaPedido));
 
@@ -178,3 +180,12 @@ ADD COLUMN `NivelDeAcesso` INT(3) NULL AFTER `IsExcluido`;
 ALTER TABLE `komandaeletronica`.`produtocardapiopedido` 
 ADD COLUMN `Quantidade` INT(5) NULL AFTER `IdPedido`,
 ADD COLUMN `Status` INT(5) NULL AFTER `Quantidade`;
+
+/* Inserção de Colunas na tabela pedido
+######################################## */
+ALTER TABLE `komandaeletronica`.`pedido` 
+ADD COLUMN `Data` DATETIME NULL AFTER `IdPedido`;
+
+ALTER TABLE `komandaeletronica`.`produtocardapiopedido` 
+CHANGE COLUMN `Id` `Id` INT(11) NOT NULL AUTO_INCREMENT ;
+

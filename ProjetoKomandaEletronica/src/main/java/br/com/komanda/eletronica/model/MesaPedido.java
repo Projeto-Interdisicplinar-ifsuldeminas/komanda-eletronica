@@ -18,6 +18,11 @@ public class MesaPedido {
 		this.mesa = mesa;
 		this.date = date;
 	}
+	
+	public MesaPedido() {
+		
+	}
+	
 	public int getIdMesaPedido() {
 		return IdMesaPedido;
 	}
@@ -52,6 +57,14 @@ public class MesaPedido {
 	
 	public void AdicionaPedidos(Pedido pedido) {
 		pedidos.add(pedido);
+	}
+	
+	public ArrayList<Pedido> RetornaPedidos(){
+		return pedidos;
+	}
+	
+	public void setListaDePedidos(ArrayList<Pedido> lista) {
+		pedidos = lista;
 	}
 
 }

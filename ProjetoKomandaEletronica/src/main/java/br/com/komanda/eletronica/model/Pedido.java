@@ -66,5 +66,9 @@ public class Pedido {
 		this.produtocardapio = produtocardapio;
 	}
 	
+	public ProdutoCardapio getProdutoPeloIndex(int i) {
+		return this.produtocardapio.get(i);
+	}
+	
 
 }
