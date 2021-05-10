@@ -4,5 +4,40 @@ public class Mesa {
 
 	private int IdMesa;
 	private String NomeMesa;
+	
+	
+	public Mesa(int idMesa, String nomeMesa) {
+		IdMesa = idMesa;
+		NomeMesa = nomeMesa;
+	}
+	
+	public Mesa( String nomeMesa) {
+		NomeMesa = nomeMesa;
+	}
+	
+	public String toString() {
+		return this.IdMesa + " - " + this.NomeMesa;
+	}
+
+
+	public int getIdMesa() {
+		return IdMesa;
+	}
+
+
+	public void setIdMesa(int idMesa) {
+		IdMesa = idMesa;
+	}
+
+
+	public String getNomeMesa() {
+		return NomeMesa;
+	}
+
+
+	public void setNomeMesa(String nomeMesa) {
+		NomeMesa = nomeMesa;
+	}
+		
 
 }

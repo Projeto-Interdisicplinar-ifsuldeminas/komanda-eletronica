@@ -8,21 +8,49 @@ public class Pessoa {
 	private String Endereço;
 	private String Telefone;
 	private String Email;
-	private boolean IsFuncionario;
-	private boolean IsExcuído;
+	private boolean IsExcluido;
 
-	public Pessoa(int idPessoa, String nome, String cPF, String endereço, String telefone, String email,
-			boolean isFuncionario, boolean isExcuído) {
-		super();
+	public Pessoa(int idPessoa, String nome, String cPF, String endereço, String telefone, String email, boolean isExcluído) {
 		IdPessoa = idPessoa;
 		Nome = nome;
 		CPF = cPF;
 		Endereço = endereço;
 		Telefone = telefone;
 		Email = email;
-		IsFuncionario = isFuncionario;
-		IsExcuído = isExcuído;
+		IsExcluido = isExcluído;
 	}
+
+	
+
+	public Pessoa(int idPessoa, String nome, String cPF, String endereço, String telefone, String email) {
+		IdPessoa = idPessoa;
+		Nome = nome;
+		CPF = cPF;
+		Endereço = endereço;
+		Telefone = telefone;
+		Email = email;
+	}
+
+
+
+	public Pessoa(String nome, String cPF, String endereço, String telefone, String email, boolean isExcluído) {
+		Nome = nome;
+		CPF = cPF;
+		Endereço = endereço;
+		Telefone = telefone;
+		Email = email;
+	}
+
+
+
+	public Pessoa(int idPessoa, String nome, String cPF) {
+		// TODO Auto-generated constructor stub
+		IdPessoa = idPessoa;
+		Nome = nome;
+		CPF = cPF;
+	}
+
+
 
 	public int getIdPessoa() {
 		return IdPessoa;
@@ -72,20 +100,12 @@ public class Pessoa {
 		Email = email;
 	}
 
-	public boolean isIsFuncionario() {
-		return IsFuncionario;
+	public boolean isIsExcluído() {
+		return IsExcluido;
 	}
 
-	public void setIsFuncionario(boolean isFuncionario) {
-		IsFuncionario = isFuncionario;
-	}
-
-	public boolean isIsExcuído() {
-		return IsExcuído;
-	}
-
-	public void setIsExcuído(boolean isExcuído) {
-		IsExcuído = isExcuído;
+	public void setIsExcluido(boolean isExcluido) {
+		IsExcluido = isExcluido;
 	}
 
 }

@@ -5,6 +5,7 @@
 e gerenciamento de contas a pagar de clientes.**
  
 *****
+
  **Integrantes** :trophy:
 * Danilo Liparini Moraes RA:201924410096 :rocket:
 * Luciano Luiz Romero RA:201924410106 :rocket:
@@ -12,17 +13,49 @@ e gerenciamento de contas a pagar de clientes.**
 ******
 <h2 align="center"> Projeto Interdisciplinar - IF</h2> 
 
-## **Artefatos Entregue:** <h3>
+## **Artefatos :** <h3>
+ 
+● [Documento de Requisitos](https://github.com/Projeto-Interdisicplinar-ifsuldeminas/komanda-eletronica/blob/develop/Artefatos/Documento_de_Requisitos_-_Komanda_Eletr%C3%B4nica_Final.pdf)
 
-● Semana 3 - Documento de Requisitos e Diagrama de Caso de uso
+● [Diagrama de Caso de uso](https://github.com/Projeto-Interdisicplinar-ifsuldeminas/komanda-eletronica/blob/develop/Artefatos/Diagrama_de_Casos_de_Uso_Final.pdf)
 
-● Semana 4 - Diagrama de classe  
+● [Diagrama de classe](https://github.com/Projeto-Interdisicplinar-ifsuldeminas/komanda-eletronica/blob/develop/Artefatos/Diagrama%20de%20Classes_Final.pdf)
+
+● [Modelo Entidade Relacionamento](https://github.com/Projeto-Interdisicplinar-ifsuldeminas/komanda-eletronica/blob/develop/Artefatos/MER_Final.pdf)
 
 ****** 
 ## **Escopo do projeto:** <h3>
 
 ● O sistema tem como objetivo auxiliar na gestão e controle de bares, restaurantes e
 lanchonetes..
+
+****** 
+## Tech: 
+● [Script Criação banco de dados](https://github.com/Projeto-Interdisicplinar-ifsuldeminas/komanda-eletronica/blob/develop/ScriptBancodeDados/bancodedados.sql)
+
+### Construído com 
+
+* [Maven](https://maven.apache.org/)
+
+<h3> Rodar, buildar e/ou testar o projeto:</h3>
+
+```
+Necessario ter o Java versão 11, instalado. 
+Necessario ter o MySQL instalado. 
+Rodar o script SQL para criação do banco de dados do sistema.
+Realizar a configuração do banco de dados, informando o nome de usuario e senha. 
+Executar a aplicação via IDE ou jar.  
+```
+## Dependência necessárias para o projeto:
+
+* [org.apache.commons]
+* [mysql]
+* [com.jgoodies]
+* [com.miglayout]
+
+
+
+
 
 ****** 
 ## **Requisitos Funcionais** <h3>
